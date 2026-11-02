@@ -166,13 +166,6 @@ h2 { margin: 0 0 14px; font: 400 clamp(1.9rem, 4.6vw, 3.6rem)/1.08 var(--display
 }
 @keyframes shine { from { background-position: 100% 0; } to { background-position: 0% 0; } }
 
-/* scrolling text band */
-.marquee { overflow: hidden; margin-top: 24px; padding: 20px 0; border-block: 1px solid var(--line); }
-.track { display: flex; width: max-content; animation: slide 34s linear infinite; }
-.track span { flex: none; margin-right: 34px; font: 400 clamp(1.5rem, 3.6vw, 2.8rem)/1 var(--display); letter-spacing: -.02em; color: transparent; -webkit-text-stroke: 1px rgba(245,241,254,.55); }
-.track span.f { color: var(--ink); -webkit-text-stroke: 0; }
-.track span.a { color: var(--violet); -webkit-text-stroke: 0; }
-@keyframes slide { to { transform: translateX(-50%); } }
 
 /* method shapes and card orbs */
 .shape.sphere::before, .shape.sphere2::before { animation: sbob 5s ease-in-out infinite; }
@@ -187,7 +180,7 @@ h2 { margin: 0 0 14px; font: 400 clamp(1.9rem, 4.6vw, 3.6rem)/1.08 var(--display
 .wt, .wn { transition: translate .2s var(--ease-out); }
 
 /* loops stop while off-screen */
-[data-loop].off .orb, [data-loop].off .sx, [data-loop].off .sy, [data-loop].off .shape::before, [data-loop].off .track { animation-play-state: paused; }
+[data-loop].off .orb, [data-loop].off .sx, [data-loop].off .sy, [data-loop].off .shape::before { animation-play-state: paused; }
 /* user switch: stop all motion */
 html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation: none !important; }
 html[data-motion="off"] .cursor-glow { display: none; }
@@ -256,7 +249,6 @@ html[data-motion="off"] .cursor-glow { display: none; }
   <div><b>05</b><span>Subjects</span></div><div><b>01</b><span>Ready now</span></div><div><b>15</b><span>Flashcards</span></div>
 </div></div></section>
 
-<div class="marquee" aria-hidden="true" data-loop><div class="track"><span class="">Problem</span><span class="a">→</span><span class="f">Fix</span><span class="a">→</span><span class="">New problem</span><span class="a">→</span><span class="f">Boss fight</span><span class="a">→</span><span class="">Problem</span><span class="a">→</span><span class="f">Fix</span><span class="a">→</span><span class="">New problem</span><span class="a">→</span><span class="f">Boss fight</span><span class="a">→</span></div></div>
 <section class="s" id="method"><div class="wrap">
   <p class="kicker">The method</p>
   <h2>Nothing is learned alone.</h2>
