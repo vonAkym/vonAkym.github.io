@@ -6,124 +6,163 @@
 <title>Y4S1 Study Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* Design system from ui-ux-pro-max: Minimalism and Swiss Style, documentation-hub pattern.
-   Neutral grey + link blue, Atkinson Hyperlegible, grid-based, high contrast. */
+/* Look taken from the user's reference video: mint backdrop, one big rounded split card,
+   dark stage + white panel, wide techno numerals, outlined rounded list, mint gradient button.
+   Single light theme by choice. */
 :root {
-  --color-primary: #475569; --color-accent: #2563EB; --color-on-accent: #FFFFFF;
-  --color-background: #F8FAFC; --color-foreground: #1E293B; --color-card: #FFFFFF;
-  --color-muted: #EAEFF3; --color-muted-foreground: #475569; --color-border: #CBD5E1; --color-ring: #475569;
-  --font: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    color-scheme: dark;
-    --color-primary: #CBD5E1; --color-accent: #8AB0FF; --color-on-accent: #0B1220;
-    --color-background: #0F172A; --color-foreground: #E2E8F0; --color-card: #1E293B;
-    --color-muted: #273449; --color-muted-foreground: #A9B6CA; --color-border: #3B4A61; --color-ring: #CBD5E1;
-  }
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --color-primary: #CBD5E1; --color-accent: #8AB0FF; --color-on-accent: #0B1220;
-  --color-background: #0F172A; --color-foreground: #E2E8F0; --color-card: #1E293B;
-  --color-muted: #273449; --color-muted-foreground: #A9B6CA; --color-border: #3B4A61; --color-ring: #CBD5E1;
+  color-scheme: light;
+  --mint-bg: #D6EEE2; --mint-1: #A7E6C3; --mint-2: #6FCB9A; --ink: #101614; --muted: #52625B; --line: #CFDAD5;
+  --panel: #FFFFFF; --cream: #FFF3DC; --mint-tile: #E4F7EC; --stage-1: #7C7C7E; --stage-2: #3A3A3C; --focus: #0B6B49;
+  --display: "Orbitron", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--color-background); color: var(--color-foreground); font: 400 1rem/1.6 var(--font); }
-.wrap { max-width: 1120px; margin-inline: auto; padding-inline: 20px; }
-h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; text-wrap: balance; letter-spacing: -.01em; }
-a { color: inherit; }
-:focus-visible { outline: 3px solid var(--color-ring); outline-offset: 3px; border-radius: 6px; }
+html { scroll-behavior: smooth; background: var(--mint-bg); }
+body { margin: 0; min-height: 100vh; color: var(--ink); font: 400 1rem/1.5 var(--body);
+  background: linear-gradient(180deg, #E9F8F0 0%, var(--mint-bg) 45%, #C9E6D8 100%); background-color: var(--mint-bg); }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 12px; }
+.page { max-width: 1160px; margin-inline: auto; padding: 24px 16px 48px; }
 .ic { flex: none; }
 
-.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 18px; border-bottom: 1px solid var(--color-border); font-size: .95rem; }
-.mark { font-weight: 700; letter-spacing: .02em; }
-.top span:last-child { color: var(--color-muted-foreground); }
+/* the big card */
+.card-shell { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); min-height: 700px; border-radius: 36px; overflow: hidden;
+  background: var(--panel); box-shadow: 0 50px 70px -30px rgba(40, 120, 90, .45), 0 8px 0 0 rgba(255,255,255,.4) inset; }
+.stage { position: relative; overflow: hidden; background: radial-gradient(120% 90% at 50% 30%, var(--stage-1) 0%, #555557 55%, var(--stage-2) 100%); color: #fff; }
+.stage::after { content: ""; position: absolute; inset: auto 0 0 0; height: 34%; background: linear-gradient(to top, rgba(215,215,215,.95), rgba(150,150,150,.4) 55%, rgba(120,120,120,0)); pointer-events: none; }
+.brand { position: absolute; z-index: 3; top: 22px; left: 22px; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; background: #0B0F0D; color: #fff; font: 700 .9rem var(--display); letter-spacing: .02em; }
+.year { position: absolute; z-index: 3; top: 22px; right: 36px; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,.14); color: #fff; font: 700 .8rem var(--display); letter-spacing: .08em; backdrop-filter: blur(4px); }
+.scene { position: absolute; z-index: 2; left: 50%; top: 50%; width: min(86%, 560px); height: auto; transform: translate(-50%, -54%); }
+.stack { animation: float 6s ease-in-out infinite; }
+.halo { animation: pulse 6s ease-in-out infinite; transform-origin: 265px 120px; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes pulse { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+.stat-tile { position: absolute; z-index: 3; bottom: 22px; display: grid; gap: 2px; padding: 14px 16px 12px; border-radius: 20px; min-width: 124px; color: var(--ink); box-shadow: 0 12px 24px -10px rgba(0,0,0,.35); }
+.stat-tile b { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 700 1.6rem/1 var(--display); }
+.stat-tile span { font-size: .85rem; color: var(--muted); }
+.stat-tile.l { left: 22px; background: linear-gradient(160deg, #FFFFFF, var(--cream)); }
+.stat-tile.r { right: 36px; background: linear-gradient(160deg, #FFFFFF, var(--mint-tile)); }
+.notch { position: absolute; z-index: 4; right: -1px; top: 24%; width: 20px; height: 46px; border-radius: 16px 0 0 16px; background: var(--panel); }
 
-.hero { padding-block: 56px 28px; display: grid; gap: 28px; }
-.hero h1 { font-size: clamp(2.6rem, 8vw, 5rem); }
-.lead { margin: 0; max-width: 56ch; font-size: 1.15rem; color: var(--color-muted-foreground); }
-.lead b { color: var(--color-foreground); }
-
-.finder { display: grid; gap: 12px; max-width: 640px; }
-.finder label { font-weight: 700; font-size: .95rem; }
+/* the panel */
+.panel { display: flex; flex-direction: column; gap: 16px; min-width: 0; padding: 24px 22px 22px; background: var(--panel); }
+.panel-head { display: grid; justify-items: center; position: relative; }
+.panel-head h1 { margin: 0; text-align: center; font: 700 1.55rem/1.15 var(--display); letter-spacing: .01em; text-transform: uppercase; }
+.panel-head .badge { position: absolute; right: 0; top: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--mint-1); color: #0B2A1D; }
+.stats { display: grid; grid-template-columns: 1fr 1px 1fr; align-items: center; text-align: center; gap: 8px; }
+.stats .sep { height: 56px; background: var(--line); }
+.stats small { display: block; font-size: .8rem; color: var(--muted); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.stats b { display: block; font: 700 2.8rem/1.1 var(--display); }
+.finder { display: grid; gap: 8px; }
+.finder label { font-weight: 700; font-size: .9rem; }
 .field { position: relative; }
-.field .ic { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--color-muted-foreground); pointer-events: none; }
-.field input { width: 100%; min-height: 52px; padding: 12px 14px 12px 46px; font: inherit; color: var(--color-foreground); background: var(--color-card); border: 2px solid var(--color-muted-foreground); border-radius: 10px; }
-.field input:hover { border-color: var(--color-primary); }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.chips button { min-height: 44px; padding: 8px 16px; font: inherit; font-weight: 700; cursor: pointer; color: var(--color-foreground); background: var(--color-card); border: 2px solid var(--color-muted-foreground); border-radius: 999px; transition: background-color .2s, border-color .2s; }
-.chips button:hover { border-color: var(--color-primary); }
-.chips button[aria-pressed="true"] { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
-.count { margin-left: auto; color: var(--color-muted-foreground); font-size: .95rem; }
+.field .ic { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.field input { width: 100%; min-height: 48px; padding: 10px 14px 10px 44px; font: inherit; color: var(--ink); background: #F4F8F6; border: 2px solid #6B7C75; border-radius: 16px; }
+.field input:hover { border-color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chips button { min-height: 44px; padding: 8px 16px; font: inherit; font-weight: 700; cursor: pointer; color: var(--ink); background: #fff; border: 2px solid #6B7C75; border-radius: 999px; transition: background-color .2s, border-color .2s; }
+.chips button:hover { border-color: var(--ink); }
+.chips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.count { margin-left: auto; font-size: .85rem; color: var(--muted); }
 
-h2.sec { font-size: 1.5rem; margin-bottom: 16px; padding-top: 28px; border-top: 3px solid var(--color-foreground); }
-.grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
-.card { display: flex; background: var(--color-card); border: 2px solid var(--color-border); border-radius: 12px; transition: border-color .2s, transform .2s; }
-.card[hidden] { display: none; }
-.card-link, .card-body { display: grid; align-content: start; gap: 10px; width: 100%; padding: 20px; text-decoration: none; }
-.card-link { cursor: pointer; }
-.card.ready { border-color: var(--color-accent); }
-.card.ready:hover { transform: translateY(-2px); }
-.card.soon { background: var(--color-muted); border-style: dashed; cursor: not-allowed; }
-.card .ico { grid-row: 1; display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 10px; background: var(--color-background); border: 1px solid var(--color-border); color: var(--color-primary); }
-.card.ready .ico { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
-.code { font-weight: 700; letter-spacing: .08em; font-size: .85rem; color: var(--color-muted-foreground); }
-.card h3 { font-size: 1.3rem; }
-.card p { margin: 0; color: var(--color-muted-foreground); }
-.meta { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: .95rem; }
-.meta li::before { content: "\2013"; margin-right: 8px; color: var(--color-muted-foreground); }
-.foot-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
-.chip { padding: 5px 12px; border-radius: 999px; font-size: .85rem; font-weight: 700; border: 2px solid var(--color-border); }
-.chip.on { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-on-accent); }
-.chip.off { border-style: dashed; color: var(--color-muted-foreground); }
-.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--color-accent); }
-.empty { margin: 16px 0 0; padding: 16px; border: 2px dashed var(--color-border); border-radius: 12px; color: var(--color-muted-foreground); }
+.list-wrap { flex: 1; min-height: 0; position: relative; }
+.list { height: 100%; max-height: 330px; overflow-y: auto; padding: 8px 4px 28px; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 36px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 12px, #000 calc(100% - 36px), transparent 100%); scrollbar-width: thin; }
+.list ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.item[hidden] { display: none; }
+.item { border: 2px solid var(--line); border-radius: 24px; background: #fff; transition: border-color .2s, transform .2s, box-shadow .2s; }
+.item.ready { border-color: var(--mint-2); }
+.item.ready:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -12px rgba(30,120,80,.6); }
+.item-in { display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-height: 76px; text-decoration: none; color: inherit; }
+.item.ready .item-in { cursor: pointer; }
+.item.soon { background: #F6F8F7; cursor: not-allowed; }
+.tile { display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 14px; background: #0B0F0D; color: #fff; }
+.item.soon .tile { background: #D9E1DD; color: #3C4A44; }
+.txt { display: grid; min-width: 0; flex: 1; }
+.code { font: 700 .72rem var(--display); letter-spacing: .08em; color: var(--muted); }
+.name { font-weight: 700; line-height: 1.2; }
+.meta { font-size: .85rem; color: var(--muted); }
+.pill { flex: none; padding: 4px 12px; border-radius: 999px; font-size: .8rem; font-weight: 700; }
+.pill.on { background: var(--mint-1); color: #0B2A1D; }
+.pill.off { border: 2px dashed #8A9A93; color: var(--muted); }
+.go { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: #fff; }
+.empty { margin: 8px 0 0; padding: 14px; border: 2px dashed var(--line); border-radius: 18px; color: var(--muted); }
 
-.how { list-style: none; margin: 0 0 56px; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
-.how li { padding-top: 16px; border-top: 1px solid var(--color-border); }
-.num { display: block; font-size: 2.6rem; font-weight: 700; line-height: 1; color: var(--color-accent); margin-bottom: 8px; }
-.how h3 { font-size: 1.15rem; margin-bottom: 4px; }
-.how p { margin: 0; color: var(--color-muted-foreground); }
-.how-sec { margin-top: 56px; }
-.foot { padding-block: 28px 48px; border-top: 1px solid var(--color-border); color: var(--color-muted-foreground); font-size: .95rem; }
-.foot p { margin: 0; max-width: 70ch; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .card, .chips button { transition: none; } .card.ready:hover { transform: none; } }
+.cta { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; padding: 14px 22px; border-radius: 22px; text-decoration: none; font-weight: 700; color: #07261A; cursor: pointer;
+  background: linear-gradient(90deg, #BFF0D4 0%, #7FD4A5 55%, #5FC08C 100%); box-shadow: 0 14px 24px -14px rgba(30,130,85,.8); transition: transform .2s, filter .2s; }
+.cta:hover { transform: translateY(-2px); filter: saturate(1.1); }
+.cta .circ { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #07261A; color: #fff; }
+
+/* below the card */
+.how { max-width: 1160px; margin: 40px auto 0; }
+.how h2 { margin: 0 0 14px; font: 700 1.1rem var(--display); letter-spacing: .04em; text-transform: uppercase; }
+.how ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.how li { padding: 16px 18px; border-radius: 22px; background: rgba(255,255,255,.7); border: 1px solid rgba(255,255,255,.9); }
+.how .n { font: 700 1.8rem/1 var(--display); color: #0B6B49; }
+.how h3 { margin: 6px 0 2px; font-size: 1.05rem; }
+.how p { margin: 0; color: var(--muted); font-size: .95rem; }
+.foot { max-width: 1160px; margin: 28px auto 0; color: var(--muted); font-size: .9rem; }
+
+@media (max-width: 900px) {
+  .card-shell { grid-template-columns: 1fr; min-height: 0; border-radius: 28px; }
+  .stage { min-height: 360px; }
+  .notch { display: none; }
+  .scene { width: min(92%, 420px); }
+  .list { max-height: none; overflow: visible; -webkit-mask-image: none; mask-image: none; padding-bottom: 8px; }
+  .stat-tile { min-width: 108px; padding: 12px 14px 10px; } .stat-tile.r { right: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .stack, .halo { animation: none; } .item, .cta, .chips button { transition: none; } .item.ready:hover, .cta:hover { transform: none; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top"><span class="mark">Y4S1</span><span>USM · Year 4 Semester 1</span></div>
-  <header class="hero">
-    <h1>Study hub</h1>
-    <p class="lead">Every subject this semester in one place. Each page tells its course as a story: a <b>problem</b>, the <b>fix</b>, and the <b>new problem</b> the fix creates.</p>
-    <div class="finder" role="search">
-      <label for="q">Find a subject</label>
-      <div class="field"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" type="search" placeholder="Try CMT322 or cloud" autocomplete="off"></div>
-      <div class="chips">
-        <button type="button" data-mode="all" aria-pressed="true">All subjects</button>
-        <button type="button" data-mode="ready" aria-pressed="false">Ready</button>
-        <span class="count" id="count" role="status" aria-live="polite">5 of 5 subjects shown</span>
+<div class="page">
+  <div class="card-shell">
+    <section class="stage" aria-label="Subjects overview">
+      <span class="brand" aria-hidden="true">Y4</span>
+      <span class="year" aria-hidden="true">USM 2026</span>
+      <svg class="scene" viewBox="0 0 480 420" role="img" aria-label="A stack of five slabs, one for each subject, with CMT322 on top" xmlns="http://www.w3.org/2000/svg">
+<defs><radialGradient id="glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#8ff0d6" stop-opacity=".55"/><stop offset="1" stop-color="#8ff0d6" stop-opacity="0"/></radialGradient>
+<radialGradient id="shade" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<ellipse cx="250" cy="392" rx="200" ry="20" fill="url(#shade)"/>
+<circle class="halo" cx="265" cy="120" r="130" fill="url(#glow)"/>
+<g class="stack"><g class="slab"><path d="M110 330 L156 306 L406 306 L360 330 Z" fill="#d77fd0" stroke="#d77fd0" stroke-width="2" stroke-linejoin="round"/><path d="M360 330 L406 306 L406 346 L360 370 Z" fill="#7c2a76" stroke="#7c2a76" stroke-width="2" stroke-linejoin="round"/><rect x="110" y="330" width="250" height="40" rx="6" fill="#a63a9e"/><text x="235.0" y="355.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#ffffff">CAT405</text></g><g class="slab"><path d="M130 278 L176 254 L426 254 L380 278 Z" fill="#8da2ff" stroke="#8da2ff" stroke-width="2" stroke-linejoin="round"/><path d="M380 278 L426 254 L426 294 L380 318 Z" fill="#2e44a8" stroke="#2e44a8" stroke-width="2" stroke-linejoin="round"/><rect x="130" y="278" width="250" height="40" rx="6" fill="#3f5bd9"/><text x="255.0" y="303.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#ffffff">CAT402</text></g><g class="slab"><path d="M110 226 L156 202 L406 202 L360 226 Z" fill="#ff8b80" stroke="#ff8b80" stroke-width="2" stroke-linejoin="round"/><path d="M360 226 L406 202 L406 242 L360 266 Z" fill="#a8332c" stroke="#a8332c" stroke-width="2" stroke-linejoin="round"/><rect x="110" y="226" width="250" height="40" rx="6" fill="#d6453c"/><text x="235.0" y="251.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#ffffff">CST435</text></g><g class="slab"><path d="M130 174 L176 150 L426 150 L380 174 Z" fill="#ffd266" stroke="#ffd266" stroke-width="2" stroke-linejoin="round"/><path d="M380 174 L426 150 L426 190 L380 214 Z" fill="#b87800" stroke="#b87800" stroke-width="2" stroke-linejoin="round"/><rect x="130" y="174" width="250" height="40" rx="6" fill="#e89b00"/><text x="255.0" y="199.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#2a1a00">CPC357</text></g><g class="slab"><path d="M110 122 L156 98 L406 98 L360 122 Z" fill="#58d6d8" stroke="#58d6d8" stroke-width="2" stroke-linejoin="round"/><path d="M360 122 L406 98 L406 138 L360 162 Z" fill="#0a7173" stroke="#0a7173" stroke-width="2" stroke-linejoin="round"/><rect x="110" y="122" width="250" height="40" rx="6" fill="#0f9a9c"/><text x="235.0" y="147.5" text-anchor="middle" font-family="Orbitron, sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#ffffff">CMT322</text></g></g></svg>
+      <div class="stat-tile l"><b>5 <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 12 10 5 10-5"/><path d="m2 17 10 5 10-5"/></svg></b><span>Subjects</span></div>
+      <div class="stat-tile r"><b>15 <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="14" height="14" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v12"/></svg></b><span>Flashcards</span></div>
+      <span class="notch" aria-hidden="true"></span>
+    </section>
+    <section class="panel" aria-label="Choose a subject">
+      <div class="panel-head"><h1>Y4S1<br>Study Hub</h1><span class="badge" aria-hidden="true"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span></div>
+      <div class="stats"><div><small>Ready</small><b>1</b></div><span class="sep" aria-hidden="true"></span><div><small>Soon</small><b>4</b></div></div>
+      <div class="finder" role="search">
+        <label for="q">Find a subject</label>
+        <div class="field"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" type="search" placeholder="Try CMT322 or cloud" autocomplete="off"></div>
+        <div class="chips">
+          <button type="button" data-mode="all" aria-pressed="true">All</button>
+          <button type="button" data-mode="ready" aria-pressed="false">Ready</button>
+          <span class="count" id="count" role="status" aria-live="polite">5 of 5 shown</span>
+        </div>
       </div>
-    </div>
-  </header>
-  <main>
-    <h2 class="sec">Subjects</h2>
-    <ul class="grid" id="grid"><li class="card ready" data-ready="1" data-text="cmt322 web engineering and technologies weeks 1 to 5 as one story: from chaotic projects to a usable design."><a class="card-link" href="cmt322/"><span class="ico"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span class="code">CMT322</span><h3>Web Engineering and Technologies</h3><p>Weeks 1 to 5 as one story: from chaotic projects to a usable design.</p><ul class="meta"><li>5 lecture files</li><li>Mind maps, flashcards, quiz answers</li></ul><span class="foot-row"><span class="chip on">Ready</span><span class="open">Open notes <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></span></a></li><li class="card soon" data-ready="0" data-text="cpc357 internet of things chapter notes and slides are in the folder."><div class="card-body"><span class="ico"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg></span><span class="code">CPC357</span><h3>Internet of Things</h3><p>Chapter notes and slides are in the folder.</p><ul class="meta"><li>8 chapters of notes and PDFs</li><li>Assignment 1 review</li></ul><span class="foot-row"><span class="chip off">Coming soon</span></span></div></li><li class="card soon" data-ready="0" data-text="cst435 parallel and cloud computing caches, parallel design, virtualization, kubernetes."><div class="card-body"><span class="ico"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span><span class="code">CST435</span><h3>Parallel and cloud computing</h3><p>Caches, parallel design, virtualization, Kubernetes.</p><ul class="meta"><li>19 slide PDFs</li><li>11 notes and past-year questions</li></ul><span class="foot-row"><span class="chip off">Coming soon</span></span></div></li><li class="card soon" data-ready="0" data-text="cat402 digital marketing project a project tracker, not lecture notes."><div class="card-body"><span class="ico"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span><span class="code">CAT402</span><h3>Digital marketing project</h3><p>A project tracker, not lecture notes.</p><ul class="meta"><li>Project guidelines</li><li>Agenda and deliverables</li></ul><span class="foot-row"><span class="chip off">Coming soon</span></span></div></li><li class="card soon" data-ready="0" data-text="cat405 final year project a project tracker for the proposal and report."><div class="card-body"><span class="ico"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><span class="code">CAT405</span><h3>Final year project</h3><p>A project tracker for the proposal and report.</p><ul class="meta"><li>Initial proposal</li><li>Report template</li></ul><span class="foot-row"><span class="chip off">Coming soon</span></span></div></li></ul>
-    <p class="empty" id="empty" hidden>No subject matches that search. Clear the box to see them all.</p>
-    <h2 class="sec how-sec">How each subject page works</h2>
-    <ol class="how"><li><span class="num">1</span><h3>Read the story</h3><p>A card per week links the problem, the fix and the new problem.</p></li><li><span class="num">2</span><h3>See it as a map</h3><p>A mind map per week, plus the key diagrams from the slides.</p></li><li><span class="num">3</span><h3>Test yourself</h3><p>Quiz questions with model answers, a cheat sheet and flashcards.</p></li></ol>
-  </main>
-  <footer class="foot"><p>Personal study site. Pictures are cropped from lecture slides, which belong to the lecturers.</p></footer>
+      <div class="list-wrap">
+        <div class="list" tabindex="0" role="region" aria-label="Subject list"><ul><li class="item ready" data-ready="1" data-text="cmt322 web engineering and technologies 5 lecture files · mind maps · flashcards"><a class="item-in" href="cmt322/"><span class="tile"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span class="txt"><span class="code">CMT322</span><span class="name">Web Engineering and Technologies</span><span class="meta">5 lecture files · mind maps · flashcards</span></span><span class="pill on">Ready</span><span class="go" aria-hidden="true"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a></li><li class="item soon" data-ready="0" data-text="cpc357 internet of things 8 chapters of notes and pdfs"><div class="item-in"><span class="tile"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/></svg></span><span class="txt"><span class="code">CPC357</span><span class="name">Internet of Things</span><span class="meta">8 chapters of notes and PDFs</span></span><span class="pill off">Soon</span></div></li><li class="item soon" data-ready="0" data-text="cst435 parallel and cloud computing 19 slide pdfs · 11 notes"><div class="item-in"><span class="tile"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span><span class="txt"><span class="code">CST435</span><span class="name">Parallel and cloud computing</span><span class="meta">19 slide PDFs · 11 notes</span></span><span class="pill off">Soon</span></div></li><li class="item soon" data-ready="0" data-text="cat402 digital marketing project project guidelines and agenda"><div class="item-in"><span class="tile"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span><span class="txt"><span class="code">CAT402</span><span class="name">Digital marketing project</span><span class="meta">Project guidelines and agenda</span></span><span class="pill off">Soon</span></div></li><li class="item soon" data-ready="0" data-text="cat405 final year project initial proposal · report template"><div class="item-in"><span class="tile"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span><span class="txt"><span class="code">CAT405</span><span class="name">Final year project</span><span class="meta">Initial proposal · report template</span></span><span class="pill off">Soon</span></div></li></ul>
+          <p class="empty" id="empty" hidden>No subject matches that search.</p></div>
+      </div>
+      <a class="cta" href="cmt322/"><span>Open CMT322 notes</span><span class="circ"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
+    </section>
+  </div>
+  <section class="how" aria-labelledby="how-h">
+    <h2 id="how-h">How each subject page works</h2>
+    <ol>
+      <li><span class="n">1</span><h3>Read the story</h3><p>A card per week links the problem, the fix and the new problem.</p></li>
+      <li><span class="n">2</span><h3>See it as a map</h3><p>A mind map per week, plus the key diagrams from the slides.</p></li>
+      <li><span class="n">3</span><h3>Test yourself</h3><p>Quiz questions with model answers, a cheat sheet and flashcards.</p></li>
+    </ol>
+  </section>
+  <p class="foot">Personal study site. Pictures are cropped from lecture slides, which belong to the lecturers.</p>
 </div>
 <script>
 (function () {
   try {
-    var q = document.getElementById('q'), cards = [].slice.call(document.querySelectorAll('.card'));
+    var q = document.getElementById('q'), cards = [].slice.call(document.querySelectorAll('.item'));
     var btns = [].slice.call(document.querySelectorAll('.chips button')), count = document.getElementById('count');
     var empty = document.getElementById('empty'), mode = 'all';
     function run() {
@@ -132,7 +171,7 @@ h2.sec { font-size: 1.5rem; margin-bottom: 16px; padding-top: 28px; border-top: 
         var ok = (mode === 'all' || c.dataset.ready === '1') && (!t || c.dataset.text.indexOf(t) !== -1);
         c.hidden = !ok; if (ok) { n++; }
       });
-      count.textContent = n + ' of ' + cards.length + ' subjects shown';
+      count.textContent = n + ' of ' + cards.length + ' shown';
       empty.hidden = n !== 0;
     }
     q.addEventListener('input', run);
