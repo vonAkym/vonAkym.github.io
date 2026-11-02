@@ -341,6 +341,32 @@ table.gen th, table.gen td { min-width: 140px; }
 .calc .note { font-size: .86rem; color: var(--muted); margin: 6px 0 0; }
 .tl li, .two > div, .layers .l span, .steps-h li span, .chips-row li { min-width: 0; overflow-wrap: anywhere; }
 
+/* ---- big picture ---- */
+.bigp { margin-top: 26px; padding: 22px 20px 26px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); border-top: 8px solid var(--brand); }
+.bigp h2.sec { margin-bottom: 4px; }
+.bigp h3 { font-size: 1.15rem; margin: 26px 0 8px; color: var(--ct); }
+.bigp .headsup { max-width: 74ch; font-size: 1.05rem; margin: 8px 0 14px; }
+.chain { list-style: none; margin: 12px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; }
+.chain li { position: relative; padding: 12px 12px 12px; border-radius: 12px; background: color-mix(in srgb, var(--c) 9%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); border-top: 6px solid var(--c); display: flex; flex-direction: column; gap: 4px; }
+.chain .tn { font: 500 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ct); }
+.chain b { font: 700 1.02rem/1.2 var(--display); }
+.chain .kw { font-size: .86rem; color: var(--muted); line-height: 1.4; }
+.chain .bridge { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); font-size: .84rem; line-height: 1.35; color: var(--warn); font-weight: 600; }
+.chain li:not(:last-child)::after { content: "\2192"; position: absolute; right: -19px; top: 34px; font-size: 1.3rem; line-height: 1; color: var(--muted); }
+@media (max-width: 1000px) { .chain { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chain li:not(:last-child)::after { content: none; } }
+@media (max-width: 560px) { .chain { grid-template-columns: 1fr; gap: 26px; } .chain li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -26px; transform: translateX(-50%); } }
+.bigp table { min-width: 760px; }
+.bigp .promise table { min-width: 0; }
+.bigp td, .bigp th { font-size: .9rem; }
+.bigp thead th.t1 { background: color-mix(in srgb, #0b7a7c 22%, var(--card)); } .bigp thead th.t2 { background: color-mix(in srgb, #f0a500 26%, var(--card)); }
+.bigp thead th.t3 { background: color-mix(in srgb, #c93a32 20%, var(--card)); } .bigp thead th.t4 { background: color-mix(in srgb, #3a56d4 20%, var(--card)); }
+.bigp thead th.t5 { background: color-mix(in srgb, #9b2f94 20%, var(--card)); }
+.bigp .five { margin: 12px 0 0; padding-left: 1.2rem; display: grid; gap: 6px; max-width: 78ch; }
+.bigp .five b { color: var(--ct); }
+.bigp .hpc { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.bigp .hpc div { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--brand); font-size: .92rem; }
+.bigp .hpc b { display: block; font: 700 1rem var(--display); }
+
 </style>
 </head>
 <body>
@@ -349,9 +375,57 @@ table.gen th, table.gen td { min-width: 140px; }
   <p class="eyebrow">CST435 Parallel and Cloud Computing · Test notes</p>
   <h1>Topics 1 to 5, as one story</h1>
   <p class="lead">Every topic exists because the one before it left a gap. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>
-  <nav class="jump" aria-label="Jump to a section"><a class="w1" href="#week-1">Topic 1</a><a class="w2" href="#week-2">Topic 2</a><a class="w3" href="#week-3">Topic 3</a><a class="w4" href="#week-4">Topic 4</a><a class="w5" href="#week-5">Topic 5</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
+  <nav class="jump" aria-label="Jump to a section"><a class="wx" href="#big-picture">Big picture</a><a class="w1" href="#week-1">Topic 1</a><a class="w2" href="#week-2">Topic 2</a><a class="w3" href="#week-3">Topic 3</a><a class="w4" href="#week-4">Topic 4</a><a class="w5" href="#week-5">Topic 5</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
 </header>
 <main>
+
+<section id="big-picture" class="bigp wx">
+  <h2 class="sec">Big picture: read this first</h2>
+  <p class="headsup"><b>One question runs through the whole subject:</b> how do many processors, inside one box or spread over a network, work together on one job, and what does it cost? Topic 1 asks the question, Topic 2 shows where you can rent the answer, Topics 3 and 4 show how hardware and software deliver it, and Topic 5 shows how the separate pieces talk to each other.</p>
+  <h3>The chain: each topic fixes a gap the last one left</h3>
+  <ol class="chain">
+    <li class="w1"><span class="tn">Topic 1</span><b>Parallel and distributed computing</b><span class="kw">Multi-core, speedup, efficiency, scalability, shared vs distributed memory</span><span class="bridge">But owning big machines is costly &hellip;</span></li>
+    <li class="w2"><span class="tn">Topic 2</span><b>Cloud computing</b><span class="kw">Rent, pool and meter resources: IaaS, PaaS, SaaS</span><span class="bridge">But speed depends on how the hardware is built &hellip;</span></li>
+    <li class="w3"><span class="tn">Topic 3</span><b>Parallel architecture</b><span class="kw">Caches, ILP, Flynn, SMP and clusters, interconnects, coherence</span><span class="bridge">But hardware cannot parallelise your program &hellip;</span></li>
+    <li class="w4"><span class="tn">Topic 4</span><b>Parallel software</b><span class="kw">Task and data parallelism, Amdahl, Gustafson, overhead</span><span class="bridge">But separate memories must send messages &hellip;</span></li>
+    <li class="w5"><span class="tn">Topic 5</span><b>Communication</b><span class="kw">MPI, RPC, RMI, gRPC, multicast, publish-subscribe, queues</span><span class="bridge">Next: write real code (Pthreads, OpenMP, MPI, CUDA)</span></li>
+  </ol>
+
+  <h3>How Topic 1 connects to Topic 5</h3>
+  <p class="small">Topic 1 (slide 20) lists the issues that parallel and distributed computing share: <b>interprocess communication</b>, resource management, scheduling and load balancing, and grain size. Topic 5 is the full answer to the first one. Topic 1 also splits systems into <b>shared-memory</b> (cooperate by sharing data) and <b>distributed-memory</b> (cooperate by messages). Topic 5 is the toolbox for the second kind: MPI, RPC, RMI, gRPC, multicast, publish-subscribe and queues.</p>
+  <div class="promise tbl-wrap"><table><thead><tr><th>Topic 1 raised &hellip;</th><th>Answered in &hellip;</th></tr></thead><tbody>
+    <tr><td>Interprocess communication</td><td><b>Topic 5</b> (message passing, remote calls, group communication). Interconnect hardware: Topic 3.</td></tr>
+    <tr><td>Resource management, resource sharing, availability, incremental growth, wasted capacity (utilisation only about 25%)</td><td><b>Topic 2</b> (resource pooling, multi-tenancy, elasticity, redundant sites, metering).</td></tr>
+    <tr><td>Scheduling and load balancing, grain size</td><td><b>Topic 4</b> (coordination, load balancing, fine vs coarse grain).</td></tr>
+    <tr><td>Absolute performance and price/performance</td><td><b>Topic 3</b> (how hardware gets fast), <b>Topic 4</b> (speedup, Amdahl, Gustafson), <b>Topic 2</b> (pay per use).</td></tr>
+    <tr><td>Computation-to-communication ratio</td><td><b>Topic 4</b> (overhead, latency, bandwidth) and <b>Topic 5</b> (what each message costs and can go wrong).</td></tr></tbody></table></div>
+
+  <h3>Five threads that run through all five topics</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>Thread</th><th class="t1">T1 Intro</th><th class="t2">T2 Cloud</th><th class="t3">T3 Architecture</th><th class="t4">T4 Software</th><th class="t5">T5 Communication</th></tr></thead><tbody>
+    <tr><th>How machines share data</th><td>Shared memory vs distributed memory basics</td><td>Cloud components talk through APIs and web services</td><td>SMP, UMA/NUMA vs clusters; cache coherence</td><td>Shared: fork threads. Distributed: start processes</td><td>Message passing (MPI) vs the shared-memory model</td></tr>
+    <tr><th>The cost of talking</th><td>Computation-to-communication ratio; efficiency fell from 98.75% to 86% as p grew</td><td>Network latency; data-transfer charges</td><td>Bus contention, coherence traffic, interconnect limits</td><td>Latency, bandwidth, overhead</td><td>Failures: omission, timeouts, duplicate requests</td></tr>
+    <tr><th>Scaling up</th><td>Strong and weak scalability</td><td>Rapid elasticity, scalability</td><td>A bus stops scaling around 64 processors</td><td>Serial part caps speedup (Amdahl)</td><td>Multicast and group communication reach many receivers</td></tr>
+    <tr><th>Hiding the complexity</th><td>Distributed systems aim for a single system image</td><td>Cloud hides the infrastructure</td><td>A cluster presents one system image</td><td>Not hidden: you design the coordination yourself</td><td>Stubs and proxies make a remote call look local</td></tr>
+    <tr><th>Many workers together</th><td>Multi-core chips, clusters, grids</td><td>Multi-tenancy, resource pooling</td><td>MIMD, SMT, multicore</td><td>Task and data parallelism</td><td>Group communication, publish-subscribe</td></tr></tbody></table></div>
+
+  <h3>The three levels of a modern HPC system</h3>
+  <p class="small">Topic 1 (HPC trends) says modern machines combine three kinds of parallelism. Each lands in a later topic.</p>
+  <div class="hpc">
+    <div><b>Between nodes: MPI</b>Message passing across a cluster. Topic 5 (communication), Topic 3 (clusters, interconnects).</div>
+    <div><b>Inside a node: OpenMP</b>Multi-core CPUs sharing memory. Topic 3 (shared memory, coherence), Topic 4 (threads).</div>
+    <div><b>Accelerators: CUDA</b>Massively parallel GPUs. Topic 3 (SIMD, GPUs).</div>
+  </div>
+
+  <h3>If you remember only five sentences</h3>
+  <ol class="five">
+    <li><b>Topic 1:</b> a single core ran out of heat budget, so chips got more cores, and we measure the gain with speedup, efficiency and scalability.</li>
+    <li><b>Topic 2:</b> instead of buying for peak load, rent shared, metered resources on demand, as IaaS, PaaS or SaaS.</li>
+    <li><b>Topic 3:</b> speed depends on the memory hierarchy, instruction-level tricks, how processors share memory, and keeping caches coherent.</li>
+    <li><b>Topic 4:</b> software must be redesigned for parallelism, and its gain is capped by the serial part and by overhead.</li>
+    <li><b>Topic 5:</b> processes with separate memories cooperate only by messages: MPI, remote calls, groups, events and queues.</li>
+  </ol>
+</section>
+
 <section id="story" class="band">
   <h2 class="sec">Previously on Parallel and Cloud Computing</h2>
   <p class="small">Tap a card to jump to that topic. Read the "But then" line, then the next card's "Problem": they are the same sentence.</p>
