@@ -53,7 +53,8 @@
 :root[data-theme="dark"] .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+a, button, summary { touch-action: manipulation; }
 body {
   margin: 0; background-color: var(--paper); color: var(--ink);
   background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
@@ -79,7 +80,6 @@ a { color: inherit; }
   background: var(--c); color: var(--on); border: 2px solid var(--c);
 }
 .jump a.wx { background: transparent; color: var(--ct); border-color: var(--c); }
-.jump a:hover { filter: brightness(1.08); }
 
 /* sections */
 .band { margin-top: 44px; }
@@ -97,7 +97,6 @@ a { color: inherit; }
   display: flex; flex-direction: column; gap: 6px; height: 100%; text-decoration: none; padding: 14px 14px 16px;
   background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 10px;
 }
-.story a:hover { border-color: var(--c); }
 .story .wk { align-self: flex-start; }
 .story h3 { margin: 6px 0 2px; font-size: 1.1rem; color: var(--ct); }
 .story p { margin: 0; font-size: .9rem; line-height: 1.45; }
@@ -266,7 +265,13 @@ table.gen th, table.gen td { min-width: 140px; }
 @media print { .jump, .hint { display: none; } body { background-image: none; } .mm-wrap { overflow: visible; } }
 
 .back { display: inline-block; margin-bottom: 18px; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--brand); border-bottom: 2px solid var(--brand); }
-.back:hover { filter: brightness(1.15); }
+
+/* hover motion only where a real pointer can hover (touch fires sticky hovers) */
+@media (hover: hover) and (pointer: fine) {
+  .jump a:hover { filter: brightness(1.08); }
+  .story a:hover { border-color: var(--c); }
+  .back:hover { filter: brightness(1.15); }
+}
 
 </style>
 </head>
