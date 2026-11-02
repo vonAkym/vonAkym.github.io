@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060510">
+<title>CST435 Parallel and Cloud Computing Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Caveat:wght@600&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Design plan: graph-paper study notebook. Cool paper, navy ink, one highlighter colour per week
+   (teal, amber, coral, indigo, magenta) so a colour tells you which chapter you are in.
+   Layout: single reading column, wide scrollable mind maps, cards for lists. */
+:root {
+  --paper: #f3f5fb; --card: #ffffff; --ink: #16213a; --muted: #4b566f; --line: #cdd5e6;
+  --grid: rgba(54, 78, 140, .07); --brand: #2b3a67; --warn: #c93a32;
+  --low: #7fcf8f; --med: #f3d55b; --high: #f2a04a; --crit: #e5584d; --hm-ink: #1b2030;
+  --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+.w1 { --c: #0b7a7c; --on: #ffffff; --ct: #0b7a7c; }
+.w2 { --c: #f0a500; --on: #2b1b00; --ct: #8f5c00; }
+.w3 { --c: #c93a32; --on: #ffffff; --ct: #c93a32; }
+.w4 { --c: #3a56d4; --on: #ffffff; --ct: #3a56d4; }
+.w5 { --c: #9b2f94; --on: #ffffff; --ct: #9b2f94; }
+.wx { --c: #2b3a67; --on: #ffffff; --ct: #2b3a67; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0f1424; --card: #182036; --ink: #e8ecf8; --muted: #a5afc9; --line: #2c3656;
+    --grid: rgba(150, 175, 255, .06); --brand: #aebaf0; --warn: #ff7a6e;
+  }
+  :root:not([data-theme="light"]) .w1 { --c: #3cc4c6; --on: #0f1424; --ct: #3cc4c6; }
+  :root:not([data-theme="light"]) .w2 { --c: #f0b429; --on: #0f1424; --ct: #f0b429; }
+  :root:not([data-theme="light"]) .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
+  :root:not([data-theme="light"]) .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
+  :root:not([data-theme="light"]) .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+  :root:not([data-theme="light"]) .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0f1424; --card: #182036; --ink: #e8ecf8; --muted: #a5afc9; --line: #2c3656;
+  --grid: rgba(150, 175, 255, .06); --brand: #aebaf0; --warn: #ff7a6e;
+}
+:root[data-theme="dark"] .w1 { --c: #3cc4c6; --on: #0f1424; --ct: #3cc4c6; }
+:root[data-theme="dark"] .w2 { --c: #f0b429; --on: #0f1424; --ct: #f0b429; }
+:root[data-theme="dark"] .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
+:root[data-theme="dark"] .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
+:root[data-theme="dark"] .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+:root[data-theme="dark"] .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+a, button, summary { touch-action: manipulation; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font: 400 16px/1.6 var(--body);
+}
+main, .hero, .foot { max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0; }
+b { font-weight: 600; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.small { color: var(--muted); font-size: .92rem; margin: .4rem 0 .9rem; max-width: 70ch; }
+.note { font-family: var(--hand); font-size: 1.25rem; color: var(--ct, var(--brand)); }
+
+/* hero */
+.hero { padding-top: 40px; padding-bottom: 8px; }
+.eyebrow { font: 500 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -.02em; }
+.lead { max-width: 60ch; font-size: 1.12rem; margin: 14px 0 20px; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; }
+.jump a {
+  text-decoration: none; font-weight: 600; font-size: .9rem; padding: 7px 14px; border-radius: 999px;
+  background: var(--c); color: var(--on); border: 2px solid var(--c);
+}
+.jump a.wx { background: transparent; color: var(--ct); border-color: var(--c); }
+
+/* sections */
+.band { margin-top: 44px; }
+.sec { font-size: clamp(1.5rem, 3.6vw, 2.1rem); font-weight: 800; margin-bottom: 6px; }
+.week { margin-top: 64px; padding-top: 22px; border-top: 6px solid var(--c); }
+.week h3, .band h3 { font-size: 1.25rem; font-weight: 700; margin: 30px 0 10px; color: var(--ct); }
+.week-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 14px; }
+.wk { font: 500 .8rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; background: var(--c); color: var(--on); padding: 6px 10px; border-radius: 6px; }
+.week-head h2 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); font-weight: 800; color: var(--ct); letter-spacing: -.01em; }
+.blurb { flex-basis: 100%; margin: 0; font-family: var(--hand); font-size: 1.5rem; color: var(--muted); }
+
+/* previously-on cards */
+.story { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.story a {
+  display: flex; flex-direction: column; gap: 6px; height: 100%; text-decoration: none; padding: 14px 14px 16px;
+  background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 10px;
+}
+.story .wk { align-self: flex-start; }
+.story h3 { margin: 6px 0 2px; font-size: 1.1rem; color: var(--ct); }
+.story p { margin: 0; font-size: .9rem; line-height: 1.45; }
+.story p b { display: block; font: 500 .7rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.story .but { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); }
+.story .but b { color: var(--warn); }
+
+/* problem, solution, new problem */
+.psn { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin: 8px 0 4px; }
+.psn > div { flex: 1 1 230px; padding: 12px 14px; border-radius: 10px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.psn > .n { background: color-mix(in srgb, var(--warn) 10%, var(--card)); border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); }
+.psn b { font: 500 .72rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ct); }
+.psn .n b { color: var(--warn); }
+.psn p { margin: 4px 0 0; font-size: .95rem; line-height: 1.45; }
+.psn .arr { align-self: center; font-size: 1.6rem; color: var(--ct); }
+@media (max-width: 820px) { .psn .arr { flex-basis: 100%; text-align: center; transform: rotate(90deg); height: 24px; line-height: 24px; } }
+
+/* mind map */
+.mm-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; -webkit-overflow-scrolling: touch; }
+.mm-wrap .hint { display: none; margin: 0 0 4px; font: 500 .75rem/1 var(--mono); color: var(--muted); }
+.mm { display: block; width: 100%; min-width: 940px; height: auto; font-family: var(--body); }
+.mm-link { fill: none; stroke: var(--c); stroke-width: 2.2; opacity: .85; }
+.mm-link.thin { stroke-width: 1.4; opacity: .6; }
+.mm-center { fill: var(--c); }
+.mm-ctxt { fill: var(--on); font: 700 16px var(--display); }
+.mm-branch { fill: color-mix(in srgb, var(--c) 16%, var(--card)); stroke: var(--c); stroke-width: 2; }
+.mm-btxt { fill: var(--ink); font: 600 13.5px var(--body); }
+.mm-leaf { fill: var(--ink); font: 400 13.5px var(--body); }
+.mm-dot { fill: var(--c); }
+@media (max-width: 960px) { .mm-wrap .hint { display: block; } }
+
+/* pictures */
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; }
+.shot { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+.zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 8px; overflow: hidden; }
+.shot img { display: block; width: 100%; height: auto; max-width: 100%; border-radius: 6px; }
+.shot figcaption { font-size: .88rem; color: var(--muted); padding: 8px 4px 4px; line-height: 1.45; }
+#lightbox { max-width: 96vw; max-height: 94vh; padding: 10px; border: 0; border-radius: 12px; background: var(--card); color: var(--ink); }
+#lightbox::backdrop { background: rgba(8, 12, 24, .72); }
+#lightbox img { display: block; max-width: 92vw; max-height: 82vh; margin: 8px auto 0; }
+#lightbox .close { font: 600 .9rem var(--body); padding: 8px 16px; border-radius: 999px; border: 2px solid var(--brand); background: transparent; color: var(--ink); cursor: pointer; }
+
+/* terms */
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 10px; margin: 0; }
+.terms > div { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: 8px; padding: 10px 12px; }
+.terms dt { font: 700 1rem var(--display); color: var(--ct); }
+.terms dd { margin: 3px 0 0; font-size: .93rem; line-height: 1.5; }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; margin: 6px 0; }
+table { border-collapse: collapse; width: 100%; background: var(--card); font-size: .93rem; }
+th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+thead th { background: color-mix(in srgb, var(--c) 18%, var(--card)); }
+tbody th { background: color-mix(in srgb, var(--c) 8%, var(--card)); }
+th small { font-weight: 400; color: var(--muted); }
+table.gen th, table.gen td { min-width: 140px; }
+
+/* week 1 staircase */
+.ladder { list-style: none; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.ladder li {
+  display: flex; flex-direction: column; gap: 2px; padding: 10px 10px 12px; border-radius: 10px; border: 1px solid var(--c);
+  background: color-mix(in srgb, var(--c) calc(6% + var(--i) * 3.5%), var(--card));
+}
+.ladder .n { font: 500 .75rem/1 var(--mono); color: var(--ct); }
+.ladder b { font-family: var(--display); font-size: 1.02rem; }
+.ladder small { font-size: .82rem; line-height: 1.35; color: var(--muted); }
+@media (min-width: 780px) {
+  .ladder { grid-template-columns: repeat(5, 1fr); align-items: start; }
+  .ladder li { margin-top: calc((4 - var(--j)) * 16px); }
+}
+
+/* week 2 pipeline, week 3 flow */
+.pipe, .flow5 { list-style: none; margin: 8px 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; counter-reset: s; }
+.pipe li, .flow5 li {
+  counter-increment: s; position: relative; flex: 1 1 190px; padding: 12px 12px 14px 12px; border-radius: 10px;
+  background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line));
+}
+.pipe li::before, .flow5 li::before { content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; margin-bottom: 6px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.pipe b, .flow5 b { display: block; font-family: var(--display); font-size: 1.05rem; color: var(--ct); }
+.pipe span, .flow5 span { display: block; font-size: .9rem; line-height: 1.45; }
+@media (min-width: 900px) { .pipe li:not(:last-child)::after, .flow5 li:not(:last-child)::after { content: "\2192"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; color: var(--ct); background: var(--paper); line-height: 1; z-index: 1; } }
+
+/* callouts and answers */
+.callout { margin: 16px 0; padding: 12px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--brand); font-size: .95rem; }
+.callout.trap { border-left-color: var(--warn); background: color-mix(in srgb, var(--warn) 8%, var(--card)); }
+.callout.trap b:first-child { color: var(--warn); }
+.hook { font: 500 .95rem var(--mono); padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--c) 12%, var(--card)); }
+.qa { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; }
+.qa summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-weight: 600; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; margin-left: auto; font: 500 1.3rem/1 var(--mono); color: var(--ct); }
+.qa[open] summary::after { content: "\2212"; }
+.qn { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.ans { padding: 0 14px 12px 52px; }
+.ans p { margin: 8px 0; } .ans ul { margin: 8px 0; padding-left: 1.1rem; }
+
+/* week 3 */
+.heat-wrap { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 820px) { .heat-wrap { grid-template-columns: 1fr; } }
+.heat { background: none; }
+.heat th, .heat td { text-align: center; vertical-align: middle; }
+.heat thead th, .heat tbody th { font-size: .8rem; background: var(--card); }
+.heat .corner { font-family: var(--mono); }
+.heat td { color: var(--hm-ink); font-size: 1.15rem; height: 54px; min-width: 62px; }
+.heat td small { display: block; font-size: .62rem; line-height: 1.1; font-weight: 500; }
+.heat .low, .sw.low { background: var(--low); } .heat .med, .sw.med { background: var(--med); }
+.heat .high, .sw.high { background: var(--high); } .heat .crit, .sw.crit { background: var(--crit); }
+.heat td.key { outline: 3px solid var(--ink); outline-offset: -3px; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: .9rem; }
+.legend li { display: flex; gap: 10px; align-items: flex-start; }
+.sw { flex: none; width: 18px; height: 18px; border-radius: 4px; margin-top: 3px; border: 1px solid var(--line); }
+.strat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.strat div { padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); }
+.strat b { display: block; font: 700 1.1rem var(--display); color: var(--ct); }
+.strat span { font-size: .88rem; }
+.cards3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.cards3 .c { background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); border-radius: 10px; padding: 12px; }
+.cards3 h4 { font-size: 1.05rem; color: var(--ct); }
+.cards3 p { margin: 6px 0 0; font-size: .92rem; line-height: 1.45; }
+.cards3 .eg { color: var(--muted); } .cards3 .imp { font-weight: 600; }
+
+/* week 4 */
+.dbmap { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px 12px; align-items: center; max-width: 640px; }
+.dbmap div { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: 8px; padding: 8px 12px; }
+.dbmap b { display: block; font: 500 .72rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ct); }
+.dbmap i { font-style: normal; font-size: 1.4rem; color: var(--ct); }
+
+/* week 5 */
+.goals, .quality { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; }
+.goals li, .quality li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; border-left: 5px solid var(--c); }
+.goals b, .quality b { display: block; font: 700 1.05rem var(--display); color: var(--ct); }
+.goals span, .quality span { font-size: .9rem; line-height: 1.45; }
+.three { list-style: none; counter-reset: q; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.three li { counter-increment: q; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.three li::before { content: counter(q); display: block; font: 800 2.4rem/1 var(--display); color: var(--ct); }
+.three b { font: 700 1.1rem var(--display); display: block; margin-top: 2px; }
+.three span { font-size: .9rem; }
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; }
+.groups .g { background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); border-radius: 10px; padding: 12px; }
+.groups h4 { font-size: 1.02rem; color: var(--ct); margin-bottom: 6px; }
+.groups ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.groups li b { display: block; font-size: .95rem; }
+.groups li span { font-size: .86rem; color: var(--muted); line-height: 1.35; }
+.steps7 { list-style: none; counter-reset: st; margin: 8px 0; padding: 0 0 0 4px; max-width: 760px; }
+.steps7 li { counter-increment: st; position: relative; padding: 4px 0 18px 46px; }
+.steps7 li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .95rem var(--mono); }
+.steps7 li:not(:last-child)::after { content: ""; position: absolute; left: 15px; top: 34px; bottom: 2px; width: 2px; background: color-mix(in srgb, var(--c) 50%, var(--line)); }
+
+/* cheat sheet and flashcards */
+.nums { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+.nums li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.nums b { display: block; font: 500 1.35rem/1.2 var(--mono); color: var(--ct); overflow-wrap: anywhere; }
+.nums span { font-size: .88rem; color: var(--muted); }
+.traps { margin: 0; padding-left: 1.2rem; display: grid; gap: 8px; max-width: 78ch; }
+.traps li::marker { color: var(--warn); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 12px; }
+.card { text-align: left; min-height: 130px; padding: 14px; border-radius: 12px; border: 1px solid var(--line); border-top: 5px solid var(--c); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.card .front { font: 700 1.05rem/1.25 var(--display); }
+.card .back { display: none; font-size: .93rem; line-height: 1.5; }
+.card[aria-pressed="true"] { background: color-mix(in srgb, var(--c) 14%, var(--card)); }
+.card[aria-pressed="true"] .front { display: none; }
+.card[aria-pressed="true"] .back { display: block; }
+.foot { padding-top: 40px; padding-bottom: 48px; color: var(--muted); font-size: .88rem; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print { .jump, .hint { display: none; } body { background-image: none; } .mm-wrap { overflow: visible; } }
+
+.back { display: inline-block; margin-bottom: 18px; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--brand); border-bottom: 2px solid var(--brand); }
+
+/* hover motion only where a real pointer can hover (touch fires sticky hovers) */
+@media (hover: hover) and (pointer: fine) {
+  .jump a:hover { filter: brightness(1.08); }
+  .story a:hover { border-color: var(--c); }
+  .back:hover { filter: brightness(1.15); }
+}
+
+/* ---- CST435 extras ---- */
+.tl { list-style: none; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; counter-reset: t; }
+.tl li { counter-increment: t; position: relative; padding: 12px 12px 14px; border-radius: 10px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.tl li::before { content: counter(t); display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .8rem var(--mono); margin-bottom: 4px; }
+.tl b { display: block; font: 700 1rem var(--display); color: var(--ct); }
+.tl span { font-size: .88rem; line-height: 1.4; }
+.bars { display: grid; gap: 8px; margin: 8px 0 14px; }
+.bars .row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 10px; align-items: center; font-size: .92rem; }
+.bars .track { position: relative; height: 22px; border-radius: 6px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid var(--line); overflow: hidden; }
+.bars .fill { position: absolute; inset: 0 auto 0 0; background: var(--c); border-radius: 5px 0 0 5px; }
+.bars .ideal { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); opacity: .6; }
+@media (max-width: 640px) { .bars .row { grid-template-columns: 1fr; gap: 2px; } }
+.layers { display: grid; gap: 6px; max-width: 760px; margin: 8px 0; }
+.layers .l { display: grid; grid-template-columns: 150px minmax(0, 1fr); border-radius: 10px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); background: var(--card); }
+.layers .l b { display: grid; place-items: center; padding: 10px; background: var(--c); color: var(--on); font: 700 .95rem var(--display); text-align: center; }
+.layers .l span { padding: 10px 12px; font-size: .92rem; }
+.layers .l.you b { background: color-mix(in srgb, var(--c) 18%, var(--card)); color: var(--ct); }
+@media (max-width: 520px) { .layers .l { grid-template-columns: 1fr; } }
+.flynn { display: grid; grid-template-columns: 110px 1fr 1fr; gap: 6px; max-width: 760px; margin: 8px 0; }
+.flynn > div { padding: 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); font-size: .92rem; }
+.flynn .h { background: color-mix(in srgb, var(--c) 18%, var(--card)); font-weight: 700; display: grid; place-items: center; text-align: center; color: var(--ct); }
+.flynn .cell b { display: block; font: 700 1.3rem var(--display); color: var(--ct); }
+.flynn .cell small { color: var(--muted); display: block; margin-top: 2px; }
+@media (max-width: 560px) { .flynn { grid-template-columns: 70px 1fr 1fr; font-size: .85rem; } }
+.pyr { display: grid; gap: 4px; justify-items: center; max-width: 620px; margin: 8px 0; }
+.pyr div { padding: 10px 14px; text-align: center; border-radius: 8px; color: var(--ink); font-size: .92rem; background: color-mix(in srgb, var(--c) calc(14% + var(--k) * 12%), var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.pyr div b { font-family: var(--display); }
+.pyr-note { display: flex; justify-content: space-between; max-width: 620px; font-size: .82rem; color: var(--muted); }
+.steps-h { list-style: none; counter-reset: sh; margin: 8px 0; padding: 0; display: grid; gap: 8px; max-width: 820px; }
+.steps-h li { counter-increment: sh; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-size: .94rem; }
+.steps-h li::before { content: counter(sh); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.steps-h li.srv { margin-left: 28px; border-left: 5px solid var(--c); }
+.code { margin: 8px 0; padding: 12px 14px; overflow-x: auto; border-radius: 10px; background: color-mix(in srgb, var(--c) 8%, var(--card)); border: 1px solid var(--line); font: 500 .88rem/1.55 var(--mono); }
+.chips-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; padding: 0; list-style: none; }
+.chips-row li { padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); font-size: .9rem; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.two > div { padding: 12px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); font-size: .94rem; }
+.two h4 { font-size: 1.05rem; color: var(--ct); margin-bottom: 4px; }
+.two p { margin: 4px 0 0; }
+.tree { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.tree figure { margin: 0; padding: 10px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+.tree svg { width: 100%; height: auto; }
+.tree .n { fill: color-mix(in srgb, var(--c) 20%, var(--card)); stroke: var(--c); stroke-width: 1.6; }
+.tree .nm { fill: var(--c); }
+.tree text { fill: var(--ink); font: 600 12px var(--body); }
+.tree .ed { stroke: var(--c); stroke-width: 1.6; fill: none; opacity: .8; }
+.tree figcaption { font-size: .88rem; color: var(--muted); padding-top: 6px; }
+.calc { padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); }
+.calc .ctl { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 24px; }
+.calc label { display: flex; justify-content: space-between; font-weight: 600; font-size: .93rem; }
+.calc output { font-family: var(--mono); color: var(--ct); }
+.calc input[type=range] { width: 100%; min-height: 36px; accent-color: var(--c); }
+.calc .out { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.calc .out div { padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid var(--line); }
+.calc .out b { display: block; font: 700 1.5rem/1.1 var(--display); color: var(--ct); }
+.calc .out span { font-size: .82rem; color: var(--muted); }
+.calc svg { width: 100%; height: auto; display: block; }
+.calc .ax { stroke: var(--line); stroke-width: 1; }
+.calc .tick { fill: var(--muted); font: 500 11px var(--mono); }
+.calc .c-ideal { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+.calc .c-am { stroke: var(--warn); stroke-width: 2.6; fill: none; }
+.calc .c-gu { stroke: var(--c); stroke-width: 2.6; fill: none; }
+.calc .pt-am { fill: var(--warn); } .calc .pt-gu { fill: var(--c); }
+.calc .lg { font: 600 12px var(--body); fill: var(--ink); }
+.calc .note { font-size: .86rem; color: var(--muted); margin: 6px 0 0; }
+.tl li, .two > div, .layers .l span, .steps-h li span, .chips-row li { min-width: 0; overflow-wrap: anywhere; }
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <a class="back" href="../">&larr; All subjects</a>
+  <p class="eyebrow">CST435 Parallel and Cloud Computing · Test notes</p>
+  <h1>Topics 1 to 5, as one story</h1>
+  <p class="lead">Every topic exists because the one before it left a gap. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>
+  <nav class="jump" aria-label="Jump to a section"><a class="w1" href="#week-1">Topic 1</a><a class="w2" href="#week-2">Topic 2</a><a class="w3" href="#week-3">Topic 3</a><a class="w4" href="#week-4">Topic 4</a><a class="w5" href="#week-5">Topic 5</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
+</header>
+<main>
+<section id="story" class="band">
+  <h2 class="sec">Previously on Parallel and Cloud Computing</h2>
+  <p class="small">Tap a card to jump to that topic. Read the "But then" line, then the next card's "Problem": they are the same sentence.</p>
+  <ol class="story"><li class="w1"><a href="#week-1"><span class="wk">Topic 1</span><h3>Why one core stopped being enough</h3><p><b>Problem</b>Clock speed hit heat and power limits even though transistors kept multiplying.</p><p><b>Fix</b>Multi-core chips, parallel and distributed computing, plus speedup, efficiency and scalability to judge them.</p><p class="but"><b>But then</b>Owning big parallel machines is costly. What if you rent them?</p></a></li><li class="w2"><a href="#week-2"><span class="wk">Topic 2</span><h3>Rent computing instead of owning it</h3><p><b>Problem</b>Hardware sized for peak load sits idle most of the time.</p><p><b>Fix</b>Cloud computing: on-demand, pooled, metered. IaaS, PaaS and SaaS; public, private, community, hybrid.</p><p class="but"><b>But then</b>Whatever you rent, speed depends on how the hardware is built.</p></a></li><li class="w3"><a href="#week-3"><span class="wk">Topic 3</span><h3>Inside a parallel machine</h3><p><b>Problem</b>You need to know how caches, pipelines and many cores really work together.</p><p><b>Fix</b>Memory hierarchy, ILP, Flynn taxonomy, shared and distributed memory, interconnects, cache coherence.</p><p class="but"><b>But then</b>Hardware offers parallelism, but only software can use it.</p></a></li><li class="w4"><a href="#week-4"><span class="wk">Topic 4</span><h3>The burden moves to software</h3><p><b>Problem</b>Serial programs do not speed up on their own and compilers cannot parallelise well.</p><p><b>Fix</b>Parallel algorithms, task and data parallelism, coordination, speedup laws and overhead analysis.</p><p class="but"><b>But then</b>Separate processes with separate memory must talk to each other.</p></a></li><li class="w5"><a href="#week-5"><span class="wk">Topic 5</span><h3>How processes talk</h3><p><b>Problem</b>Distributed-memory processes can only cooperate by sending messages.</p><p><b>Fix</b>MPI, request-reply, RPC, RMI, gRPC, group communication, publish-subscribe and message queues.</p><p class="but"><b>But then</b>Next in the course: writing real code with Pthreads, OpenMP, MPI and CUDA.</p></a></li></ol>
+</section>
+
+<section id="week-1" class="week w1">
+  <div class="week-head"><span class="wk">Topic 1</span><h2>Parallel and distributed computing</h2><p class="blurb">Why one fast core stopped being enough.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Single-core clock speeds hit heat and power limits, though transistor counts kept growing.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Put many cores on a chip, and study parallel and distributed computing with speedup, efficiency and scalability.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Owning large parallel machines is expensive. What if you rent computing instead?</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 548" role="img" aria-label="Mind map of Topic 1: why parallel and distributed computing, metrics and scalability" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 274.0 C470.5 274.0 470.5 88.0 447.0 88.0"/><rect class="mm-branch" x="269.0" y="72.0" width="178.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="92.6" text-anchor="middle">Why one core stalled</text><path class="mm-link thin" d="M269.0 88.0 C253.5 88.0 253.5 47.5 238.0 47.5"/><circle class="mm-dot" cx="238.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="226.0" y="51.9" text-anchor="end">Clock speed hit heat limits</text><path class="mm-link thin" d="M269.0 88.0 C253.5 88.0 253.5 74.5 238.0 74.5"/><circle class="mm-dot" cx="238.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="226.0" y="78.9" text-anchor="end">Deep pipelines run hot</text><path class="mm-link thin" d="M269.0 88.0 C253.5 88.0 253.5 101.5 238.0 101.5"/><circle class="mm-dot" cx="238.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="226.0" y="105.9" text-anchor="end">Design and testing too hard</text><path class="mm-link thin" d="M269.0 88.0 C253.5 88.0 253.5 128.5 238.0 128.5"/><circle class="mm-dot" cx="238.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="226.0" y="132.9" text-anchor="end">Moore: transistors still grow</text><path class="mm-link" d="M494.0 274.0 C466.8 274.0 466.8 212.0 439.5 212.0"/><rect class="mm-branch" x="276.5" y="196.0" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="216.6" text-anchor="middle">The multi-core fix</text><path class="mm-link thin" d="M276.5 212.0 C257.2 212.0 257.2 171.5 238.0 171.5"/><circle class="mm-dot" cx="238.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="226.0" y="175.9" text-anchor="end">Many cores on one chip (CMP)</text><path class="mm-link thin" d="M276.5 212.0 C257.2 212.0 257.2 198.5 238.0 198.5"/><circle class="mm-dot" cx="238.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="226.0" y="202.9" text-anchor="end">2x cores, 1/2 clock = 1/4 power</text><path class="mm-link thin" d="M276.5 212.0 C257.2 212.0 257.2 225.5 238.0 225.5"/><circle class="mm-dot" cx="238.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="226.0" y="229.9" text-anchor="end">Hyper-threading: 2 threads/core</text><path class="mm-link thin" d="M276.5 212.0 C257.2 212.0 257.2 252.5 238.0 252.5"/><circle class="mm-dot" cx="238.0" cy="252.5" r="4.2"/><text class="mm-leaf" x="226.0" y="256.9" text-anchor="end">Every machine becomes parallel</text><path class="mm-link" d="M494.0 274.0 C476.1 274.0 476.1 336.0 458.2 336.0"/><rect class="mm-branch" x="257.8" y="320.0" width="200.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="340.6" text-anchor="middle">Parallel vs distributed</text><path class="mm-link thin" d="M257.8 336.0 C247.9 336.0 247.9 295.5 238.0 295.5"/><circle class="mm-dot" cx="238.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="226.0" y="299.9" text-anchor="end">Parallel: faster, tightly coupled</text><path class="mm-link thin" d="M257.8 336.0 C247.9 336.0 247.9 322.5 238.0 322.5"/><circle class="mm-dot" cx="238.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="226.0" y="326.9" text-anchor="end">Distributed: share resources</text><path class="mm-link thin" d="M257.8 336.0 C247.9 336.0 247.9 349.5 238.0 349.5"/><circle class="mm-dot" cx="238.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="226.0" y="353.9" text-anchor="end">Fine grain vs coarse grain</text><path class="mm-link thin" d="M257.8 336.0 C247.9 336.0 247.9 376.5 238.0 376.5"/><circle class="mm-dot" cx="238.0" cy="376.5" r="4.2"/><text class="mm-leaf" x="226.0" y="380.9" text-anchor="end">Homogeneous vs heterogeneous</text><path class="mm-link" d="M494.0 274.0 C457.4 274.0 457.4 460.0 420.8 460.0"/><rect class="mm-branch" x="295.2" y="444.0" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="464.6" text-anchor="middle">Design basics</text><path class="mm-link thin" d="M295.2 460.0 C266.6 460.0 266.6 419.5 238.0 419.5"/><circle class="mm-dot" cx="238.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="226.0" y="423.9" text-anchor="end">Distributed memory: messages</text><path class="mm-link thin" d="M295.2 460.0 C266.6 460.0 266.6 446.5 238.0 446.5"/><circle class="mm-dot" cx="238.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="226.0" y="450.9" text-anchor="end">Shared memory: race conditions</text><path class="mm-link thin" d="M295.2 460.0 C266.6 460.0 266.6 473.5 238.0 473.5"/><circle class="mm-dot" cx="238.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="226.0" y="477.9" text-anchor="end">Partition: data, task, model</text><path class="mm-link thin" d="M295.2 460.0 C266.6 460.0 266.6 500.5 238.0 500.5"/><circle class="mm-dot" cx="238.0" cy="500.5" r="4.2"/><text class="mm-leaf" x="226.0" y="504.9" text-anchor="end">Communicate, sync, balance load</text><path class="mm-link" d="M666.0 274.0 C695.1 274.0 695.1 115.0 724.2 115.0"/><rect class="mm-branch" x="724.2" y="99.0" width="155.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="119.6" text-anchor="middle">Parallel machines</text><path class="mm-link thin" d="M879.8 115.0 C900.9 115.0 900.9 88.0 922.0 88.0"/><circle class="mm-dot" cx="922.0" cy="88.0" r="4.2"/><text class="mm-leaf" x="934.0" y="92.4" text-anchor="start">Cluster of PCs</text><path class="mm-link thin" d="M879.8 115.0 C900.9 115.0 900.9 115.0 922.0 115.0"/><circle class="mm-dot" cx="922.0" cy="115.0" r="4.2"/><text class="mm-leaf" x="934.0" y="119.4" text-anchor="start">Shared-memory multiprocessor</text><path class="mm-link thin" d="M879.8 115.0 C900.9 115.0 900.9 142.0 922.0 142.0"/><circle class="mm-dot" cx="922.0" cy="142.0" r="4.2"/><text class="mm-leaf" x="934.0" y="146.4" text-anchor="start">Chip multi-processor (CMP)</text><path class="mm-link" d="M666.0 274.0 C713.9 274.0 713.9 225.5 761.8 225.5"/><rect class="mm-branch" x="761.8" y="209.5" width="80.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="230.1" text-anchor="middle">Metrics</text><path class="mm-link thin" d="M842.2 225.5 C882.1 225.5 882.1 185.0 922.0 185.0"/><circle class="mm-dot" cx="922.0" cy="185.0" r="4.2"/><text class="mm-leaf" x="934.0" y="189.4" text-anchor="start">Speedup = T(1) / T(p)</text><path class="mm-link thin" d="M842.2 225.5 C882.1 225.5 882.1 212.0 922.0 212.0"/><circle class="mm-dot" cx="922.0" cy="212.0" r="4.2"/><text class="mm-leaf" x="934.0" y="216.4" text-anchor="start">Efficiency = S / p</text><path class="mm-link thin" d="M842.2 225.5 C882.1 225.5 882.1 239.0 922.0 239.0"/><circle class="mm-dot" cx="922.0" cy="239.0" r="4.2"/><text class="mm-leaf" x="934.0" y="243.4" text-anchor="start">Cost = p x T(p)</text><path class="mm-link thin" d="M842.2 225.5 C882.1 225.5 882.1 266.0 922.0 266.0"/><circle class="mm-dot" cx="922.0" cy="266.0" r="4.2"/><text class="mm-leaf" x="934.0" y="270.4" text-anchor="start">Computation-to-comm ratio</text><path class="mm-link" d="M666.0 274.0 C706.4 274.0 706.4 336.0 746.8 336.0"/><rect class="mm-branch" x="746.8" y="320.0" width="110.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="340.6" text-anchor="middle">Scalability</text><path class="mm-link thin" d="M857.2 336.0 C889.6 336.0 889.6 309.0 922.0 309.0"/><circle class="mm-dot" cx="922.0" cy="309.0" r="4.2"/><text class="mm-leaf" x="934.0" y="313.4" text-anchor="start">Strong: fixed input size</text><path class="mm-link thin" d="M857.2 336.0 C889.6 336.0 889.6 336.0 922.0 336.0"/><circle class="mm-dot" cx="922.0" cy="336.0" r="4.2"/><text class="mm-leaf" x="934.0" y="340.4" text-anchor="start">Weak: input grows with p</text><path class="mm-link thin" d="M857.2 336.0 C889.6 336.0 889.6 363.0 922.0 363.0"/><circle class="mm-dot" cx="922.0" cy="363.0" r="4.2"/><text class="mm-leaf" x="934.0" y="367.4" text-anchor="start">Sub, linear, super-linear</text><path class="mm-link" d="M666.0 274.0 C708.2 274.0 708.2 433.0 750.5 433.0"/><rect class="mm-branch" x="750.5" y="417.0" width="103.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="437.6" text-anchor="middle">HPC trends</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 406.0 922.0 406.0"/><circle class="mm-dot" cx="922.0" cy="406.0" r="4.2"/><text class="mm-leaf" x="934.0" y="410.4" text-anchor="start">TOP500 ranks by LINPACK</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 433.0 922.0 433.0"/><circle class="mm-dot" cx="922.0" cy="433.0" r="4.2"/><text class="mm-leaf" x="934.0" y="437.4" text-anchor="start">Green500 adds power use</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 460.0 922.0 460.0"/><circle class="mm-dot" cx="922.0" cy="460.0" r="4.2"/><text class="mm-leaf" x="934.0" y="464.4" text-anchor="start">MPI + OpenMP + CUDA hybrid</text><rect class="mm-center" x="494.0" y="242.0" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="279.0" text-anchor="middle">Why Parallel?</text></svg></div>
+  
+  <h3>The road to multi-core</h3>
+  <ol class="tl">
+    <li><b>Vacuum tubes</b><span>Early machines, huge and slow.</span></li>
+    <li><b>Transistors</b><span>Smaller, cheaper, more reliable.</span></li>
+    <li><b>Integrated circuit</b><span>A CPU on one chip: the microprocessor (8080 up to Pentium 4).</span></li>
+    <li><b>Clock wall</b><span>Higher frequency means more heat and power, so single-core speed stalls.</span></li>
+    <li><b>Multi-core</b><span>Use extra transistors for more cores instead (CMP).</span></li>
+  </ol>
+  <p class="small"><b>Moore's law (as the slides state it):</b> transistor density doubles roughly every 18 months. More transistors kept arriving, but they could no longer be spent on a faster clock.</p>
+  <div class="tbl-wrap"><table><thead><tr><th></th><th>AMD ('05)</th><th>Intel ('06)</th><th>IBM ('04)</th><th>Sun ('07)</th></tr></thead><tbody>
+  <tr><th>Processors per chip</th><td>2</td><td>2</td><td>2</td><td>8</td></tr>
+  <tr><th>Threads per processor</th><td>1</td><td>2</td><td>2</td><td>16</td></tr>
+  <tr><th>Threads per chip</th><td>2</td><td>4</td><td>4</td><td>128</td></tr></tbody></table></div>
+  <h3>Parallel vs distributed</h3>
+  <div class="tbl-wrap"><table><thead><tr><th></th><th>Parallel system</th><th>Distributed system</th></tr></thead><tbody>
+  <tr><th>Goal</th><td>Faster execution of one application</td><td>Sharing resources, higher throughput</td></tr>
+  <tr><th>Grain size</th><td>Fine</td><td>Coarse</td></tr>
+  <tr><th>Architecture</th><td>Tightly coupled, homogeneous, may share memory</td><td>Loosely coupled, heterogeneous, no shared memory</td></tr>
+  <tr><th>Concern</th><td>Splitting one job across processors</td><td>Hiding internals behind a single system image</td></tr></tbody></table></div>
+  <p class="small">They overlap: both use many processors on a network, with several activities running and cooperating at once. Shared research issues: interprocess communication, resource management, scheduling and load balancing, grain size.</p>
+  <h3>Worked example: summing 1024 numbers</h3>
+  <p class="small">PE#0 holds the whole array and splits it by sending halves to other PEs. Serial time is 1023 additions. Each addition costs 1 time unit and each send costs 3. Notice that speedup rises with p, but efficiency falls because communication grows.</p>
+  <div class="bars" role="table" aria-label="Summation example: speedup against ideal">
+    <div class="row" role="row"><span>p = 2</span><span class="track"><span class="fill" style="width:98.75%"></span><span class="ideal" style="left:100%"></span></span><span>speedup 1.975 · eff. 98.75%</span></div>
+    <div class="row" role="row"><span>p = 4</span><span class="track"><span class="fill" style="width:95.07%"></span><span class="ideal" style="left:100%"></span></span><span>speedup 3.803 · eff. 95.07%</span></div>
+    <div class="row" role="row"><span>p = 8</span><span class="track"><span class="fill" style="width:86%"></span><span class="ideal" style="left:100%"></span></span><span>speedup 6.91 · eff. 86%</span></div>
+  </div>
+  <p class="small">Bar length = efficiency (speedup divided by p). The dark line is ideal linear speedup. Runtimes were 518, 269 and 148 time units.</p>
+  <h3>Strong vs weak scalability</h3>
+  <div class="two"><div><h4>Strong scalability</h4><p>Vary the number of processors, <b>keep the input size fixed</b> (the slides use n = 1024 and p from 1 to 512).</p></div>
+  <div><h4>Weak scalability</h4><p>Vary the number of processors <b>and grow the input with them</b> (n = 1024 × p).</p></div></div>
+  <h3>Parallelism basics</h3>
+  <div class="two"><div><h4>Distributed memory</h4><p>Each process has its own memory. Cooperate by <b>point-to-point</b> or <b>collective</b> messages over an interconnection network (example: MPI). Partition the data across processes. PGAS mixes this with a global address space.</p></div>
+  <div><h4>Shared memory</h4><p>Cores share one main memory over a bus or crossbar, as in multi-core CPUs. Risks: <b>race conditions</b> and keeping caches coherent (cache-coherent NUMA). Examples: Pthreads, OpenMP, CUDA.</p></div></div>
+  <p class="small"><b>Designing a parallel program means deciding:</b> how to partition (data, task or model parallelism), how to communicate, how to synchronise, and how to balance load.</p>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Moore's law</dt><dd>Transistor density doubles roughly every 18 months (as the slides state it).</dd></div><div><dt>Multi-core / CMP</dt><dd>Several processor cores replicated on a single die and socket. Also called Chip Multi-Processor.</dd></div><div><dt>Hyper-Threading</dt><dd>Two threads execute at the same time on one core, so the OS sees two logical processors.</dd></div><div><dt>Parallel computing</dt><dd>Using multiple processors together to solve a problem faster than one processor could.</dd></div><div><dt>Examples of parallel machines</dt><dd>A cluster of PCs on a fast network, a shared-memory multiprocessor (SMP), and a chip multi-processor (CMP).</dd></div><div><dt>Distributed system</dt><dd>Autonomous computers interconnected so they cooperate and share resources. Examples: cluster, grid.</dd></div><div><dt>Speedup</dt><dd>T(1) / T(p): single-processor time over p-processor time. Sub-linear (< p), linear (≈ p), super-linear (> p, rare).</dd></div><div><dt>Efficiency</dt><dd>Speedup divided by p. How usefully each processor is kept busy.</dd></div><div><dt>Cost</dt><dd>Run time T(p) multiplied by p.</dd></div><div><dt>Computation-to-communication ratio</dt><dd>Time spent computing divided by time spent sending messages. Higher means better speedup and efficiency.</dd></div><div><dt>Strong / weak scalability</dt><dd>Fixed input size with more processors / input grows with the processors.</dd></div><div><dt>TOP500 and LINPACK</dt><dd>TOP500 ranks HPC systems by LINPACK (solving a dense linear system A·x = b, in GFlop/s). Green500 ranks by power efficiency.</dd></div><div><dt>HPC trend</dt><dd>1993: CM5/1025, 5.9 GFlop/s, 1025 cores. 2016: Sunway TaihuLight, about 93 million GFlop/s, 10 million cores (six orders of magnitude). Modern HPC is hybrid: MPI between nodes, OpenMP inside a node, GPUs (CUDA) as accelerators.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Why did the industry move to multi-core instead of just making one core faster?</summary><div class="ans"><p>Clock frequency was getting hard to raise: deeply pipelined circuits run hot, the power draw and cooling costs grow, and designing and verifying such chips needs huge teams. Meanwhile more transistors kept arriving, so the spare transistors went into <b>more cores</b>. Doubling the cores while halving the frequency keeps the same performance at about a quarter of the power. Many applications were also already multithreaded.</p></div></details><details class="qa"><summary><span class="qn">2</span>In the summation example (n = 1024) the serial time is 1023 and the 8-PE run takes 148. Find the speedup and efficiency, and say why efficiency is lower than with 2 PEs.</summary><div class="ans"><ul><li><b>Speedup</b> = 1023 / 148 ≈ <b>6.91</b>.</li><li><b>Efficiency</b> = 6.91 / 8 ≈ <b>86%</b> (with 2 PEs it was 98.75%).</li>
+ <li><b>Why:</b> more PEs means more distribution steps, each costing communication time (3 units per send), so a larger share of the run is communication instead of useful addition. The computation-to-communication ratio drops.</li></ul></div></details><details class="qa"><summary><span class="qn">3</span>Quiz from the slides: machine A does 10 jobs/hour at $100/hour, machine B does 2 jobs/hour at $15/hour, and finishing earlier saves $6 per hour. You have 10 jobs. Which machine?</summary><div class="ans"><p>My working (the slide gives no answer, so treat this as my reading):</p><ul><li><b>A:</b> 10 jobs take 1 hour, cost $100.</li><li><b>B:</b> 10 jobs take 5 hours, cost 5 × $15 = $75.</li>
+ <li>A finishes 4 hours sooner, worth 4 × $6 = $24. So A's effective cost is $100 − $24 = <b>$76</b> against B's <b>$75</b>.</li></ul>
+ <p>It is almost a tie, with B just $1 cheaper. A is better if finishing early matters more than the saving. The point is that price per hour alone is the wrong measure: you must compare <b>price per job including time saved</b> (the price/performance idea).</p></div></details>
+</section>
+<section id="week-2" class="week w2">
+  <div class="week-head"><span class="wk">Topic 2</span><h2>Cloud computing</h2><p class="blurb">Rent computing like electricity.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Hardware sized for peak load sits mostly idle, and buying it needs a big upfront spend.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Cloud computing: on-demand, pooled, metered resources delivered as IaaS, PaaS or SaaS on public, private, community or hybrid clouds.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Whatever you rent, its speed depends on how the hardware is built.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 645" role="img" aria-label="Mind map of Topic 2: cloud computing history, characteristics, service and deployment models" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 322.5 C463.0 322.5 463.0 123.0 432.0 123.0"/><rect class="mm-branch" x="284.0" y="107.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="127.6" text-anchor="middle">Idea and history</text><path class="mm-link thin" d="M284.0 123.0 C261.0 123.0 261.0 82.5 238.0 82.5"/><circle class="mm-dot" cx="238.0" cy="82.5" r="4.2"/><text class="mm-leaf" x="226.0" y="86.9" text-anchor="end">Computing as a public utility</text><path class="mm-link thin" d="M284.0 123.0 C261.0 123.0 261.0 109.5 238.0 109.5"/><circle class="mm-dot" cx="238.0" cy="109.5" r="4.2"/><text class="mm-leaf" x="226.0" y="113.9" text-anchor="end">Parkhill 1966: computer utility</text><path class="mm-link thin" d="M284.0 123.0 C261.0 123.0 261.0 136.5 238.0 136.5"/><circle class="mm-dot" cx="238.0" cy="136.5" r="4.2"/><text class="mm-leaf" x="226.0" y="140.9" text-anchor="end">Telecom VPNs gave the cloud icon</text><path class="mm-link thin" d="M284.0 123.0 C261.0 123.0 261.0 163.5 238.0 163.5"/><circle class="mm-dot" cx="238.0" cy="163.5" r="4.2"/><text class="mm-leaf" x="226.0" y="167.9" text-anchor="end">AWS 2006 from idle capacity</text><path class="mm-link" d="M494.0 322.5 C472.4 322.5 472.4 247.0 450.8 247.0"/><rect class="mm-branch" x="265.2" y="231.0" width="185.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="251.6" text-anchor="middle">Enabling technologies</text><path class="mm-link thin" d="M265.2 247.0 C251.6 247.0 251.6 206.5 238.0 206.5"/><circle class="mm-dot" cx="238.0" cy="206.5" r="4.2"/><text class="mm-leaf" x="226.0" y="210.9" text-anchor="end">Grid and cluster computing</text><path class="mm-link thin" d="M265.2 247.0 C251.6 247.0 251.6 233.5 238.0 233.5"/><circle class="mm-dot" cx="238.0" cy="233.5" r="4.2"/><text class="mm-leaf" x="226.0" y="237.9" text-anchor="end">Utility computing</text><path class="mm-link thin" d="M265.2 247.0 C251.6 247.0 251.6 260.5 238.0 260.5"/><circle class="mm-dot" cx="238.0" cy="260.5" r="4.2"/><text class="mm-leaf" x="226.0" y="264.9" text-anchor="end">Virtualization</text><path class="mm-link thin" d="M265.2 247.0 C251.6 247.0 251.6 287.5 238.0 287.5"/><circle class="mm-dot" cx="238.0" cy="287.5" r="4.2"/><text class="mm-leaf" x="226.0" y="291.9" text-anchor="end">Service-oriented architecture</text><path class="mm-link" d="M494.0 322.5 C464.9 322.5 464.9 384.5 435.8 384.5"/><rect class="mm-branch" x="280.2" y="368.5" width="155.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="389.1" text-anchor="middle">5 characteristics</text><path class="mm-link thin" d="M280.2 384.5 C259.1 384.5 259.1 330.5 238.0 330.5"/><circle class="mm-dot" cx="238.0" cy="330.5" r="4.2"/><text class="mm-leaf" x="226.0" y="334.9" text-anchor="end">On-demand self-service</text><path class="mm-link thin" d="M280.2 384.5 C259.1 384.5 259.1 357.5 238.0 357.5"/><circle class="mm-dot" cx="238.0" cy="357.5" r="4.2"/><text class="mm-leaf" x="226.0" y="361.9" text-anchor="end">Broad network access</text><path class="mm-link thin" d="M280.2 384.5 C259.1 384.5 259.1 384.5 238.0 384.5"/><circle class="mm-dot" cx="238.0" cy="384.5" r="4.2"/><text class="mm-leaf" x="226.0" y="388.9" text-anchor="end">Resource pooling</text><path class="mm-link thin" d="M280.2 384.5 C259.1 384.5 259.1 411.5 238.0 411.5"/><circle class="mm-dot" cx="238.0" cy="411.5" r="4.2"/><text class="mm-leaf" x="226.0" y="415.9" text-anchor="end">Rapid elasticity</text><path class="mm-link thin" d="M280.2 384.5 C259.1 384.5 259.1 438.5 238.0 438.5"/><circle class="mm-dot" cx="238.0" cy="438.5" r="4.2"/><text class="mm-leaf" x="226.0" y="442.9" text-anchor="end">Measured service</text><path class="mm-link" d="M494.0 322.5 C449.9 322.5 449.9 522.0 405.8 522.0"/><rect class="mm-branch" x="310.2" y="506.0" width="95.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="526.6" text-anchor="middle">Economics</text><path class="mm-link thin" d="M310.2 522.0 C274.1 522.0 274.1 481.5 238.0 481.5"/><circle class="mm-dot" cx="238.0" cy="481.5" r="4.2"/><text class="mm-leaf" x="226.0" y="485.9" text-anchor="end">CapEx becomes OpEx</text><path class="mm-link thin" d="M310.2 522.0 C274.1 522.0 274.1 508.5 238.0 508.5"/><circle class="mm-dot" cx="238.0" cy="508.5" r="4.2"/><text class="mm-leaf" x="226.0" y="512.9" text-anchor="end">Utility or subscription billing</text><path class="mm-link thin" d="M310.2 522.0 C274.1 522.0 274.1 535.5 238.0 535.5"/><circle class="mm-dot" cx="238.0" cy="535.5" r="4.2"/><text class="mm-leaf" x="226.0" y="539.9" text-anchor="end">May cost more in the long run</text><path class="mm-link thin" d="M310.2 522.0 C274.1 522.0 274.1 562.5 238.0 562.5"/><circle class="mm-dot" cx="238.0" cy="562.5" r="4.2"/><text class="mm-leaf" x="226.0" y="566.9" text-anchor="end">SLA with penalties</text><path class="mm-link" d="M666.0 322.5 C700.8 322.5 700.8 74.5 735.5 74.5"/><rect class="mm-branch" x="735.5" y="58.5" width="133.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="79.1" text-anchor="middle">Service models</text><path class="mm-link thin" d="M868.5 74.5 C895.2 74.5 895.2 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">IaaS: Amazon EC2</text><path class="mm-link thin" d="M868.5 74.5 C895.2 74.5 895.2 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">PaaS: App Engine, Azure</text><path class="mm-link thin" d="M868.5 74.5 C895.2 74.5 895.2 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">SaaS: Sales Cloud, web apps</text><path class="mm-link" d="M666.0 322.5 C695.1 322.5 695.1 185.0 724.2 185.0"/><rect class="mm-branch" x="724.2" y="169.0" width="155.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="189.6" text-anchor="middle">Deployment models</text><path class="mm-link thin" d="M879.8 185.0 C900.9 185.0 900.9 144.5 922.0 144.5"/><circle class="mm-dot" cx="922.0" cy="144.5" r="4.2"/><text class="mm-leaf" x="934.0" y="148.9" text-anchor="start">Public cloud</text><path class="mm-link thin" d="M879.8 185.0 C900.9 185.0 900.9 171.5 922.0 171.5"/><circle class="mm-dot" cx="922.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="934.0" y="175.9" text-anchor="start">Private (on-premise or hosted)</text><path class="mm-link thin" d="M879.8 185.0 C900.9 185.0 900.9 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Community: common vision</text><path class="mm-link thin" d="M879.8 185.0 C900.9 185.0 900.9 225.5 922.0 225.5"/><circle class="mm-dot" cx="922.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="934.0" y="229.9" text-anchor="start">Hybrid: two or more</text><path class="mm-link" d="M666.0 322.5 C700.8 322.5 700.8 309.0 735.5 309.0"/><rect class="mm-branch" x="735.5" y="293.0" width="133.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="313.6" text-anchor="middle">9 key features</text><path class="mm-link thin" d="M868.5 309.0 C895.2 309.0 895.2 268.5 922.0 268.5"/><circle class="mm-dot" cx="922.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="934.0" y="272.9" text-anchor="start">Agility, cost, multi-tenancy</text><path class="mm-link thin" d="M868.5 309.0 C895.2 309.0 895.2 295.5 922.0 295.5"/><circle class="mm-dot" cx="922.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="934.0" y="299.9" text-anchor="start">Device and location independence</text><path class="mm-link thin" d="M868.5 309.0 C895.2 309.0 895.2 322.5 922.0 322.5"/><circle class="mm-dot" cx="922.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="934.0" y="326.9" text-anchor="start">Reliability, scalability</text><path class="mm-link thin" d="M868.5 309.0 C895.2 309.0 895.2 349.5 922.0 349.5"/><circle class="mm-dot" cx="922.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="934.0" y="353.9" text-anchor="start">Security, maintenance, metering</text><path class="mm-link" d="M666.0 322.5 C708.2 322.5 708.2 433.0 750.5 433.0"/><rect class="mm-branch" x="750.5" y="417.0" width="103.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="437.6" text-anchor="middle">Challenges</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 392.5 922.0 392.5"/><circle class="mm-dot" cx="922.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="934.0" y="396.9" text-anchor="start">Control of data, vendor lock-in</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 419.5 922.0 419.5"/><circle class="mm-dot" cx="922.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="934.0" y="423.9" text-anchor="start">Network latency</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 446.5 922.0 446.5"/><circle class="mm-dot" cx="922.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="934.0" y="450.9" text-anchor="start">SLA compliance (providers)</text><path class="mm-link thin" d="M853.5 433.0 C887.8 433.0 887.8 473.5 922.0 473.5"/><circle class="mm-dot" cx="922.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="934.0" y="477.9" text-anchor="start">Proprietary APIs</text><path class="mm-link" d="M666.0 322.5 C693.2 322.5 693.2 557.0 720.5 557.0"/><rect class="mm-branch" x="720.5" y="541.0" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="561.6" text-anchor="middle">Adoption checklist</text><path class="mm-link thin" d="M883.5 557.0 C902.8 557.0 902.8 516.5 922.0 516.5"/><circle class="mm-dot" cx="922.0" cy="516.5" r="4.2"/><text class="mm-leaf" x="934.0" y="520.9" text-anchor="start">Deployment model</text><path class="mm-link thin" d="M883.5 557.0 C902.8 557.0 902.8 543.5 922.0 543.5"/><circle class="mm-dot" cx="922.0" cy="543.5" r="4.2"/><text class="mm-leaf" x="934.0" y="547.9" text-anchor="start">Application suitability</text><path class="mm-link thin" d="M883.5 557.0 C902.8 557.0 902.8 570.5 922.0 570.5"/><circle class="mm-dot" cx="922.0" cy="570.5" r="4.2"/><text class="mm-leaf" x="934.0" y="574.9" text-anchor="start">Financial advantage</text><path class="mm-link thin" d="M883.5 557.0 C902.8 557.0 902.8 597.5 922.0 597.5"/><circle class="mm-dot" cx="922.0" cy="597.5" r="4.2"/><text class="mm-leaf" x="934.0" y="601.9" text-anchor="start">Provider choice and SLA</text><rect class="mm-center" x="494.0" y="290.5" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="327.5" text-anchor="middle">Cloud Computing</text></svg></div>
+  
+  <h3>How the idea grew</h3>
+  <ol class="tl">
+    <li><b>1960s</b><span>John McCarthy: computation may someday be organised as a public utility.</span></li>
+    <li><b>1966</b><span>Douglas Parkhill, "The Challenge of the Computer Utility": elastic, online, public/private/community forms.</span></li>
+    <li><b>1990s</b><span>Telecoms switch from dedicated circuits to VPNs and balance traffic. The cloud symbol marks the provider/user boundary.</span></li>
+    <li><b>2006</b><span>Amazon sells spare data-centre capacity (often only ~10% used) as Amazon Web Services.</span></li>
+    <li><b>2007–08</b><span>Google, IBM and universities start research. Gartner sees a shift from owned assets to per-use services.</span></li>
+  </ol>
+  <h3>The five characteristics, and what they mean</h3>
+  <ul class="chips-row"><li><b>On-demand self-service</b></li><li><b>Broad network access</b></li><li><b>Resource pooling</b> (multi-tenancy)</li><li><b>Rapid elasticity</b></li><li><b>Measured service</b> (metering)</li></ul>
+  <p class="small">Enabling technologies behind them: grid computing, cluster computing, utility computing, virtualization and service-oriented architecture.</p>
+  <h3>Service models: who manages what</h3>
+  <div class="layers" aria-label="Cloud service models">
+    <div class="l"><b>SaaS<br><small>Application-as-a-service</small></b><span>You just use the finished application. Examples: Google web apps, CRM such as Salesforce Sales Cloud and Service Cloud.</span></div>
+    <div class="l"><b>PaaS</b><span>You deploy your own code on the provider's platform. Examples: Google App Engine, Microsoft Azure.</span></div>
+    <div class="l"><b>IaaS</b><span>You rent virtual infrastructure (servers, storage, network) and manage everything above it. Example: Amazon EC2.</span></div>
+  </div>
+  <p class="small">Memory hook: the higher up you go, the less you manage and the more the provider does.</p>
+  <h3>Deployment models</h3>
+  <div class="two">
+    <div><h4>Public cloud</h4><p>Run by a cloud provider and offered to the general public.</p></div>
+    <div><h4>Private cloud</h4><p>For one organisation, either on-premise or externally hosted.</p></div>
+    <div><h4>Community cloud</h4><p>Shared by organisations with a common vision.</p></div>
+    <div><h4>Hybrid cloud</h4><p>A combination of any two or more of the models above.</p></div>
+  </div>
+  <h3>Cloud layers (infrastructure)</h3>
+  <ul class="chips-row"><li>Physical infrastructure</li><li>Virtual infrastructure</li><li>Applications and platform software</li><li>Cloud management and service-creation tools</li></ul>
+  <h3>Money: CapEx to OpEx</h3>
+  <div class="two">
+    <div><h4>What you gain</h4><p>No upfront hardware purchase (<b>CapEx</b> becomes <b>OpEx</b>), pay only for use, low barriers to entry, shared costs, low management overhead, terminate any time, SLAs with financial penalties.</p></div>
+    <div><h4>What to watch</h4><p>You may save little and even <b>pay more in operating cost</b>. It makes less sense when the capital expense is small or the capital budget is more flexible than the operating budget. Savings depend on your data-centre efficiency, existing costs, adoption level and what you host.</p></div>
+  </div>
+  <p class="small"><b>Billing items providers charge for:</b> instances (extra for high-memory or high-CPU), data transfer in and out, storage (GB-month), I/O requests, PUT and GET requests, IP addresses, load balancing. Some let you bid on instances.</p>
+  <h3>Cloud is not the same as...</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>Related idea</th><th>One-line difference</th></tr></thead><tbody>
+   <tr><th>Autonomic computing</th><td>Systems that manage themselves</td></tr>
+   <tr><th>Client-server</th><td>Any application split into service providers and requesters</td></tr>
+   <tr><th>Grid computing</th><td>A virtual supercomputer from loosely coupled networked computers on very large tasks</td></tr>
+   <tr><th>Mainframe</th><td>Powerful machines for bulk critical work, such as census and finance</td></tr>
+   <tr><th>Utility computing</th><td>Computing sold as a metered service, like electricity</td></tr>
+   <tr><th>Peer-to-peer</th><td>No central coordination; each participant is both supplier and consumer</td></tr></tbody></table></div>
+  <h3>Challenges and adoption</h3>
+  <div class="two">
+    <div><h4>For consumers</h4><p>Control of data, data replication, network latency, unsupported applications, vendor lock-in.</p></div>
+    <div><h4>For providers</h4><p>SLA compliance, software licensing model, proprietary APIs.</p></div>
+    <div><h4>Before adopting, check</h4><p>Deployment model selection, application suitability, financial advantage, cloud provider selection, SLA.</p></div>
+  </div>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Cloud computing</dt><dd>Internet-based computing where shared resources, software and information are provided on demand, like the electricity grid.</dd></div><div><dt>Why "cloud"</dt><dd>A metaphor from network diagrams, where a cloud shape stood for the abstracted network. It marked the boundary of provider responsibility.</dd></div><div><dt>Elastic provisioning</dt><dd>Resources scale up and down on demand, so users need not engineer for peak load.</dd></div><div><dt>Multi-tenancy</dt><dd>Many users share the same resources and costs, which raises utilisation (systems are often only 10–20% utilised).</dd></div><div><dt>QoS and SLA</dt><dd>Quality of Service requirements, usually written into a Service Level Agreement.</dd></div><div><dt>Utility vs subscription billing</dt><dd>Utility: by resources consumed, like electricity. Subscription: by time, like a newspaper.</dd></div><div><dt>Agility</dt><dd>Rapidly and cheaply re-provisioning infrastructure: faster idea-to-cash, reduced risk of innovation.</dd></div><div><dt>Device and location independence</dt><dd>Access from any device and place through a web browser.</dd></div><div><dt>Reliability</dt><dd>Redundant sites support business continuity and disaster recovery, yet big providers still suffer outages.</dd></div><div><dt>Security</dt><dd>Can improve through centralisation and dedicated security resources, but control of sensitive data and audit-log access are concerns, and complexity rises as data spreads wider.</dd></div><div><dt>Maintenance</dt><dd>Applications need no installation on every user machine, and updates reach everyone instantly.</dd></div><div><dt>Metering</dt><dd>Usage measured per client and per application (daily to annually), which lets clients compare vendors on cost and QoS.</dd></div><div><dt>Nicholas Carr</dt><dd>Argues IT is becoming standardised and cheaper, like the move from private electricity generators to the grid.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Explain why cloud computing arose and what "CapEx to OpEx" means.</summary><div class="ans"><p>Data centres were built for peak demand and sat mostly idle (Amazon's ran at about 10%). Amazon found that a new, shared architecture brought big efficiency gains and began selling access as AWS in 2006. Customers gain the same advantage: they <b>rent</b> computing instead of buying it, so a large one-time <b>capital expenditure</b> on hardware becomes a pay-as-you-go <b>operating expenditure</b>. That lowers barriers to entry, but the long-run operating bill can end up higher.</p></div></details><details class="qa"><summary><span class="qn">2</span>Which service model or deployment model fits? (a) A start-up wants to upload its own web app without managing servers. (b) A team wants raw virtual machines. (c) A company uses an online CRM. (d) A bank keeps regulated data in its own data centre but uses a provider for peaks.</summary><div class="ans"><ul><li><b>(a) PaaS</b>, e.g. Google App Engine or Azure.</li><li><b>(b) IaaS</b>, e.g. Amazon EC2.</li><li><b>(c) SaaS</b>, e.g. Salesforce Sales Cloud.</li>
+ <li><b>(d) Hybrid cloud</b>: a private cloud for the regulated data plus a public cloud for peak load.</li></ul></div></details>
+</section>
+<section id="week-3" class="week w3">
+  <div class="week-head"><span class="wk">Topic 3</span><h2>Parallel architecture</h2><p class="blurb">What is really inside a parallel machine.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>To use parallel hardware well you must know how caches, pipelines and many cores cooperate.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Memory hierarchy, virtual memory, ILP, Flynn taxonomy, shared and distributed memory, interconnects and cache coherence.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Hardware offers parallelism, but only software can exploit it.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 521" role="img" aria-label="Mind map of Topic 3: memory hierarchy, ILP, Flynn taxonomy, shared and distributed memory, interconnects" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 260.5 C463.0 260.5 463.0 136.5 432.0 136.5"/><rect class="mm-branch" x="284.0" y="120.5" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="141.1" text-anchor="middle">Memory hierarchy</text><path class="mm-link thin" d="M284.0 136.5 C261.0 136.5 261.0 96.0 238.0 96.0"/><circle class="mm-dot" cx="238.0" cy="96.0" r="4.2"/><text class="mm-leaf" x="226.0" y="100.4" text-anchor="end">L1 fastest, L3 largest</text><path class="mm-link thin" d="M284.0 136.5 C261.0 136.5 261.0 123.0 238.0 123.0"/><circle class="mm-dot" cx="238.0" cy="123.0" r="4.2"/><text class="mm-leaf" x="226.0" y="127.4" text-anchor="end">Locality: spatial + temporal</text><path class="mm-link thin" d="M284.0 136.5 C261.0 136.5 261.0 150.0 238.0 150.0"/><circle class="mm-dot" cx="238.0" cy="150.0" r="4.2"/><text class="mm-leaf" x="226.0" y="154.4" text-anchor="end">Cache hit vs miss</text><path class="mm-link thin" d="M284.0 136.5 C261.0 136.5 261.0 177.0 238.0 177.0"/><circle class="mm-dot" cx="238.0" cy="177.0" r="4.2"/><text class="mm-leaf" x="226.0" y="181.4" text-anchor="end">Write-through vs write-back</text><path class="mm-link" d="M494.0 260.5 C459.2 260.5 459.2 260.5 424.5 260.5"/><rect class="mm-branch" x="291.5" y="244.5" width="133.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="265.1" text-anchor="middle">Virtual memory</text><path class="mm-link thin" d="M291.5 260.5 C264.8 260.5 264.8 220.0 238.0 220.0"/><circle class="mm-dot" cx="238.0" cy="220.0" r="4.2"/><text class="mm-leaf" x="226.0" y="224.4" text-anchor="end">Cache for secondary storage</text><path class="mm-link thin" d="M291.5 260.5 C264.8 260.5 264.8 247.0 238.0 247.0"/><circle class="mm-dot" cx="238.0" cy="247.0" r="4.2"/><text class="mm-leaf" x="226.0" y="251.4" text-anchor="end">Pages of 4 to 16 KB</text><path class="mm-link thin" d="M291.5 260.5 C264.8 260.5 264.8 274.0 238.0 274.0"/><circle class="mm-dot" cx="238.0" cy="274.0" r="4.2"/><text class="mm-leaf" x="226.0" y="278.4" text-anchor="end">Page table: virtual to physical</text><path class="mm-link thin" d="M291.5 260.5 C264.8 260.5 264.8 301.0 238.0 301.0"/><circle class="mm-dot" cx="238.0" cy="301.0" r="4.2"/><text class="mm-leaf" x="226.0" y="305.4" text-anchor="end">TLB caches page-table entries</text><path class="mm-link" d="M494.0 260.5 C472.4 260.5 472.4 384.5 450.8 384.5"/><rect class="mm-branch" x="265.2" y="368.5" width="185.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="389.1" text-anchor="middle">Inside one core (ILP)</text><path class="mm-link thin" d="M265.2 384.5 C251.6 384.5 251.6 344.0 238.0 344.0"/><circle class="mm-dot" cx="238.0" cy="344.0" r="4.2"/><text class="mm-leaf" x="226.0" y="348.4" text-anchor="end">Pipelining: stages</text><path class="mm-link thin" d="M265.2 384.5 C251.6 384.5 251.6 371.0 238.0 371.0"/><circle class="mm-dot" cx="238.0" cy="371.0" r="4.2"/><text class="mm-leaf" x="226.0" y="375.4" text-anchor="end">Multiple issue, superscalar</text><path class="mm-link thin" d="M265.2 384.5 C251.6 384.5 251.6 398.0 238.0 398.0"/><circle class="mm-dot" cx="238.0" cy="398.0" r="4.2"/><text class="mm-leaf" x="226.0" y="402.4" text-anchor="end">Speculation: guess, then undo</text><path class="mm-link thin" d="M265.2 384.5 C251.6 384.5 251.6 425.0 238.0 425.0"/><circle class="mm-dot" cx="238.0" cy="425.0" r="4.2"/><text class="mm-leaf" x="226.0" y="429.4" text-anchor="end">Hardware multithreading, SMT</text><path class="mm-link" d="M666.0 260.5 C700.8 260.5 700.8 88.0 735.5 88.0"/><rect class="mm-branch" x="735.5" y="72.0" width="133.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="92.6" text-anchor="middle">Flynn taxonomy</text><path class="mm-link thin" d="M868.5 88.0 C895.2 88.0 895.2 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">SISD: classic von Neumann</text><path class="mm-link thin" d="M868.5 88.0 C895.2 88.0 895.2 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">SIMD: vector units, GPUs</text><path class="mm-link thin" d="M868.5 88.0 C895.2 88.0 895.2 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">MISD: not commercial</text><path class="mm-link thin" d="M868.5 88.0 C895.2 88.0 895.2 128.5 922.0 128.5"/><circle class="mm-dot" cx="922.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="934.0" y="132.9" text-anchor="start">MIMD: multi-core, clusters</text><path class="mm-link" d="M666.0 260.5 C702.6 260.5 702.6 212.0 739.2 212.0"/><rect class="mm-branch" x="739.2" y="196.0" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="216.6" text-anchor="middle">Shared memory</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 171.5 922.0 171.5"/><circle class="mm-dot" cx="922.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="934.0" y="175.9" text-anchor="start">SMP; UMA vs NUMA</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Bus contention limits scale</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 225.5 922.0 225.5"/><circle class="mm-dot" cx="922.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="934.0" y="229.9" text-anchor="start">Cache coherence problem</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 252.5 922.0 252.5"/><circle class="mm-dot" cx="922.0" cy="252.5" r="4.2"/><text class="mm-leaf" x="934.0" y="256.9" text-anchor="start">Invalidate + snooping (MESI)</text><path class="mm-link" d="M666.0 260.5 C693.2 260.5 693.2 322.5 720.5 322.5"/><rect class="mm-branch" x="720.5" y="306.5" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="327.1" text-anchor="middle">Distributed memory</text><path class="mm-link thin" d="M883.5 322.5 C902.8 322.5 902.8 295.5 922.0 295.5"/><circle class="mm-dot" cx="922.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="934.0" y="299.9" text-anchor="start">Clusters, Beowulf</text><path class="mm-link thin" d="M883.5 322.5 C902.8 322.5 902.8 322.5 922.0 322.5"/><circle class="mm-dot" cx="922.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="934.0" y="326.9" text-anchor="start">Single system image</text><path class="mm-link thin" d="M883.5 322.5 C902.8 322.5 902.8 349.5 922.0 349.5"/><circle class="mm-dot" cx="922.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="934.0" y="353.9" text-anchor="start">Loosely coupled systems</text><path class="mm-link" d="M666.0 260.5 C702.6 260.5 702.6 433.0 739.2 433.0"/><rect class="mm-branch" x="739.2" y="417.0" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="437.6" text-anchor="middle">Interconnects</text><path class="mm-link thin" d="M864.8 433.0 C893.4 433.0 893.4 392.5 922.0 392.5"/><circle class="mm-dot" cx="922.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="934.0" y="396.9" text-anchor="start">Bus, crossbar (shared)</text><path class="mm-link thin" d="M864.8 433.0 C893.4 433.0 893.4 419.5 922.0 419.5"/><circle class="mm-dot" cx="922.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="934.0" y="423.9" text-anchor="start">Ring, mesh, hypercube (direct)</text><path class="mm-link thin" d="M864.8 433.0 C893.4 433.0 893.4 446.5 922.0 446.5"/><circle class="mm-dot" cx="922.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="934.0" y="450.9" text-anchor="start">Crossbar, omega (indirect)</text><path class="mm-link thin" d="M864.8 433.0 C893.4 433.0 893.4 473.5 922.0 473.5"/><circle class="mm-dot" cx="922.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="934.0" y="477.9" text-anchor="start">Diameter, bisection width</text><rect class="mm-center" x="494.0" y="228.5" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="256.5" text-anchor="middle">Parallel</text><text class="mm-ctxt" x="580.0" y="276.5" text-anchor="middle">Architecture</text></svg></div>
+  
+  <h3>Memory hierarchy: why caches work</h3>
+  <div class="pyr" aria-label="Memory hierarchy from fast and small to large and slow">
+    <div style="--k:0;width:34%"><b>L1 cache</b><br>smallest, fastest</div>
+    <div style="--k:1;width:50%"><b>L2 cache</b></div>
+    <div style="--k:2;width:66%"><b>L3 cache</b></div>
+    <div style="--k:3;width:82%"><b>Main memory</b></div>
+    <div style="--k:4;width:100%"><b>Secondary storage</b> (swap space for virtual memory)</div>
+  </div>
+  <div class="pyr-note"><span>faster, smaller</span><span>larger, slower</span></div>
+  <p class="small"><b>Principle of locality:</b> after touching one location you tend to touch a nearby one (<b>spatial</b>) or the same one again soon (<b>temporal</b>). Summing an array with a cache block of 16 reads 16 elements in one fetch, so 16 additions run before the next read. A <b>hit</b> is found in cache; a <b>miss</b> goes to a lower level. Write-through updates memory on every write; write-back marks the line <b>dirty</b> and writes it only when the line is replaced.</p>
+  <h3>Virtual memory in four steps</h3>
+  <ol class="tl">
+    <li><b>Too big</b><span>A program or its data may not fit in main memory.</span></li>
+    <li><b>Pages</b><span>Keep only active pages (4 to 16 KB) in memory; idle ones sit in swap space.</span></li>
+    <li><b>Page table</b><span>Maps virtual page numbers to physical addresses, but adds time to every access.</span></li>
+    <li><b>TLB</b><span>A small cache (16 to 512 entries) of page-table entries. A page fault means the page is only on disk.</span></li>
+  </ol>
+  <h3>Inside one core: instruction-level parallelism</h3>
+  <div class="bars" role="table" aria-label="1000 floating point additions">
+    <div class="row" role="row"><span>Not pipelined</span><span class="track"><span class="fill" style="width:100%"></span></span><span>7000 ns</span></div>
+    <div class="row" role="row"><span>7-stage pipeline</span><span class="track"><span class="fill" style="width:14.4%"></span></span><span>1006 ns</span></div>
+  </div>
+  <p class="small">One addition still takes 7 ns, but once the pipeline is full a result finishes every ns, so 1000 additions take about 1006 ns (7 to fill, then 999 more).</p>
+  <div class="two">
+    <div><h4>Pipelining</h4><p>Split a unit into stages; the output of one is the input of the next.</p></div>
+    <div><h4>Multiple issue</h4><p>Replicate functional units. <b>Static</b>: scheduled at compile time. <b>Dynamic</b> (superscalar): scheduled at run time.</p></div>
+    <div><h4>Speculation</h4><p>Guess an instruction's result (e.g. that z &gt; 0), run ahead, and recompute if the guess was wrong.</p></div>
+    <div><h4>Hardware multithreading</h4><p><b>Fine-grained</b>: switch every instruction, skipping stalled threads. <b>Coarse-grained</b>: switch only on long stalls. <b>SMT</b>: threads share the functional units at once.</p></div>
+  </div>
+  <p class="small">Riddle from the slides: the lake is half covered on <b>day 59</b>, because the area doubles each day and is full on day 60.</p>
+  <h3>Flynn's taxonomy</h3>
+  <div class="flynn" aria-label="Flynn taxonomy grid">
+    <div></div><div class="h">Single data stream</div><div class="h">Multiple data streams</div>
+    <div class="h">Single instruction stream</div><div class="cell"><b>SISD</b>Classic von Neumann, one processor<small>one instruction, one data item at a time</small></div><div class="cell"><b>SIMD</b>Vector computers, GPUs<small>synchronous, one thread of control</small></div>
+    <div class="h">Multiple instruction streams</div><div class="cell"><b>MISD</b>Pipeline; not commercially available<small>rare in practice</small></div><div class="cell"><b>MIMD</b>Multi-core, multiprocessors, distributed systems<small>asynchronous, many threads of control</small></div>
+  </div>
+  <p class="small"><b>Bank analogy:</b> tellers are processors, customers are tasks. <b>SIMD/SPMD:</b> accounts are split among tellers who all do the same thing in lockstep. <b>MIMD:</b> each teller processes a transaction her own way, and any shared data access is locked.</p>
+  <h3>SIMD, vectors and GPUs</h3>
+  <div class="two">
+    <div><h4>SIMD</h4><p>Same instruction on many data items (data parallelism). With <b>4 ALUs and 15 items</b> it takes 4 rounds (4+4+4+3). Drawbacks: ALUs must all do the same thing or idle, they need no instruction storage, and it suits big regular data problems only.</p></div>
+    <div><h4>Vector processors</h4><p>Vector registers, vectorised and pipelined units, <b>interleaved memory</b> banks, strided access, scatter/gather. <b>Pros:</b> fast, easy to use, vectorising compilers, high memory bandwidth. <b>Cons:</b> poor on irregular data, limited scalability.</p></div>
+    <div><h4>GPUs</h4><p>Graphics pipeline turns points, lines and triangles into pixels. Several stages are programmable <b>shader functions</b>, implicitly parallel. Current GPUs use SIMD parallelism, though they are not pure SIMD.</p></div>
+  </div>
+  <h3>Shared memory and the cache coherence problem</h3>
+  <p class="small">Shared-memory systems (SMP) let every processor reach every memory location through an interconnect. A bus does not scale well beyond about 64 processors because of <b>bus contention</b>.</p>
+  <div class="two">
+    <div><h4>UMA</h4><p>Uniform memory access: identical processors, <b>equal access time</b> to all memory. Typical SMP, also called CC-UMA.</p></div>
+    <div><h4>NUMA</h4><p>Non-uniform: often several SMPs linked; memory across the link is <b>slower</b>. With coherence maintained it is CC-NUMA.</p></div>
+  </div>
+  <ol class="steps-h" aria-label="Cache coherence problem, step by step">
+    <li><span>Core 1 reads <b>x = 15213</b> from main memory into its private cache.</span></li>
+    <li><span>Core 2 reads x too: both caches hold 15213.</span></li>
+    <li><span>Core 1 writes <b>x = 21660</b> (assume write-through, so memory also has 21660).</span></li>
+    <li><span>Core 2 reads x again from its own cache and gets the <b>stale 15213</b>. That is the coherence problem.</span></li>
+    <li class="srv"><span><b>Fix:</b> invalidation-based protocol with <b>snooping</b>. Core 1's write sends an invalidation over the inter-core bus, so Core 2's copy is marked INVALID and it must refetch.</span></li>
+  </ol>
+  <p class="small"><b>Invalidate vs update:</b> after several writes to one location, invalidation signals only once; update must broadcast every write with its new value. So invalidation usually produces less bus traffic and performs better. More refined protocols such as <b>MSI</b> and <b>MESI</b> (Modified, Exclusive, Shared, Invalid) add cache state bits. <b>Private caches</b> are closer and cause less contention; <b>shared caches</b> let threads share data and give one busy thread more space.</p>
+  <h3>Distributed memory and interconnects</h3>
+  <div class="two">
+    <div><h4>Cluster</h4><p>A collection of whole computers joined by a network and used as one unified resource with a <b>single system image</b>. Cheap, scalable, "typical" environment. <b>Beowulf</b> is a do-it-yourself Linux cluster of up to hundreds of nodes.</p></div>
+    <div><h4>Loosely coupled</h4><p>Whole computers (often heterogeneous) over TCP/IP. Suited to distributed applications, not parallel ones, unless very coarse-grained or trivially parallel.</p></div>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Network (p nodes)</th><th>Diameter</th><th>Bisection width</th><th>Links</th></tr></thead><tbody>
+   <tr><th>Fully connected</th><td>1</td><td>p²/4</td><td>p(p−1)/2</td></tr>
+   <tr><th>Star</th><td>2</td><td>1</td><td>p−1</td></tr>
+   <tr><th>Complete binary tree</th><td>2 lg((p+1)/2)</td><td>1</td><td>p−1</td></tr>
+   <tr><th>Linear array</th><td>p−1</td><td>1</td><td>p−1</td></tr>
+   <tr><th>Ring</th><td>(not filled on slide)</td><td>2</td><td>p</td></tr>
+   <tr><th>Hypercube</th><td>log p</td><td>p/2</td><td>(p log p)/2</td></tr></tbody></table></div>
+  <p class="small"><b>Shared-memory interconnects:</b> a <b>bus</b> (cheap, but contention grows with devices) or a <b>crossbar</b> switch (simultaneous communication, faster, but costly). <b>Distributed-memory:</b> <b>direct</b> (ring, toroidal mesh, fully connected, hypercube built by joining two lower-dimension cubes) or <b>indirect</b> (crossbar, omega network). <b>Bisection width</b> is the number of simultaneous communications possible across the divide when the machine is split in half; bisection bandwidth is the data rate across it.</p>
+  <h3>Taxonomy in one tree</h3>
+  <p class="small">Parallel computers split into <b>SIMD</b> (vector, GPU) and <b>MIMD</b> (pipeline-style systems, multiprocessors with shared memory such as SMP and multicore, and loosely coupled multicomputers with distributed memory such as clusters).</p>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Multitasking</dt><dd>Illusion of running many programs on one processor: each process takes a time slice, then waits.</dd></div><div><dt>Thread</dt><dd>A unit of work inside a process. When one thread blocks, another can run. A master thread starts threads (forking) and waits for them (joining).</dd></div><div><dt>Cache</dt><dd>Memory reachable faster than main memory, usually on the CPU chip.</dd></div><div><dt>Spatial / temporal locality</dt><dd>Next access is near this one / this location is accessed again soon.</dd></div><div><dt>Write-through / write-back</dt><dd>Update memory on every write / mark the line dirty and write on replacement.</dd></div><div><dt>Virtual memory</dt><dd>Main memory acting as a cache for secondary storage, holding only active pages.</dd></div><div><dt>Page table / TLB / page fault</dt><dd>Maps virtual to physical addresses / small cache of page-table entries / page is valid but only on disk.</dd></div><div><dt>ILP</dt><dd>Instruction-level parallelism: several functional units execute instructions at once (pipelining, multiple issue).</dd></div><div><dt>Superscalar</dt><dd>Dynamic multiple issue: units scheduled at run time.</dd></div><div><dt>SMT</dt><dd>Simultaneous multithreading: a variation of fine-grained multithreading that lets several threads use the functional units together.</dd></div><div><dt>SIMD / SPMD</dt><dd>Same instruction on many data (data parallelism). SPMD is the more common form on general-purpose machines.</dd></div><div><dt>MIMD</dt><dd>Independent processors with their own control unit and ALU.</dd></div><div><dt>SMP</dt><dd>Symmetric multiprocessor: shared global memory, equal access for all processors.</dd></div><div><dt>UMA / NUMA</dt><dd>Equal memory access time / unequal; CC-NUMA when cache coherent.</dd></div><div><dt>Cache coherence</dt><dd>If one processor updates a shared location, all others see the update. Done in hardware.</dd></div><div><dt>Snooping</dt><dd>Caches watch the shared bus for writes by others and invalidate their stale copy.</dd></div><div><dt>Diameter / bisection width</dt><dd>Longest shortest path between two nodes / simultaneous communications across the halves.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Why do private caches create a coherence problem, and why is invalidation usually preferred over update?</summary><div class="ans"><p>Each core caches its own copy of x. When one core writes a new value, other cores' copies (and possibly memory) are now <b>stale</b>, so another core can read an outdated value. The fix is a hardware coherence protocol. In the <b>invalidation-with-snooping</b> approach a write sends an invalidation across the inter-core bus, other copies are marked invalid, and they refetch when needed. After repeated writes to the same location, invalidation signals <b>only the first time</b>, whereas update must broadcast <b>every write</b> with its value, so invalidation generates less bus traffic.</p></div></details><details class="qa"><summary><span class="qn">2</span>Classify each with Flynn's taxonomy: (a) a GPU running one shader over many pixels, (b) a quad-core CPU running four different programs, (c) an old single-core PC. Then compute: a 7-stage, 1 ns-per-stage pipelined adder does 1000 additions. How long, and how much faster than unpipelined?</summary><div class="ans"><ul><li><b>(a) SIMD</b>, <b>(b) MIMD</b>, <b>(c) SISD</b>.</li><li>Pipelined: 7 + 999 = <b>1006 ns</b>. Unpipelined: 1000 × 7 = <b>7000 ns</b>, so about <b>7× faster</b> (6.96).</li></ul></div></details>
+</section>
+<section id="week-4" class="week w4">
+  <div class="week-head"><span class="wk">Topic 4</span><h2>Parallel software</h2><p class="blurb">The burden moves to the programmer.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Hardware and compilers cannot parallelise serial programs well enough on their own.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Design parallel algorithms with task and data parallelism, coordinate cores, and judge results with speedup, Amdahl and Gustafson.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Separate processes with separate memory can only cooperate by exchanging messages.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 494" role="img" aria-label="Mind map of Topic 4: why parallel software, task and data parallelism, speedup laws and overhead" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 247.0 C472.4 247.0 472.4 101.5 450.8 101.5"/><rect class="mm-branch" x="265.2" y="85.5" width="185.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="106.1" text-anchor="middle">Why it is on software</text><path class="mm-link thin" d="M265.2 101.5 C251.6 101.5 251.6 61.0 238.0 61.0"/><circle class="mm-dot" cx="238.0" cy="61.0" r="4.2"/><text class="mm-leaf" x="226.0" y="65.4" text-anchor="end">Problems keep growing</text><path class="mm-link thin" d="M265.2 101.5 C251.6 101.5 251.6 88.0 238.0 88.0"/><circle class="mm-dot" cx="238.0" cy="88.0" r="4.2"/><text class="mm-leaf" x="226.0" y="92.4" text-anchor="end">Hardware cannot keep pace</text><path class="mm-link thin" d="M265.2 101.5 C251.6 101.5 251.6 115.0 238.0 115.0"/><circle class="mm-dot" cx="238.0" cy="115.0" r="4.2"/><text class="mm-leaf" x="226.0" y="119.4" text-anchor="end">Auto-parallelising is limited</text><path class="mm-link thin" d="M265.2 101.5 C251.6 101.5 251.6 142.0 238.0 142.0"/><circle class="mm-dot" cx="238.0" cy="142.0" r="4.2"/><text class="mm-leaf" x="226.0" y="146.4" text-anchor="end">Serial copies do not help</text><path class="mm-link" d="M494.0 247.0 C472.4 247.0 472.4 225.5 450.8 225.5"/><rect class="mm-branch" x="265.2" y="209.5" width="185.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="230.1" text-anchor="middle">Writing parallel code</text><path class="mm-link thin" d="M265.2 225.5 C251.6 225.5 251.6 185.0 238.0 185.0"/><circle class="mm-dot" cx="238.0" cy="185.0" r="4.2"/><text class="mm-leaf" x="226.0" y="189.4" text-anchor="end">Task parallelism: split the tasks</text><path class="mm-link thin" d="M265.2 225.5 C251.6 225.5 251.6 212.0 238.0 212.0"/><circle class="mm-dot" cx="238.0" cy="212.0" r="4.2"/><text class="mm-leaf" x="226.0" y="216.4" text-anchor="end">Data parallelism: split the data</text><path class="mm-link thin" d="M265.2 225.5 C251.6 225.5 251.6 239.0 238.0 239.0"/><circle class="mm-dot" cx="238.0" cy="239.0" r="4.2"/><text class="mm-leaf" x="226.0" y="243.4" text-anchor="end">Tree-style global sum wins</text><path class="mm-link thin" d="M265.2 225.5 C251.6 225.5 251.6 266.0 238.0 266.0"/><circle class="mm-dot" cx="238.0" cy="266.0" r="4.2"/><text class="mm-leaf" x="226.0" y="270.4" text-anchor="end">Rethink the algorithm</text><path class="mm-link" d="M494.0 247.0 C455.5 247.0 455.5 336.0 417.0 336.0"/><rect class="mm-branch" x="299.0" y="320.0" width="118.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="340.6" text-anchor="middle">Coordination</text><path class="mm-link thin" d="M299.0 336.0 C268.5 336.0 268.5 309.0 238.0 309.0"/><circle class="mm-dot" cx="238.0" cy="309.0" r="4.2"/><text class="mm-leaf" x="226.0" y="313.4" text-anchor="end">Communication</text><path class="mm-link thin" d="M299.0 336.0 C268.5 336.0 268.5 336.0 238.0 336.0"/><circle class="mm-dot" cx="238.0" cy="336.0" r="4.2"/><text class="mm-leaf" x="226.0" y="340.4" text-anchor="end">Load balancing</text><path class="mm-link thin" d="M299.0 336.0 C268.5 336.0 268.5 363.0 238.0 363.0"/><circle class="mm-dot" cx="238.0" cy="363.0" r="4.2"/><text class="mm-leaf" x="226.0" y="367.4" text-anchor="end">Synchronization</text><path class="mm-link" d="M494.0 247.0 C451.8 247.0 451.8 419.5 409.5 419.5"/><rect class="mm-branch" x="306.5" y="403.5" width="103.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="424.1" text-anchor="middle">Grain size</text><path class="mm-link thin" d="M306.5 419.5 C272.2 419.5 272.2 406.0 238.0 406.0"/><circle class="mm-dot" cx="238.0" cy="406.0" r="4.2"/><text class="mm-leaf" x="226.0" y="410.4" text-anchor="end">Fine: easier load balance</text><path class="mm-link thin" d="M306.5 419.5 C272.2 419.5 272.2 433.0 238.0 433.0"/><circle class="mm-dot" cx="238.0" cy="433.0" r="4.2"/><text class="mm-leaf" x="226.0" y="437.4" text-anchor="end">Coarse: high comp/comm ratio</text><path class="mm-link" d="M666.0 247.0 C706.4 247.0 706.4 88.0 746.8 88.0"/><rect class="mm-branch" x="746.8" y="72.0" width="110.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="92.6" text-anchor="middle">Performance</text><path class="mm-link thin" d="M857.2 88.0 C889.6 88.0 889.6 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">Speedup = Tserial / Tparallel</text><path class="mm-link thin" d="M857.2 88.0 C889.6 88.0 889.6 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">Efficiency = S / p</text><path class="mm-link thin" d="M857.2 88.0 C889.6 88.0 889.6 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">Wall clock vs CPU time</text><path class="mm-link thin" d="M857.2 88.0 C889.6 88.0 889.6 128.5 922.0 128.5"/><circle class="mm-dot" cx="922.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="934.0" y="132.9" text-anchor="start">Linear, sub, super-linear</text><path class="mm-link" d="M666.0 247.0 C704.5 247.0 704.5 198.5 743.0 198.5"/><rect class="mm-branch" x="743.0" y="182.5" width="118.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="203.1" text-anchor="middle">Amdahl&#x27;s law</text><path class="mm-link thin" d="M861.0 198.5 C891.5 198.5 891.5 171.5 922.0 171.5"/><circle class="mm-dot" cx="922.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="934.0" y="175.9" text-anchor="start">S = 1 / (α + (1-α) / P)</text><path class="mm-link thin" d="M861.0 198.5 C891.5 198.5 891.5 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Fixed problem size</text><path class="mm-link thin" d="M861.0 198.5 C891.5 198.5 891.5 225.5 922.0 225.5"/><circle class="mm-dot" cx="922.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="934.0" y="229.9" text-anchor="start">Serial part caps the speedup</text><path class="mm-link" d="M666.0 247.0 C698.9 247.0 698.9 295.5 731.8 295.5"/><rect class="mm-branch" x="731.8" y="279.5" width="140.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="300.1" text-anchor="middle">Gustafson&#x27;s law</text><path class="mm-link thin" d="M872.2 295.5 C897.1 295.5 897.1 268.5 922.0 268.5"/><circle class="mm-dot" cx="922.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="934.0" y="272.9" text-anchor="start">S = P + (1-P) α</text><path class="mm-link thin" d="M872.2 295.5 C897.1 295.5 897.1 295.5 922.0 295.5"/><circle class="mm-dot" cx="922.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="934.0" y="299.9" text-anchor="start">Problem grows with P</text><path class="mm-link thin" d="M872.2 295.5 C897.1 295.5 897.1 322.5 922.0 322.5"/><circle class="mm-dot" cx="922.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="934.0" y="326.9" text-anchor="start">Serial share shrinks</text><path class="mm-link" d="M666.0 247.0 C712.0 247.0 712.0 406.0 758.0 406.0"/><rect class="mm-branch" x="758.0" y="390.0" width="88.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="410.6" text-anchor="middle">Overhead</text><path class="mm-link thin" d="M846.0 406.0 C884.0 406.0 884.0 365.5 922.0 365.5"/><circle class="mm-dot" cx="922.0" cy="365.5" r="4.2"/><text class="mm-leaf" x="934.0" y="369.9" text-anchor="start">Interprocess interaction</text><path class="mm-link thin" d="M846.0 406.0 C884.0 406.0 884.0 392.5 922.0 392.5"/><circle class="mm-dot" cx="922.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="934.0" y="396.9" text-anchor="start">Synchronization and idling</text><path class="mm-link thin" d="M846.0 406.0 C884.0 406.0 884.0 419.5 922.0 419.5"/><circle class="mm-dot" cx="922.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="934.0" y="423.9" text-anchor="start">Contention</text><path class="mm-link thin" d="M846.0 406.0 C884.0 406.0 884.0 446.5 922.0 446.5"/><circle class="mm-dot" cx="922.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="934.0" y="450.9" text-anchor="start">Excess computation</text><rect class="mm-center" x="494.0" y="215.0" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="243.0" text-anchor="middle">Parallel</text><text class="mm-ctxt" x="580.0" y="263.0" text-anchor="middle">Software</text></svg></div>
+  
+  <h3>Why the burden moves to software</h3>
+  <p class="small">Problems keep growing (climate modelling, protein folding, drug discovery, energy research, data analysis) and hardware and compilers cannot keep pace. In shared-memory programs you <b>start one process and fork threads</b>; in distributed-memory programs you <b>start multiple processes</b>. Running many copies of a serial program does not help: you want <b>one</b> program to run faster. Automatic translators exist but have had limited success and often produce very inefficient code, so sometimes the best parallel solution is a brand-new algorithm.</p>
+  <h3>Better algorithm: summing across cores</h3>
+  <div class="tree">
+    <figure><svg viewBox="0 0 300 150" role="img" aria-label="Naive global sum: all cores send to core 0">
+      <g class="ed"><path d="M150 38 L30 112"/><path d="M150 38 L65 112"/><path d="M150 38 L100 112"/><path d="M150 38 L135 112"/><path d="M150 38 L170 112"/><path d="M150 38 L205 112"/><path d="M150 38 L240 112"/><path d="M150 38 L272 112"/></g>
+      <circle class="nm n" cx="150" cy="30" r="16"/><text x="150" y="34" text-anchor="middle">0</text>
+      <circle class="n" cx="30" cy="120" r="12"/><text x="30" y="124" text-anchor="middle">1</text><circle class="n" cx="65" cy="120" r="12"/><text x="65" y="124" text-anchor="middle">2</text><circle class="n" cx="100" cy="120" r="12"/><text x="100" y="124" text-anchor="middle">3</text><circle class="n" cx="135" cy="120" r="12"/><text x="135" y="124" text-anchor="middle">4</text><circle class="n" cx="170" cy="120" r="12"/><text x="170" y="124" text-anchor="middle">5</text><circle class="n" cx="205" cy="120" r="12"/><text x="205" y="124" text-anchor="middle">6</text><circle class="n" cx="240" cy="120" r="12"/><text x="240" y="124" text-anchor="middle">7</text>
+    </svg><figcaption><b>Naive:</b> everyone sends to the master. Core 0 does <b>7 receives and 7 additions</b> (999 each with 1000 cores).</figcaption></figure>
+    <figure><svg viewBox="0 0 300 170" role="img" aria-label="Tree sum: pairs of cores add in rounds">
+      <g class="ed"><path d="M150 28 L90 70"/><path d="M150 28 L210 70"/><path d="M90 78 L50 122"/><path d="M90 78 L130 122"/><path d="M210 78 L170 122"/><path d="M210 78 L250 122"/></g>
+      <circle class="nm n" cx="150" cy="22" r="14"/><text x="150" y="26" text-anchor="middle">0</text>
+      <circle class="n" cx="90" cy="74" r="13"/><text x="90" y="78" text-anchor="middle">0</text><circle class="n" cx="210" cy="74" r="13"/><text x="210" y="78" text-anchor="middle">4</text>
+      <circle class="n" cx="50" cy="128" r="12"/><text x="50" y="132" text-anchor="middle">0</text><circle class="n" cx="130" cy="128" r="12"/><text x="130" y="132" text-anchor="middle">2</text>
+      <circle class="n" cx="170" cy="128" r="12"/><text x="170" y="132" text-anchor="middle">4</text><circle class="n" cx="250" cy="128" r="12"/><text x="250" y="132" text-anchor="middle">6</text>
+      <text x="150" y="160" text-anchor="middle" style="font-size:11px">(after odd cores 1, 3, 5, 7 have been added in)</text>
+    </svg><figcaption><b>Tree:</b> pair up cores, halve the active cores each round. Core 0 does <b>3 receives and 3 additions</b> for 8 cores, and only <b>10</b> for 1000 cores: almost a 100× improvement over 999.</figcaption></figure>
+  </div>
+  <h3>Two ways to split the work</h3>
+  <div class="two">
+    <div><h4>Data parallelism</h4><p>Split the <b>data</b>; each core does similar operations on its part. Professor P's 300 scripts: three assistants grade <b>100 exams each</b>.</p></div>
+    <div><h4>Task parallelism</h4><p>Split the <b>tasks</b>. The same three assistants each grade a different set of questions: <b>Q1–5, Q6–10, Q11–15</b> on every exam.</p></div>
+  </div>
+  <h3>Issues in designing parallel programs</h3>
+  <ul class="chips-row"><li><b>Communication:</b> cores send partial sums to one another</li><li><b>Load balancing:</b> share work evenly</li><li><b>Synchronization:</b> keep cores from racing too far ahead</li></ul>
+  <p class="small"><b>Grain size</b> is how many tasks one processor handles. <b>Coarse-grained</b> has a high computation-to-communication ratio; <b>fine-grained</b> balances load more easily.</p>
+  <h3>Speedup, efficiency and the fence-painting example</h3>
+  <p class="small">30 min of serial prep, 1 min per picket, 30 min of serial cleanup, 300 pickets.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Painters</th><th>Time</th><th>Speedup</th><th>Efficiency</th></tr></thead><tbody>
+   <tr><td>1</td><td>30 + 300 + 30 = 360</td><td>1.0×</td><td>100%</td></tr>
+   <tr><td>2</td><td>30 + 150 + 30 = 210</td><td>1.7×</td><td>85%</td></tr>
+   <tr><td>10</td><td>30 + 30 + 30 = 90</td><td>4.0×</td><td>40%</td></tr>
+   <tr><td>100</td><td>30 + 3 + 30 = 63</td><td>5.7×</td><td>5.7%</td></tr>
+   <tr><td>Infinite</td><td>30 + 0 + 30 = 60</td><td>6.0×</td><td>very low</td></tr></tbody></table></div>
+  <p class="small">The 60 minutes of serial work caps speedup at 6. That is Amdahl's law in action. A spray gun would be a better <b>serial</b> algorithm (120 minutes serial), and later speedups must be measured against it.</p>
+  
+  <h3>Try it: Amdahl vs Gustafson</h3>
+  <div class="calc">
+    <div class="ctl">
+      <div><label for="alpha">Serial fraction α <output id="alpha-o">67%</output></label><input id="alpha" type="range" min="0" max="100" value="67"></div>
+      <div><label for="procs">Processors P <output id="procs-o">10</output></label><input id="procs" type="range" min="1" max="64" value="10"></div>
+    </div>
+    <div class="out">
+      <div><b id="o-am">1.42</b><span>Amdahl speedup</span></div>
+      <div><b id="o-gu">3.97</b><span>Gustafson speedup</span></div>
+      <div><b id="o-ea">14%</b><span>Amdahl efficiency</span></div>
+      <div><b id="o-cap">1.49</b><span>Amdahl limit, 1/α</span></div>
+    </div>
+    <svg id="chart" viewBox="0 0 560 330" role="img" aria-label="Speedup against number of processors for Amdahl, Gustafson and ideal">
+      <line class="ax" x1="56" y1="292.0" x2="536" y2="292.0"/><text class="tick" x="48" y="296.0" text-anchor="end">0</text><line class="ax" x1="56" y1="223.5" x2="536" y2="223.5"/><text class="tick" x="48" y="227.5" text-anchor="end">16</text><line class="ax" x1="56" y1="155.0" x2="536" y2="155.0"/><text class="tick" x="48" y="159.0" text-anchor="end">32</text><line class="ax" x1="56" y1="86.5" x2="536" y2="86.5"/><text class="tick" x="48" y="90.5" text-anchor="end">48</text><line class="ax" x1="56" y1="18.0" x2="536" y2="18.0"/><text class="tick" x="48" y="22.0" text-anchor="end">64</text><text class="tick" x="56.0" y="310" text-anchor="middle">1</text><text class="tick" x="170.3" y="310" text-anchor="middle">16</text><text class="tick" x="292.2" y="310" text-anchor="middle">32</text><text class="tick" x="414.1" y="310" text-anchor="middle">48</text><text class="tick" x="536.0" y="310" text-anchor="middle">64</text>
+      <path class="c-ideal" d="M56.0 287.7 L63.6 283.4 L71.2 279.2 L78.9 274.9 L86.5 270.6 L94.1 266.3 L101.7 262.0 L109.3 257.8 L117.0 253.5 L124.6 249.2 L132.2 244.9 L139.8 240.6 L147.4 236.3 L155.0 232.1 L162.7 227.8 L170.3 223.5 L177.9 219.2 L185.5 214.9 L193.1 210.7 L200.8 206.4 L208.4 202.1 L216.0 197.8 L223.6 193.5 L231.2 189.2 L238.9 185.0 L246.5 180.7 L254.1 176.4 L261.7 172.1 L269.3 167.8 L277.0 163.6 L284.6 159.3 L292.2 155.0 L299.8 150.7 L307.4 146.4 L315.0 142.2 L322.7 137.9 L330.3 133.6 L337.9 129.3 L345.5 125.0 L353.1 120.8 L360.8 116.5 L368.4 112.2 L376.0 107.9 L383.6 103.6 L391.2 99.3 L398.9 95.1 L406.5 90.8 L414.1 86.5 L421.7 82.2 L429.3 77.9 L437.0 73.7 L444.6 69.4 L452.2 65.1 L459.8 60.8 L467.4 56.5 L475.0 52.2 L482.7 48.0 L490.3 43.7 L497.9 39.4 L505.5 35.1 L513.1 30.8 L520.8 26.6 L528.4 22.3 L536.0 18.0"/>
+      <path id="p-am" class="c-am" d="M56.0 287.7 L63.6 286.9 L71.2 286.5 L78.9 286.3 L86.5 286.2 L94.1 286.1 L101.7 286.0 L109.3 286.0 L117.0 285.9 L124.6 285.9 L132.2 285.9 L139.8 285.9 L147.4 285.8 L155.0 285.8 L162.7 285.8 L170.3 285.8 L177.9 285.8 L185.5 285.8 L193.1 285.8 L200.8 285.8 L208.4 285.8 L216.0 285.8 L223.6 285.7 L231.2 285.7 L238.9 285.7 L246.5 285.7 L254.1 285.7 L261.7 285.7 L269.3 285.7 L277.0 285.7 L284.6 285.7 L292.2 285.7 L299.8 285.7 L307.4 285.7 L315.0 285.7 L322.7 285.7 L330.3 285.7 L337.9 285.7 L345.5 285.7 L353.1 285.7 L360.8 285.7 L368.4 285.7 L376.0 285.7 L383.6 285.7 L391.2 285.7 L398.9 285.7 L406.5 285.7 L414.1 285.7 L421.7 285.7 L429.3 285.7 L437.0 285.7 L444.6 285.7 L452.2 285.7 L459.8 285.7 L467.4 285.7 L475.0 285.7 L482.7 285.7 L490.3 285.7 L497.9 285.7 L505.5 285.7 L513.1 285.7 L520.8 285.7 L528.4 285.7 L536.0 285.7"/>
+      <path id="p-gu" class="c-gu" d="M56.0 287.7 L63.6 286.3 L71.2 284.9 L78.9 283.5 L86.5 282.1 L94.1 280.7 L101.7 279.2 L109.3 277.8 L117.0 276.4 L124.6 275.0 L132.2 273.6 L139.8 272.2 L147.4 270.8 L155.0 269.4 L162.7 267.9 L170.3 266.5 L177.9 265.1 L185.5 263.7 L193.1 262.3 L200.8 260.9 L208.4 259.5 L216.0 258.0 L223.6 256.6 L231.2 255.2 L238.9 253.8 L246.5 252.4 L254.1 251.0 L261.7 249.6 L269.3 248.2 L277.0 246.7 L284.6 245.3 L292.2 243.9 L299.8 242.5 L307.4 241.1 L315.0 239.7 L322.7 238.3 L330.3 236.9 L337.9 235.4 L345.5 234.0 L353.1 232.6 L360.8 231.2 L368.4 229.8 L376.0 228.4 L383.6 227.0 L391.2 225.6 L398.9 224.1 L406.5 222.7 L414.1 221.3 L421.7 219.9 L429.3 218.5 L437.0 217.1 L444.6 215.7 L452.2 214.3 L459.8 212.8 L467.4 211.4 L475.0 210.0 L482.7 208.6 L490.3 207.2 L497.9 205.8 L505.5 204.4 L513.1 203.0 L520.8 201.5 L528.4 200.1 L536.0 198.7"/>
+      <circle id="d-am" class="pt-am" r="5" cx="124.6" cy="285.9"/>
+      <circle id="d-gu" class="pt-gu" r="5" cx="124.6" cy="275.0"/>
+      <text class="tick" x="296.0" y="326" text-anchor="middle">processors P</text>
+      <text class="lg" x="70" y="34" fill="currentColor">- - ideal (linear)</text><text class="lg" x="70" y="52" style="fill:var(--c)">Gustafson</text><text class="lg" x="150" y="52" style="fill:var(--warn)">Amdahl</text>
+    </svg>
+    <p class="note">Slide example: α = 0.67 and P = 10 gives Amdahl 1.42 and Gustafson 3.97. Move α towards 0 and the two laws agree and approach ideal. Gustafson is higher because it assumes the problem grows with P.</p>
+  </div>
+  <h3>Amdahl vs Gustafson in words</h3>
+  <div class="two">
+    <div><h4>Amdahl's law</h4><p>S = 1 / (α + (1−α)/P). The <b>problem size is constant</b>; speedup is bounded by the serial fraction α. Models control parallelism (fork-join).</p></div>
+    <div><h4>Gustafson-Barsis's law</h4><p>S = P + (1−P)α. Programmers <b>scale the problem up</b> to use extra processors, so the serial share shrinks. Models data parallelism (SIMD/SPMD).</p></div>
+  </div>
+  <p class="small">They are two models with different meanings of "serial part", not a contradiction. Slide example, α = 0.67 on 10 processors: Amdahl 1.42, Gustafson 3.97.</p>
+  <h3>Why real speedup falls short</h3>
+  <div class="two">
+    <div><h4>Shapes of speedup</h4><p><b>Trivially parallel</b> (ray tracing): S = P. <b>Divide and conquer</b> (merge sort): S ≈ P / log₂P. <b>Communication-bound</b> (large matrices): S ≈ 1/C(P). <b>Super-linear</b> exceeds the 45° line, but is rare.</p></div>
+    <div><h4>Sources of overhead</h4><p><b>Interprocess interaction</b>, <b>synchronization</b>, <b>idling</b> (load imbalance, serial parts), <b>contention</b> for shared resources, <b>excess computation</b> (work the serial version never does). Roughly: T<sub>parallel</sub> = T<sub>serial</sub> / p + T<sub>overhead</sub>.</p></div>
+  </div>
+  <p class="small"><b>Taking timings:</b> decide what you are measuring (whole run, one segment, CPU time or wall-clock time). Use <b>MPI_Wtime</b> in MPI and <b>omp_get_wtime</b> in OpenMP. Communication cost is measured by <b>latency</b> (time for a message to cross) and <b>bandwidth</b> (data per unit time).</p>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Task parallelism</dt><dd>Partition the different tasks among cores.</dd></div><div><dt>Data parallelism</dt><dd>Partition the data among cores; each does similar work on its part.</dd></div><div><dt>Coordination</dt><dd>Communication, load balancing and synchronization.</dd></div><div><dt>Load balancing</dt><dd>Sharing work evenly so no core is overloaded.</dd></div><div><dt>Synchronization</dt><dd>Making sure cores working at different paces do not get too far ahead.</dd></div><div><dt>Grain size</dt><dd>The group of tasks one processor performs; fine, medium or coarse.</dd></div><div><dt>Parallel run-time</dt><dd>Time from the start of the computation to the moment the <b>last</b> processor finishes.</dd></div><div><dt>Speedup</dt><dd>T1 / T(P), where T1 is the best sequential program. Linear is ideal; super-linear is rare.</dd></div><div><dt>Efficiency</dt><dd>Speedup / P: fraction of time a processor is usefully employed.</dd></div><div><dt>Scalability</dt><dd>Capacity to increase speedup in proportion to processors.</dd></div><div><dt>Amdahl's law</dt><dd>S = 1/(α + (1−α)/P). Speedup is limited by the serial fraction.</dd></div><div><dt>Gustafson-Barsis's law</dt><dd>S = P + (1−P)α. Larger problems keep more processors useful.</dd></div><div><dt>Latency / bandwidth</dt><dd>Time for a message to go node to node / data transferable per unit time.</dd></div><div><dt>Overhead sources</dt><dd>Interprocess interaction, synchronization, idling, contention, excess computation.</dd></div><div><dt>Coming next</dt><dd>The course writes explicitly parallel C programs with Pthreads, OpenMP, MPI and CUDA.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Explain how Gustafson's law differs from Amdahl's law and why they give different answers for the same program.</summary><div class="ans"><p><b>Amdahl</b> fixes the problem size and asks how much faster that same problem runs on P processors; the serial fraction caps the speedup at 1/α. <b>Gustafson</b> fixes the run time and lets the problem grow with the machine, so the serial part becomes a smaller share and speedup keeps growing, S = P + (1−P)α. They answer different questions with different meanings of the "serial part". For α = 0.67 and P = 10, Amdahl gives 1.42 and Gustafson 3.97.</p></div></details><details class="qa"><summary><span class="qn">2</span>Using the fence-painting numbers (30 min prep, 1 min per picket, 30 min cleanup, 300 pickets), find the time, speedup and efficiency with 5 painters.</summary><div class="ans"><ul><li><b>Time</b> = 30 + 300/5 + 30 = 30 + 60 + 30 = <b>120</b> minutes.</li><li><b>Speedup</b> = 360 / 120 = <b>3.0</b>.</li><li><b>Efficiency</b> = 3.0 / 5 = <b>60%</b>.</li></ul>
+ <p>(Same pattern as the slide's table; the 5-painter row is my calculation, not printed on the slide.)</p></div></details><details class="qa"><summary><span class="qn">3</span>In the tree-style global sum, why does the master do fewer receives than in the naive version, and how many with 8 cores?</summary><div class="ans"><p>In the naive version every other core sends to core 0, so core 0 does <b>7 receives and 7 additions</b>. In the tree version cores add in pairs and half of them drop out each round, so core 0 only handles <b>log₂8 = 3</b> receives and additions. The work is shared instead of piled on one core, and the gap grows with more cores (10 vs 999 for 1000 cores).</p></div></details>
+</section>
+<section id="week-5" class="week w5">
+  <div class="week-head"><span class="wk">Topic 5</span><h2>Communication</h2><p class="blurb">How processes talk to each other.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Distributed-memory processes have no shared variables, so they must send messages.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>MPI, request-reply, RPC, RMI, gRPC, group communication, publish-subscribe and message queues.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Next in the course: writing real programs with Pthreads, OpenMP, MPI and CUDA.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 537" role="img" aria-label="Mind map of Topic 5: MPI, request-reply, RPC, RMI, gRPC, group communication, queues" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 268.5 C438.6 268.5 438.6 158.0 383.2 158.0"/><rect class="mm-branch" x="332.8" y="142.0" width="50.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="162.6" text-anchor="middle">MPI</text><path class="mm-link thin" d="M332.8 158.0 C285.4 158.0 285.4 117.5 238.0 117.5"/><circle class="mm-dot" cx="238.0" cy="117.5" r="4.2"/><text class="mm-leaf" x="226.0" y="121.9" text-anchor="end">Message-passing library</text><path class="mm-link thin" d="M332.8 158.0 C285.4 158.0 285.4 144.5 238.0 144.5"/><circle class="mm-dot" cx="238.0" cy="144.5" r="4.2"/><text class="mm-leaf" x="226.0" y="148.9" text-anchor="end">6 core calls (of 129)</text><path class="mm-link thin" d="M332.8 158.0 C285.4 158.0 285.4 171.5 238.0 171.5"/><circle class="mm-dot" cx="238.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="226.0" y="175.9" text-anchor="end">Rank + communicator</text><path class="mm-link thin" d="M332.8 158.0 C285.4 158.0 285.4 198.5 238.0 198.5"/><circle class="mm-dot" cx="238.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="226.0" y="202.9" text-anchor="end">Blocking vs non-blocking</text><path class="mm-link" d="M494.0 268.5 C461.1 268.5 461.1 282.0 428.2 282.0"/><rect class="mm-branch" x="287.8" y="266.0" width="140.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="286.6" text-anchor="middle">MPI collectives</text><path class="mm-link thin" d="M287.8 282.0 C262.9 282.0 262.9 241.5 238.0 241.5"/><circle class="mm-dot" cx="238.0" cy="241.5" r="4.2"/><text class="mm-leaf" x="226.0" y="245.9" text-anchor="end">Barrier: synchronize</text><path class="mm-link thin" d="M287.8 282.0 C262.9 282.0 262.9 268.5 238.0 268.5"/><circle class="mm-dot" cx="238.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="226.0" y="272.9" text-anchor="end">Broadcast: one to many</text><path class="mm-link thin" d="M287.8 282.0 C262.9 282.0 262.9 295.5 238.0 295.5"/><circle class="mm-dot" cx="238.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="226.0" y="299.9" text-anchor="end">Reduction: many to one</text><path class="mm-link thin" d="M287.8 282.0 C262.9 282.0 262.9 322.5 238.0 322.5"/><circle class="mm-dot" cx="238.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="226.0" y="326.9" text-anchor="end">Scatter and gather</text><path class="mm-link" d="M494.0 268.5 C457.4 268.5 457.4 392.5 420.8 392.5"/><rect class="mm-branch" x="295.2" y="376.5" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="397.1" text-anchor="middle">Request-reply</text><path class="mm-link thin" d="M295.2 392.5 C266.6 392.5 266.6 365.5 238.0 365.5"/><circle class="mm-dot" cx="238.0" cy="365.5" r="4.2"/><text class="mm-leaf" x="226.0" y="369.9" text-anchor="end">doOperation, getRequest, sendReply</text><path class="mm-link thin" d="M295.2 392.5 C266.6 392.5 266.6 392.5 238.0 392.5"/><circle class="mm-dot" cx="238.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="226.0" y="396.9" text-anchor="end">Failures: omission, timeout</text><path class="mm-link thin" d="M295.2 392.5 C266.6 392.5 266.6 419.5 238.0 419.5"/><circle class="mm-dot" cx="238.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="226.0" y="423.9" text-anchor="end">Duplicates and lost replies</text><path class="mm-link" d="M666.0 268.5 C721.4 268.5 721.4 74.5 776.8 74.5"/><rect class="mm-branch" x="776.8" y="58.5" width="50.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="79.1" text-anchor="middle">RPC</text><path class="mm-link thin" d="M827.2 74.5 C874.6 74.5 874.6 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">Client and server stubs</text><path class="mm-link thin" d="M827.2 74.5 C874.6 74.5 874.6 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">Marshal and unmarshal</text><path class="mm-link thin" d="M827.2 74.5 C874.6 74.5 874.6 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">Synchronous or asynchronous</text><path class="mm-link" d="M666.0 268.5 C704.5 268.5 704.5 171.5 743.0 171.5"/><rect class="mm-branch" x="743.0" y="155.5" width="118.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="176.1" text-anchor="middle">RMI and gRPC</text><path class="mm-link thin" d="M861.0 171.5 C891.5 171.5 891.5 144.5 922.0 144.5"/><circle class="mm-dot" cx="922.0" cy="144.5" r="4.2"/><text class="mm-leaf" x="934.0" y="148.9" text-anchor="start">RMI: methods on remote objects</text><path class="mm-link thin" d="M861.0 171.5 C891.5 171.5 891.5 171.5 922.0 171.5"/><circle class="mm-dot" cx="922.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="934.0" y="175.9" text-anchor="start">gRPC: protobuf over HTTP/2</text><path class="mm-link thin" d="M861.0 171.5 C891.5 171.5 891.5 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Proxy and skeleton</text><path class="mm-link" d="M666.0 268.5 C695.1 268.5 695.1 268.5 724.2 268.5"/><rect class="mm-branch" x="724.2" y="252.5" width="155.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="273.1" text-anchor="middle">Group + multicast</text><path class="mm-link thin" d="M879.8 268.5 C900.9 268.5 900.9 241.5 922.0 241.5"/><circle class="mm-dot" cx="922.0" cy="241.5" r="4.2"/><text class="mm-leaf" x="934.0" y="245.9" text-anchor="start">One-to-many delivery</text><path class="mm-link thin" d="M879.8 268.5 C900.9 268.5 900.9 268.5 922.0 268.5"/><circle class="mm-dot" cx="922.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="934.0" y="272.9" text-anchor="start">FIFO, causal, total order</text><path class="mm-link thin" d="M879.8 268.5 C900.9 268.5 900.9 295.5 922.0 295.5"/><circle class="mm-dot" cx="922.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="934.0" y="299.9" text-anchor="start">Overlay networks</text><path class="mm-link" d="M666.0 268.5 C697.0 268.5 697.0 365.5 728.0 365.5"/><rect class="mm-branch" x="728.0" y="349.5" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="370.1" text-anchor="middle">Decoupled styles</text><path class="mm-link thin" d="M876.0 365.5 C899.0 365.5 899.0 338.5 922.0 338.5"/><circle class="mm-dot" cx="922.0" cy="338.5" r="4.2"/><text class="mm-leaf" x="934.0" y="342.9" text-anchor="start">Publish-subscribe events</text><path class="mm-link thin" d="M876.0 365.5 C899.0 365.5 899.0 365.5 922.0 365.5"/><circle class="mm-dot" cx="922.0" cy="365.5" r="4.2"/><text class="mm-leaf" x="934.0" y="369.9" text-anchor="start">Message queue: put, get, poll</text><path class="mm-link thin" d="M876.0 365.5 C899.0 365.5 899.0 392.5 922.0 392.5"/><circle class="mm-dot" cx="922.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="934.0" y="396.9" text-anchor="start">Shared memory</text><path class="mm-link" d="M666.0 268.5 C708.2 268.5 708.2 462.5 750.5 462.5"/><rect class="mm-branch" x="750.5" y="446.5" width="103.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="467.1" text-anchor="middle">Topologies</text><path class="mm-link thin" d="M853.5 462.5 C887.8 462.5 887.8 435.5 922.0 435.5"/><circle class="mm-dot" cx="922.0" cy="435.5" r="4.2"/><text class="mm-leaf" x="934.0" y="439.9" text-anchor="start">Client-server</text><path class="mm-link thin" d="M853.5 462.5 C887.8 462.5 887.8 462.5 922.0 462.5"/><circle class="mm-dot" cx="922.0" cy="462.5" r="4.2"/><text class="mm-leaf" x="934.0" y="466.9" text-anchor="start">Peer-to-peer</text><path class="mm-link thin" d="M853.5 462.5 C887.8 462.5 887.8 489.5 922.0 489.5"/><circle class="mm-dot" cx="922.0" cy="489.5" r="4.2"/><text class="mm-leaf" x="934.0" y="493.9" text-anchor="start">Group</text><rect class="mm-center" x="494.0" y="236.5" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="273.5" text-anchor="middle">Communication</text></svg></div>
+  
+  <h3>The map of communication models</h3>
+  <div class="two">
+    <div><h4>Message passing (MPI)</h4><p>Each process has local memory; data moves only by messages. Best for clusters and parallel programs.</p></div>
+    <div><h4>Request-reply, RPC, RMI, gRPC</h4><p>A client asks a server to run something and waits for the result. Remote invocation.</p></div>
+    <div><h4>Group communication, multicast</h4><p>One message to every member of a group, without knowing who they are.</p></div>
+    <div><h4>Publish-subscribe</h4><p>Publishers post events; subscribers receive the ones they registered interest in.</p></div>
+    <div><h4>Message queuing</h4><p>Sender and receiver need not run at the same time; messages wait in a queue.</p></div>
+    <div><h4>Shared memory</h4><p>Processes communicate by reading and writing shared data.</p></div>
+  </div>
+  <h3>MPI</h3>
+  <p class="small">A message-passing <b>library specification</b>, not a language or a product. The MPI Forum began in 1992 and finalised the draft in May 1994; it is the de facto standard. A <b>communicator</b> groups processes and defines the context; <code>MPI_COMM_WORLD</code> holds all of them. Each process in a communicator has a <b>rank</b> numbered from 0.</p>
+  <p class="small"><b>Six functions are enough</b> to write a complete program (MPI has 129): MPI_INIT, MPI_FINALIZE, MPI_COMM_SIZE, MPI_COMM_RANK, MPI_SEND, MPI_RECV.</p>
+<pre class="code">program main
+  MPI_INIT ( )
+  MPI_COMM_SIZE (MPI_COMM_WORLD, count)
+  MPI_COMM_RANK (MPI_COMM_WORLD, myid)
+  print ("I am", myid, "of", count)
+  MPI_FINALIZE ( )
+end</pre>
+  <div class="two">
+    <div><h4>Point-to-point</h4><p>Always <b>exactly two</b> processes. <code>MPI_Send(buf, count, datatype, dest, tag, comm)</code> and <code>MPI_Recv(buf, count, datatype, source, tag, comm, status)</code>. Blocking calls return when finished; non-blocking return right away so the program can do other work. Modes: standard, buffered, synchronous, ready.</p></div>
+    <div><h4>Collective</h4><p><b>Barrier</b>: everyone waits until all arrive (no data). <b>Broadcast</b>: one to many. <b>Reduction</b>: many to one with a computation. Also <b>scatter</b> (one to many) and <b>gather</b> (many to one).</p></div>
+  </div>
+  <p class="small">Every MPI message is <b>typed</b>: the datatype (e.g. MPI_INT, MPI_DOUBLE) must be given in both send and receive. Other services: virtual topologies, derived datatypes, dynamic task creation, client/server, one-sided put/get, parallel I/O.</p>
+  <h3>Request-reply and its failure issues</h3>
+  <p class="small">The base protocol under RPC and RMI. The client calls <b>doOperation</b> and waits; the server's <b>getRequest</b> receives it, runs the method, and <b>sendReply</b> returns the result. Runs over UDP or TCP.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Style</th><th>Client sends</th><th>Server sends</th></tr></thead><tbody>
+    <tr><th>R</th><td>Request</td><td>nothing</td></tr><tr><th>RR</th><td>Request</td><td>Reply</td></tr><tr><th>RRA</th><td>Request, then acknowledge the reply</td><td>Reply</td></tr></tbody></table></div>
+  <p class="small"><b>Problems to handle:</b> omission failures (lost messages), no guaranteed ordering, <b>timeouts</b>, discarding <b>duplicate requests</b>, lost replies, and keeping a <b>history</b> of replies.</p>
+  <h3>RPC: ten steps</h3>
+  <ol class="steps-h">
+    <li><span>Client procedure calls the <b>client stub</b> as if it were local.</span></li>
+    <li><span>Stub <b>marshals</b> the procedure id and arguments into a message and calls the local OS.</span></li>
+    <li><span>Client OS sends the message to the remote OS.</span></li>
+    <li class="srv"><span>Remote OS hands it to the <b>server stub</b>.</span></li>
+    <li class="srv"><span>Server stub unpacks (<b>unmarshals</b>) parameters and calls the server procedure.</span></li>
+    <li class="srv"><span>Server does the work and returns the result to the stub.</span></li>
+    <li class="srv"><span>Stub packs the result into a message and calls the OS.</span></li>
+    <li class="srv"><span>Server OS sends it to the client OS.</span></li>
+    <li><span>Client OS gives the message to the client stub.</span></li>
+    <li><span>Stub unpacks the result and returns to the client.</span></li>
+  </ol>
+  <p class="small">A <b>dispatcher</b> on the server picks which server stub handles a request. <b>Synchronous RPC</b>: the client blocks until the reply arrives. <b>Asynchronous RPC</b>: the client carries on after the request and the reply is handled later (it can even use two asynchronous calls, one each way).</p>
+  <h3>RMI, DCE, gRPC</h3>
+  <div class="two">
+    <div><h4>RMI</h4><p>Invokes <b>methods on objects</b> in other processes. Uses a <b>communication module</b> (request-reply), a <b>remote reference module</b> (translates local and remote references), <b>proxies</b> on the client (hide marshalling) and a <b>dispatcher</b> plus <b>skeleton</b> on the server.</p></div>
+    <div><h4>gRPC</h4><p>Google's RPC stack, open-sourced in 2015. Uses <b>protocol buffers</b> (binary serialisation, open-sourced 2008: compact, fast, version-tolerant) over <b>HTTP/2</b>. Platform independent and high performance.</p></div>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>RPC vs RMI</th><th>Same</th><th>Different</th></tr></thead><tbody>
+    <tr><th>Similarities</th><td>Programming with interfaces; built on request-reply; similar transparency; local and remote calls use the same syntax</td><td></td></tr>
+    <tr><th>Differences</th><td></td><td>RMI is object-oriented, with unique object references and richer parameter passing; RMI invokes <b>methods</b>, RPC invokes <b>functions</b></td></tr></tbody></table></div>
+  <h3>Group communication, overlays, pub-sub, queues</h3>
+  <div class="two">
+    <div><h4>Multicast</h4><p>One message to every member of a group. Benefits: fault tolerance through replicated services, service discovery, better performance via replicated data, event notification. <b>Broadcast</b> goes to all machines.</p></div>
+    <div><h4>Group communication</h4><p>The sender may not know the receivers. Groups are dynamic (create, join, leave). Needs <b>FIFO, causal or total ordering</b>, membership management, failure detection.</p></div>
+    <div><h4>Overlay networks</h4><p>Virtual nodes and links on top of an existing network, adding services (multicast, secure communication) without changing the underlying network. Examples: Skype, peer-to-peer sharing, streaming, multi-player gaming.</p></div>
+    <div><h4>Publish-subscribe</h4><p>Also "distributed event-based systems". Publishers publish structured events to an event service; subscribers register interest via subscriptions.</p></div>
+  </div>
+  <div class="tbl-wrap"><table><thead><tr><th>Queue primitive</th><th>Meaning</th></tr></thead><tbody>
+    <tr><th>Put</th><td>Append a message to a queue</td></tr><tr><th>Get</th><td>Block until the queue is non-empty, then remove the first message</td></tr>
+    <tr><th>Poll</th><td>Check the queue and remove the first message; never block</td></tr><tr><th>Notify</th><td>Install a handler called when a message is put in the queue</td></tr></tbody></table></div>
+  <p class="small"><b>Topologies:</b> client-server (the most common), peer-to-peer (peers equally privileged, e.g. Napster, Kazaa, BitTorrent), and group (multicasting).</p>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>MPI</dt><dd>Message Passing Interface: a message-passing library specification, the de facto standard for message-passing applications.</dd></div><div><dt>Rank</dt><dd>A process's number within a communicator, starting at 0.</dd></div><div><dt>Communicator</dt><dd>A group of processes plus a communication context. MPI_COMM_WORLD is the default one.</dd></div><div><dt>Blocking / non-blocking</dt><dd>Returns when the operation completes / returns immediately so other work can proceed.</dd></div><div><dt>Barrier / broadcast / reduction</dt><dd>Synchronise all / one to many / many to one with a combining operation.</dd></div><div><dt>Derived datatype</dt><dd>User-built MPI type, which can describe non-contiguous data.</dd></div><div><dt>Request-reply protocol</dt><dd>The base protocol for client-server remote invocation.</dd></div><div><dt>Stub</dt><dd>Local stand-in that marshals arguments and unmarshals results so a remote call looks local.</dd></div><div><dt>Marshalling</dt><dd>Packing a procedure id and arguments into a message.</dd></div><div><dt>Dispatcher</dt><dd>Selects which server stub or method receives a request.</dd></div><div><dt>Proxy / skeleton</dt><dd>RMI client stand-in for a remote object / server side that implements the remote interface.</dd></div><div><dt>Protocol buffers</dt><dd>Google's binary serialisation format used with gRPC.</dd></div><div><dt>Multicast / overlay network</dt><dd>One message to a group / virtual network built on top of a real one.</dd></div><div><dt>Publish-subscribe</dt><dd>Decoupled event delivery from publishers to interested subscribers.</dd></div><div><dt>Message queue</dt><dd>Loosely coupled communication with put, get, poll and notify.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Compare RPC, RMI and gRPC.</summary><div class="ans"><ul><li><b>RPC</b> calls a <b>procedure/function</b> in another process through client and server <b>stubs</b>, built on request-reply.</li>
+ <li><b>RMI</b> calls <b>methods on remote objects</b>. It is object-oriented, uses unique object references and proxies/skeletons, so parameter passing is richer.</li>
+ <li><b>gRPC</b> is Google's RPC stack: <b>protocol buffers</b> over <b>HTTP/2</b>, platform independent and fast, and necessary when talking to gRPC services such as Google's.</li></ul>
+ <p>All three give the programmer the illusion of a local call.</p></div></details><details class="qa"><summary><span class="qn">2</span>Which model fits? (a) one process must tell every member of a group at once; (b) sender and receiver are not running at the same time; (c) clients only want events they asked for; (d) 8 MPI processes each hold a partial sum and process 0 needs the total.</summary><div class="ans"><ul><li><b>(a)</b> Multicast / group communication.</li><li><b>(b)</b> Message queuing (put and get from a queue).</li><li><b>(c)</b> Publish-subscribe.</li><li><b>(d)</b> An MPI <b>reduction</b>, a collective operation (many to one).</li></ul></div></details>
+</section>
+<section id="cheat-sheet" class="band wx">
+  <h2 class="sec">Cheat sheet</h2>
+  <h3>Formulas and numbers to remember</h3>
+  <ul class="nums"><li><b>S = T(1)/T(p)</b><span>speedup</span></li><li><b>E = S / p</b><span>efficiency</span></li><li><b>Cost = p × T(p)</b><span>run time times processors</span></li><li><b>S = 1/(α+(1−α)/P)</b><span>Amdahl: fixed problem size</span></li><li><b>S = P+(1−P)α</b><span>Gustafson: problem grows</span></li><li><b>5</b><span>cloud characteristics (on-demand, network, pooling, elasticity, measured)</span></li><li><b>3 + 4</b><span>service models (IaaS, PaaS, SaaS) + deployment models</span></li><li><b>4</b><span>Flynn classes: SISD, SIMD, MISD, MIMD</span></li><li><b>4 to 16 KB</b><span>typical page size</span></li><li><b>16 to 512</b><span>TLB entries</span></li><li><b>7 vs 3</b><span>master receives for 8 cores: naive vs tree</span></li><li><b>6 of 129</b><span>MPI calls needed for a full program</span></li><li><b>1006 ns</b><span>1000 adds on a 7-stage pipeline</span></li><li><b>1.42 vs 3.97</b><span>Amdahl vs Gustafson, α 0.67, P 10</span></li></ul>
+  <h3>Exam traps</h3>
+  <ul class="traps"><li><b>Amdahl</b> keeps the problem size fixed; <b>Gustafson</b> grows it with P. Both are correct for their own model.</li><li><b>Parallel</b> aims for faster execution (fine grain, tightly coupled); <b>distributed</b> aims at sharing resources (coarse grain, loosely coupled, no shared memory).</li><li><b>Strong</b> scalability = fixed input; <b>weak</b> scalability = input grows with the processors.</li><li>Speedup is T(1)/T(p) against the <b>best sequential</b> program. Efficiency is speedup divided by <b>p</b>, not by time.</li><li><b>UMA</b>: equal access time. <b>NUMA</b>: unequal. Both can be cache coherent (CC-UMA, CC-NUMA).</li><li><b>Invalidate</b> beats <b>update</b> because it generates less bus traffic.</li><li><b>Write-through</b> updates memory immediately; <b>write-back</b> marks lines dirty and writes later.</li><li><b>Page table</b> maps virtual to physical addresses; the <b>TLB</b> caches page-table entries.</li><li><b>MISD</b> is not commercially available; SIMD includes GPUs, MIMD includes multi-core.</li><li><b>RPC</b> invokes functions; <b>RMI</b> invokes methods on objects. gRPC = protobuf + HTTP/2.</li><li>The cloud <b>service models</b> (IaaS, PaaS, SaaS) are different from the <b>deployment models</b> (public, private, community, hybrid).</li><li>Cloud can cost <b>more</b> in operating expense; CapEx savings are not guaranteed.</li></ul>
+</section>
+<section id="drill" class="band wx">
+  <h2 class="sec">Flashcards</h2>
+  <p class="small">Tap a card to flip it. Say the answer out loud before you flip.</p>
+  <div class="cards" id="cards"><button class="card" type="button" aria-pressed="false"><span class="front">Why multi-core?</span><span class="back">Higher clock speeds cause heat and power problems. Use the extra transistors for more cores; 2× cores at ½ frequency gives the same performance at ¼ the power.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Parallel vs distributed: goal</span><span class="back">Parallel: faster execution of one application. Distributed: sharing resources to raise throughput.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Speedup, efficiency, cost</span><span class="back">S = T(1)/T(p). E = S/p. Cost = p × T(p).</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Strong vs weak scalability</span><span class="back">Strong: more processors, fixed input. Weak: more processors and a proportionally larger input.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Cloud: five characteristics</span><span class="back">On-demand self-service, broad network access, resource pooling, rapid elasticity, measured service.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">IaaS, PaaS, SaaS examples</span><span class="back">IaaS: Amazon EC2. PaaS: Google App Engine, Microsoft Azure. SaaS: Google web apps, Salesforce Sales Cloud and Service Cloud.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Four deployment models</span><span class="back">Public, private (on-premise or externally hosted), community (common vision), hybrid (two or more).</span></button><button class="card" type="button" aria-pressed="false"><span class="front">CapEx vs OpEx</span><span class="back">Cloud turns upfront capital spending into operating spending. Savings are not guaranteed.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Principle of locality</span><span class="back">Spatial: nearby locations next. Temporal: the same location again soon.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Write-through vs write-back</span><span class="back">Update memory on each write vs mark dirty and write on replacement.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Page table and TLB</span><span class="back">Page table translates virtual to physical addresses; TLB caches 16 to 512 entries to avoid the lookup cost.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Flynn taxonomy</span><span class="back">SISD (von Neumann), SIMD (vector, GPU), MISD (pipeline, not commercial), MIMD (multi-core, clusters).</span></button><button class="card" type="button" aria-pressed="false"><span class="front">UMA vs NUMA</span><span class="back">Uniform: equal access time (SMP). Non-uniform: access across a link is slower (CC-NUMA).</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Cache coherence fix</span><span class="back">Invalidation-based protocol with snooping; MSI and MESI add state bits. Invalidation generates less bus traffic than update.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Bisection width</span><span class="back">The number of simultaneous communications across the divide when a network is split in half.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Task vs data parallelism</span><span class="back">Task: split what is done. Data: split what it is done to. (Grading by question vs grading by exam pile.)</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Amdahl's law</span><span class="back">S = 1/(α + (1−α)/P). Fixed problem size; the serial part caps speedup at 1/α.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Gustafson-Barsis's law</span><span class="back">S = P + (1−P)α. The problem grows with P, so the serial share shrinks.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Sources of overhead</span><span class="back">Interprocess interaction, synchronization, idling, contention, excess computation.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">MPI six basics</span><span class="back">MPI_INIT, MPI_FINALIZE, MPI_COMM_SIZE, MPI_COMM_RANK, MPI_SEND, MPI_RECV.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">MPI collectives</span><span class="back">Barrier (sync), broadcast (one to many), reduction (many to one), scatter, gather.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">RPC in one line</span><span class="back">A client stub marshals the call, the server stub unmarshals and runs it, and the result returns the same way. Can be synchronous or asynchronous.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">RPC vs RMI</span><span class="back">RPC calls functions; RMI calls methods on remote objects with unique references and proxies/skeletons.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Message queue primitives</span><span class="back">Put, Get (blocks), Poll (never blocks), Notify (handler on arrival).</span></button></div>
+</section>
+</main>
+<footer class="foot"><p>Built from the CST435 lecture decks (Topics 1 to 5, including Parts 1 and 2). Diagrams are redrawn, not copied from the slides. Practical sections on Pthreads, OpenMP, MPI programming and CUDA are not in these decks.</p></footer>
+<script>
+(function () {
+  try {
+    document.querySelectorAll('.card').forEach(function (c) {
+      c.addEventListener('click', function () {
+        c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      });
+    });
+  } catch (e) {}
+  try {
+    var box = document.getElementById('lightbox');
+    var big = box.querySelector('img');
+    document.querySelectorAll('.zoom').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var img = b.querySelector('img');
+        big.src = img.src;
+        big.alt = img.alt;
+        if (box.showModal) { box.showModal(); }
+      });
+    });
+    box.querySelector('.close').addEventListener('click', function () { box.close(); });
+    box.addEventListener('click', function (e) { if (e.target === box) { box.close(); } });
+  } catch (e) {}
+})();
+
+
+(function () {
+  try {
+    var a = document.getElementById('alpha'), p = document.getElementById('procs');
+    if (!a || !p) { return; }
+    var X0 = 56, X1 = 536, Y0 = 292, Y1 = 18, MAXP = 64;
+    function px(n) { return X0 + (n - 1) / (MAXP - 1) * (X1 - X0); }
+    function py(s) { return Y0 - s / MAXP * (Y0 - Y1); }
+    function am(al, n) { return 1 / (al + (1 - al) / n); }
+    function gu(al, n) { return n - (n - 1) * al; }
+    function path(fn) { var d = []; for (var n = 1; n <= MAXP; n++) { d.push(px(n).toFixed(1) + ' ' + py(fn(n)).toFixed(1)); } return 'M' + d.join(' L'); }
+    function set(id, t) { document.getElementById(id).textContent = t; }
+    function render() {
+      var al = a.value / 100, n = +p.value, sa = am(al, n), sg = gu(al, n);
+      set('alpha-o', a.value + '%'); set('procs-o', n);
+      set('o-am', sa.toFixed(2)); set('o-gu', sg.toFixed(2)); set('o-ea', Math.round(sa / n * 100) + '%');
+      set('o-cap', al > 0 ? (1 / al).toFixed(2) : 'no limit');
+      document.getElementById('p-am').setAttribute('d', path(function (k) { return am(al, k); }));
+      document.getElementById('p-gu').setAttribute('d', path(function (k) { return gu(al, k); }));
+      var da = document.getElementById('d-am'), dg = document.getElementById('d-gu');
+      da.setAttribute('cx', px(n)); da.setAttribute('cy', py(sa)); dg.setAttribute('cx', px(n)); dg.setAttribute('cy', py(sg));
+    }
+    a.addEventListener('input', render); p.addEventListener('input', render); render();
+  } catch (e) {}
+})();
+
+</script>
+</body>
+</html>
