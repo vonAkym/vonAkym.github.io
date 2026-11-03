@@ -365,7 +365,7 @@ PAGE = f'''<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#060510">
-<title>Study Arc: Y4S1 notes told as one story</title>
+<title>StoryMode: Y4S1 notes told as one story</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -377,7 +377,7 @@ PAGE = f'''<!DOCTYPE html>
 <body>
 <div class="stars a" aria-hidden="true"></div><div class="stars b" aria-hidden="true"></div>
 <header class="bar"><div class="wrap">
-  <a class="logo" href="./" aria-label="Study Arc, home"><img src="favicon.svg" width="38" height="38" alt=""><span><b>Study</b> Arc</span></a>
+  <a class="logo" href="./" aria-label="StoryMode, home"><img src="favicon.svg" width="38" height="38" alt=""><span><b>Story</b>Mode</span></a>
   <nav aria-label="Main"><a href="#subjects">Subjects</a><a href="#method">Method</a>
   <button class="icon motion-btn" type="button" aria-pressed="false" aria-label="Pause animations"><svg class="ic pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="ic play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
   <a class="icon" href="https://github.com/vonAkym" aria-label="GitHub profile">{svg(GH, 20)}</a></nav>
@@ -385,7 +385,7 @@ PAGE = f'''<!DOCTYPE html>
 <main>
 <section class="hero"><div class="wrap">
   <div>
-    <p class="eyebrow">Study Arc · Y4S1 · USM · 2026</p>
+    <p class="eyebrow">StoryMode · Y4S1 · USM · 2026</p>
     <h1>Learn every subject as <em>one story.</em></h1>
     <p class="lead">Problem, fix, new problem. Six subjects in one hub, each told so the next idea always explains itself.</p>
     <div class="btns"><a class="btn solid" href="#subjects">See subjects</a><a class="btn" href="cmt322/">Open CMT322 {svg(ARROW, 18, 2.2)}</a></div>

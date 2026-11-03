@@ -1,4 +1,4 @@
-# Study Arc (Y4S1 study hub): project guide
+# StoryMode (Y4S1 study hub): project guide
 
 A static website (GitHub Pages) of study notes for one student's USM Year 4 Semester 1 subjects.
 Repo `vonAkym/vonAkym.github.io`, served at `https://vonakym.github.io/`. Plain HTML, CSS and a little JavaScript. No framework, no build server.
