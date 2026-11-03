@@ -92,6 +92,9 @@ a { color: inherit; }
 .bar { position: fixed; z-index: 20; inset: 0 0 auto 0; padding-top: env(safe-area-inset-top, 0px); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); background: linear-gradient(180deg, rgba(6,5,16,.85), rgba(6,5,16,.35)); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 68px; }
 .logo { font: 500 1.3rem var(--display); text-decoration: none; letter-spacing: -.02em; }
+.logo { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+.logo img { display: block; border-radius: 11px; }
+@media (max-width: 480px) { .logo span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } }
 .logo b { color: var(--violet); font-weight: 500; }
 .bar nav { display: flex; align-items: center; gap: 8px; }
 .bar nav a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 14px; border-radius: 999px; text-decoration: none; font-size: .95rem; color: var(--muted); transition: color .2s, background-color .2s, scale .12s var(--ease-out); }
@@ -362,6 +365,9 @@ PAGE = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#060510">
 <title>Y4S1 Study Hub</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&family=Unbounded:wght@300;400;500&display=swap" rel="stylesheet">
@@ -370,7 +376,7 @@ PAGE = f'''<!DOCTYPE html>
 <body>
 <div class="stars a" aria-hidden="true"></div><div class="stars b" aria-hidden="true"></div>
 <header class="bar"><div class="wrap">
-  <a class="logo" href="./" aria-label="Y4S1 Study Hub, home"><b>Y4</b>S1</a>
+  <a class="logo" href="./" aria-label="Y4S1 Study Hub, home"><img src="favicon.svg" width="38" height="38" alt=""><span><b>Y4</b>S1</span></a>
   <nav aria-label="Main"><a href="#subjects">Subjects</a><a href="#method">Method</a>
   <button class="icon motion-btn" type="button" aria-pressed="false" aria-label="Pause animations"><svg class="ic pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="ic play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
   <a class="icon" href="https://github.com/vonAkym" aria-label="GitHub profile">{svg(GH, 20)}</a></nav>

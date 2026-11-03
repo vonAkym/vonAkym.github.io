@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Y4S1 Study Hub icon: a sleepy student at a desk beside a glowing monitor">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a0e4a"/><stop offset="1" stop-color="#4a2aa8"/></linearGradient>
+  <linearGradient id="scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6fbff"/><stop offset="1" stop-color="#6fd6ff"/></linearGradient>
+  <linearGradient id="band" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff4fa3"/><stop offset=".5" stop-color="#9777ee"/><stop offset="1" stop-color="#3cc4c6"/></linearGradient>
+  <radialGradient id="glow" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#6fd6ff" stop-opacity=".55"/><stop offset="1" stop-color="#6fd6ff" stop-opacity="0"/></radialGradient>
+  <mask id="bite"><rect width="512" height="512" fill="#fff"/><circle cx="110" cy="80" r="36" fill="#000"/></mask>
+  <clipPath id="sq"><rect x="14" y="14" width="484" height="484" rx="64"/></clipPath>
+  <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="1.2" fill="#000" opacity=".14"/></pattern>
+</defs>
+<rect width="512" height="512" rx="74" fill="#060510"/>
+<g clip-path="url(#sq)">
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <!-- moon -->
+  <circle cx="92" cy="92" r="40" fill="#fff4c9" mask="url(#bite)"/>
+  <!-- monitor glow -->
+  <circle cx="300" cy="190" r="190" fill="url(#glow)"/>
+  <!-- monitor -->
+  <rect x="190" y="84" width="220" height="176" rx="20" fill="#d9d2f0" stroke="#140a34" stroke-width="8"/>
+  <rect x="210" y="104" width="180" height="128" rx="12" fill="url(#scr)" stroke="#140a34" stroke-width="6"/>
+  <g stroke="#ff4fa3" stroke-width="9" stroke-linecap="round"><path d="M230 134 H330"/><path d="M230 160 H360"/><path d="M230 186 H300"/></g>
+  <rect x="312" y="176" width="14" height="20" fill="#140a34"/>
+  <path d="M232 112 L262 112 L240 124 Z" fill="#fff" opacity=".7"/>
+  <rect x="270" y="260" width="60" height="26" fill="#bdb4e0" stroke="#140a34" stroke-width="7"/>
+  <rect x="236" y="284" width="128" height="14" rx="7" fill="#d9d2f0" stroke="#140a34" stroke-width="7"/>
+  <circle cx="392" cy="244" r="5" fill="#ff4fa3"/>
+  <!-- desk -->
+  <rect x="0" y="318" width="512" height="194" fill="#2a1470"/>
+  <rect x="0" y="318" width="512" height="12" fill="url(#band)"/>
+  <!-- mug with steam -->
+  <rect x="408" y="276" width="52" height="46" rx="8" fill="#ff8fd0" stroke="#140a34" stroke-width="7"/>
+  <path d="M460 288 q22 0 22 16 q0 14 -22 14" fill="none" stroke="#140a34" stroke-width="7"/>
+  <path d="M424 262 q-10 -14 0 -26 M444 262 q-10 -14 0 -26" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>
+  <!-- notebook + pencil -->
+  <rect x="30" y="338" width="120" height="76" rx="8" fill="#f5f1fe" stroke="#140a34" stroke-width="7" transform="rotate(-6 90 376)"/>
+  <path d="M48 362 H128 M48 384 H116" stroke="#9777ee" stroke-width="5" stroke-linecap="round" transform="rotate(-6 90 376)"/>
+  <path d="M120 422 L186 404" stroke="#ffd34d" stroke-width="10" stroke-linecap="round"/><path d="M120 422 L112 424" stroke="#140a34" stroke-width="10" stroke-linecap="round"/>
+  <!-- sleepy student: arms, hood, head resting -->
+  <path d="M130 512 Q130 400 256 392 Q382 400 382 512 Z" fill="#8b6bea" stroke="#140a34" stroke-width="8"/>
+  <path d="M170 426 Q256 408 342 426" fill="none" stroke="#6a4cc9" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="256" cy="392" rx="92" ry="34" fill="#a68cf5" stroke="#140a34" stroke-width="8"/>
+  <!-- head (cheek on arms) -->
+  <ellipse cx="256" cy="360" rx="62" ry="50" fill="#ffe0cf" stroke="#140a34" stroke-width="8"/>
+  <!-- hair: bob with bangs and a little bun -->
+  <path d="M190 360 Q184 296 256 292 Q328 296 322 360 Q300 330 276 322 Q256 338 228 326 Q206 334 190 360 Z" fill="#2a1a58" stroke="#140a34" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="256" cy="284" r="22" fill="#2a1a58" stroke="#140a34" stroke-width="8"/>
+  <rect x="236" y="298" width="40" height="10" rx="5" fill="#ff4fa3" stroke="#140a34" stroke-width="4"/>
+  <!-- closed eyes, blush -->
+  <path d="M218 364 q12 12 24 0 M270 364 q12 12 24 0" fill="none" stroke="#140a34" stroke-width="6" stroke-linecap="round"/>
+  <ellipse cx="226" cy="382" rx="11" ry="6" fill="#ff8fd0" opacity=".8"/><ellipse cx="286" cy="382" rx="11" ry="6" fill="#ff8fd0" opacity=".8"/>
+  <path d="M250 388 q6 4 12 0" fill="none" stroke="#140a34" stroke-width="5" stroke-linecap="round"/>
+  <!-- zzz -->
+  <path d="M338 300 h26 l-26 30 h26" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M376 262 h18 l-18 22 h18" fill="none" stroke="#bff3ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path fill="#fff" opacity="1" d="M60 178 Q63.52 196.48 82 200 Q63.52 203.52 60 222 Q56.48 203.52 38 200 Q56.48 196.48 60 178 Z"/><path fill="#bff3ff" opacity="1" d="M150 26 Q152.24 37.76 164 40 Q152.24 42.24 150 54 Q147.76 42.24 136 40 Q147.76 37.76 150 26 Z"/><path fill="#ffd6f0" opacity="1" d="M470 52 Q472.88 67.12 488 70 Q472.88 72.88 470 88 Q467.12 72.88 452 70 Q467.12 67.12 470 52 Z"/><path fill="#fff" opacity="1" d="M440 158 Q441.92 168.08 452 170 Q441.92 171.92 440 182 Q438.08 171.92 428 170 Q438.08 168.08 440 158 Z"/>
+  <rect width="512" height="512" fill="url(#scan)"/>
+</g>
+<rect x="14" y="14" width="484" height="484" rx="64" fill="none" stroke="url(#band)" stroke-width="8"/>
+</svg>
