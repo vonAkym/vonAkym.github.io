@@ -24,6 +24,8 @@ subjects = [
       text='A project tracker for guidelines, agenda and deliverables.'),
  dict(n='0005', code='CAT405', title='Final year project', hue='#e08ada', ready=False, href=None,
       text='A project tracker for the proposal and the report.'),
+ dict(n='0006', code='CMT323', title='Information System Theory and Management', hue='#7fd6a0', ready=True, href='cmt323/',
+      text='Three weeks told as one story: from why firms buy IT to how it wins them an edge.'),
 ]
 def card(s):
     state = '<span class="state on"><i></i>Ready</span>' if s['ready'] else '<span class="state"><i></i>Coming soon</span>'
@@ -43,6 +45,11 @@ topics = [('01', 'Parallel and distributed computing', 'Why one core stalled'), 
           ('05', 'Communication', 'How processes talk')]
 rows2 = ''.join(f'<li><a href="cst435/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics)
+weeks3 = [('01', 'Information systems in global business', 'Technology alone does not pay'),
+          ('02', 'Global e-business and collaboration', 'Link the firm and its people'),
+          ('03', 'Information systems, organizations and strategy', 'From systems to strategy')]
+rows3 = ''.join(f'<li><a href="cmt323/#week-{int(n)}"><span class="wn">Week {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
+                f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in weeks3)
 rows = ''.join(f'<li><a href="cmt322/#week-{int(n)}"><span class="wn">Week {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in weeks)
 
@@ -373,14 +380,14 @@ PAGE = f'''<!DOCTYPE html>
   <div>
     <p class="eyebrow">Y4S1 · USM · 2026</p>
     <h1>Learn every subject as <em>one story.</em></h1>
-    <p class="lead">Problem, fix, new problem. Five subjects in one hub, each told so the next idea always explains itself.</p>
+    <p class="lead">Problem, fix, new problem. Six subjects in one hub, each told so the next idea always explains itself.</p>
     <div class="btns"><a class="btn solid" href="#subjects">See subjects</a><a class="btn" href="cmt322/">Open CMT322 {svg(ARROW, 18, 2.2)}</a></div>
     <a class="scroll" href="#method">{svg(DOWN, 18, 2)} Scroll down</a>
   </div>
   <div class="halo" data-loop><span class="orb big" aria-hidden="true"></span><span class="orbit" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span><span class="orbit two" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span></div>
 </div>
 <div class="wrap"><div class="stats">
-  <div><b>05</b><span>Subjects</span></div><div><b>02</b><span>Ready now</span></div><div><b>39</b><span>Flashcards</span></div>
+  <div><b>06</b><span>Subjects</span></div><div><b>03</b><span>Ready now</span></div><div><b>66</b><span>Flashcards</span></div>
 </div></div></section>
 
 <section class="s" id="method"><div class="wrap">
@@ -393,7 +400,7 @@ PAGE = f'''<!DOCTYPE html>
 <section class="s" id="subjects"><div class="wrap">
   <p class="kicker">Subjects</p>
   <h2>Pick a subject.</h2>
-  <p class="sub">Two are ready. The other three are in your Y4S1 folder and get built next.</p>
+  <p class="sub">Three are ready. The other three are in your Y4S1 folder and get built next.</p>
   <ul class="projects">{cards}</ul>
 </div></section>
 
@@ -409,6 +416,13 @@ PAGE = f'''<!DOCTYPE html>
   <h2>Five topics, one chain.</h2>
   <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in.</p>
   <ul class="weeks">{rows2}</ul>
+</div></section>
+
+<section class="s" id="topics-cmt323"><div class="wrap">
+  <p class="kicker">CMT323 · Information System Theory and Management</p>
+  <h2>Three weeks, one chain.</h2>
+  <p class="sub">Each week starts from the gap the last one left behind. Jump straight in.</p>
+  <ul class="weeks">{rows3}</ul>
 </div></section>
 
 <section class="end"><div class="wrap">

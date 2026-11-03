@@ -1,0 +1,42 @@
+/* CMT323 only: redrawn diagrams (inline SVG), 3-step chain, time/space grid, value-chain grid. */
+.chain.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.chain.c3 li:not(:last-child)::after { content: "\2192"; right: -19px; top: 34px; left: auto; bottom: auto; transform: none; }
+@media (max-width: 760px) {
+  .chain.c3 { grid-template-columns: 1fr; gap: 26px; }
+  .chain.c3 li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -26px; transform: translateX(-50%); }
+}
+
+.dgw { overflow-x: auto; margin: 10px 0 14px; padding: 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); max-width: 100%; }
+.dg { display: block; width: 100%; min-width: 640px; height: auto; }
+.dg .bx { fill: color-mix(in srgb, var(--c) 14%, var(--card)); stroke: var(--c); stroke-width: 2; }
+.dg .bx2 { fill: var(--card); stroke: var(--line); stroke-width: 2; }
+.dg .bxs { fill: var(--c); stroke: none; }
+.dg .lane { fill: color-mix(in srgb, var(--c) 7%, var(--card)); stroke: var(--line); stroke-width: 1.5; }
+.dg text { font: 500 15px var(--body); fill: var(--ink); }
+.dg .tb { font-weight: 700; font-family: var(--display); }
+.dg .ts { font-size: 13px; fill: var(--muted); }
+.dg .ton { fill: var(--on); }
+.dg .tc { fill: var(--ct); }
+.dg .ln { stroke: var(--ink); stroke-width: 2; fill: none; }
+.dg .ln.dash { stroke-dasharray: 6 5; stroke: var(--muted); }
+.dg .ah { fill: var(--ink); }
+.dg .ln.fb { stroke: var(--warn); }
+.dg .ah.fb { fill: var(--warn); }
+.dg .circ { fill: color-mix(in srgb, var(--c) 30%, var(--card)); stroke: var(--c); stroke-width: 2; }
+
+.tsm { display: grid; grid-template-columns: 92px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 6px; max-width: 820px; margin: 10px 0; }
+.tsm > div { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); font-size: .9rem; line-height: 1.4; min-width: 0; overflow-wrap: anywhere; }
+.tsm .h { padding: 8px 6px; overflow-wrap: normal; hyphens: none; display: grid; place-items: center; text-align: center; background: color-mix(in srgb, var(--c) 18%, var(--card)); font-weight: 700; color: var(--ct); font-size: .85rem; }
+.tsm .h small { display: block; font-weight: 500; color: var(--muted); }
+.tsm .cell b { display: block; font: 700 1rem var(--display); color: var(--ct); }
+.tsm .cell { border-top: 5px solid var(--c); }
+@media (max-width: 560px) { .tsm { grid-template-columns: 74px 1fr 1fr; gap: 4px; } .tsm > div { padding: 8px; font-size: .8rem; } .tsm .h { padding: 6px 3px; font-size: .74rem; } }
+
+.vchain { display: grid; grid-template-columns: 96px repeat(5, minmax(0, 1fr)); gap: 5px; margin: 10px 0; }
+.vchain > div { padding: 8px 9px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); font-size: .84rem; line-height: 1.35; min-width: 0; overflow-wrap: anywhere; }
+.vchain .lab { display: grid; place-items: center; text-align: center; background: var(--c); color: var(--on); font: 700 .85rem var(--display); border: 0; }
+.vchain .sup { grid-column: span 5; background: color-mix(in srgb, var(--c) 10%, var(--card)); }
+.vchain .sup b, .vchain .pri b { display: block; color: var(--ct); font-family: var(--display); }
+.vchain .pri { background: color-mix(in srgb, var(--c) 20%, var(--card)); }
+.vchain-wrap { overflow-x: auto; max-width: 100%; }
+.vchain-wrap .vchain { min-width: 640px; }

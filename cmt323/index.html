@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060510">
+<title>CMT323 Notes: Weeks 1 to 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Caveat:wght@600&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Design plan: graph-paper study notebook. Cool paper, navy ink, one highlighter colour per week
+   (teal, amber, coral, indigo, magenta) so a colour tells you which chapter you are in.
+   Layout: single reading column, wide scrollable mind maps, cards for lists. */
+:root {
+  --paper: #f3f5fb; --card: #ffffff; --ink: #16213a; --muted: #4b566f; --line: #cdd5e6;
+  --grid: rgba(54, 78, 140, .07); --brand: #2b3a67; --warn: #c93a32;
+  --low: #7fcf8f; --med: #f3d55b; --high: #f2a04a; --crit: #e5584d; --hm-ink: #1b2030;
+  --display: "Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
+  --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+.w1 { --c: #0b7a7c; --on: #ffffff; --ct: #0b7a7c; }
+.w2 { --c: #f0a500; --on: #2b1b00; --ct: #8f5c00; }
+.w3 { --c: #c93a32; --on: #ffffff; --ct: #c93a32; }
+.w4 { --c: #3a56d4; --on: #ffffff; --ct: #3a56d4; }
+.w5 { --c: #9b2f94; --on: #ffffff; --ct: #9b2f94; }
+.wx { --c: #2b3a67; --on: #ffffff; --ct: #2b3a67; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0f1424; --card: #182036; --ink: #e8ecf8; --muted: #a5afc9; --line: #2c3656;
+    --grid: rgba(150, 175, 255, .06); --brand: #aebaf0; --warn: #ff7a6e;
+  }
+  :root:not([data-theme="light"]) .w1 { --c: #3cc4c6; --on: #0f1424; --ct: #3cc4c6; }
+  :root:not([data-theme="light"]) .w2 { --c: #f0b429; --on: #0f1424; --ct: #f0b429; }
+  :root:not([data-theme="light"]) .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
+  :root:not([data-theme="light"]) .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
+  :root:not([data-theme="light"]) .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+  :root:not([data-theme="light"]) .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0f1424; --card: #182036; --ink: #e8ecf8; --muted: #a5afc9; --line: #2c3656;
+  --grid: rgba(150, 175, 255, .06); --brand: #aebaf0; --warn: #ff7a6e;
+}
+:root[data-theme="dark"] .w1 { --c: #3cc4c6; --on: #0f1424; --ct: #3cc4c6; }
+:root[data-theme="dark"] .w2 { --c: #f0b429; --on: #0f1424; --ct: #f0b429; }
+:root[data-theme="dark"] .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
+:root[data-theme="dark"] .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
+:root[data-theme="dark"] .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+:root[data-theme="dark"] .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+a, button, summary { touch-action: manipulation; }
+body {
+  margin: 0; background-color: var(--paper); color: var(--ink);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font: 400 16px/1.6 var(--body);
+}
+main, .hero, .foot { max-width: 1080px; margin-inline: auto; padding-inline: 16px; }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0; }
+b { font-weight: 600; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
+.small { color: var(--muted); font-size: .92rem; margin: .4rem 0 .9rem; max-width: 70ch; }
+.note { font-family: var(--hand); font-size: 1.25rem; color: var(--ct, var(--brand)); }
+
+/* hero */
+.hero { padding-top: 40px; padding-bottom: 8px; }
+.eyebrow { font: 500 .78rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+.hero h1 { font-size: clamp(2.1rem, 6vw, 3.6rem); font-weight: 800; letter-spacing: -.02em; }
+.lead { max-width: 60ch; font-size: 1.12rem; margin: 14px 0 20px; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; }
+.jump a {
+  text-decoration: none; font-weight: 600; font-size: .9rem; padding: 7px 14px; border-radius: 999px;
+  background: var(--c); color: var(--on); border: 2px solid var(--c);
+}
+.jump a.wx { background: transparent; color: var(--ct); border-color: var(--c); }
+
+/* sections */
+.band { margin-top: 44px; }
+.sec { font-size: clamp(1.5rem, 3.6vw, 2.1rem); font-weight: 800; margin-bottom: 6px; }
+.week { margin-top: 64px; padding-top: 22px; border-top: 6px solid var(--c); }
+.week h3, .band h3 { font-size: 1.25rem; font-weight: 700; margin: 30px 0 10px; color: var(--ct); }
+.week-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 14px; }
+.wk { font: 500 .8rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; background: var(--c); color: var(--on); padding: 6px 10px; border-radius: 6px; }
+.week-head h2 { font-size: clamp(1.7rem, 4.4vw, 2.6rem); font-weight: 800; color: var(--ct); letter-spacing: -.01em; }
+.blurb { flex-basis: 100%; margin: 0; font-family: var(--hand); font-size: 1.5rem; color: var(--muted); }
+
+/* previously-on cards */
+.story { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.story a {
+  display: flex; flex-direction: column; gap: 6px; height: 100%; text-decoration: none; padding: 14px 14px 16px;
+  background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 10px;
+}
+.story .wk { align-self: flex-start; }
+.story h3 { margin: 6px 0 2px; font-size: 1.1rem; color: var(--ct); }
+.story p { margin: 0; font-size: .9rem; line-height: 1.45; }
+.story p b { display: block; font: 500 .7rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.story .but { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); }
+.story .but b { color: var(--warn); }
+
+/* problem, solution, new problem */
+.psn { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin: 8px 0 4px; }
+.psn > div { flex: 1 1 230px; padding: 12px 14px; border-radius: 10px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.psn > .n { background: color-mix(in srgb, var(--warn) 10%, var(--card)); border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); }
+.psn b { font: 500 .72rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--ct); }
+.psn .n b { color: var(--warn); }
+.psn p { margin: 4px 0 0; font-size: .95rem; line-height: 1.45; }
+.psn .arr { align-self: center; font-size: 1.6rem; color: var(--ct); }
+@media (max-width: 820px) { .psn .arr { flex-basis: 100%; text-align: center; transform: rotate(90deg); height: 24px; line-height: 24px; } }
+
+/* mind map */
+.mm-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 10px; -webkit-overflow-scrolling: touch; }
+.mm-wrap .hint { display: none; margin: 0 0 4px; font: 500 .75rem/1 var(--mono); color: var(--muted); }
+.mm { display: block; width: 100%; min-width: 940px; height: auto; font-family: var(--body); }
+.mm-link { fill: none; stroke: var(--c); stroke-width: 2.2; opacity: .85; }
+.mm-link.thin { stroke-width: 1.4; opacity: .6; }
+.mm-center { fill: var(--c); }
+.mm-ctxt { fill: var(--on); font: 700 16px var(--display); }
+.mm-branch { fill: color-mix(in srgb, var(--c) 16%, var(--card)); stroke: var(--c); stroke-width: 2; }
+.mm-btxt { fill: var(--ink); font: 600 13.5px var(--body); }
+.mm-leaf { fill: var(--ink); font: 400 13.5px var(--body); }
+.mm-dot { fill: var(--c); }
+@media (max-width: 960px) { .mm-wrap .hint { display: block; } }
+
+/* pictures */
+.shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px; }
+.shot { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px; }
+.zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 8px; overflow: hidden; }
+.shot img { display: block; width: 100%; height: auto; max-width: 100%; border-radius: 6px; }
+.shot figcaption { font-size: .88rem; color: var(--muted); padding: 8px 4px 4px; line-height: 1.45; }
+#lightbox { max-width: 96vw; max-height: 94vh; padding: 10px; border: 0; border-radius: 12px; background: var(--card); color: var(--ink); }
+#lightbox::backdrop { background: rgba(8, 12, 24, .72); }
+#lightbox img { display: block; max-width: 92vw; max-height: 82vh; margin: 8px auto 0; }
+#lightbox .close { font: 600 .9rem var(--body); padding: 8px 16px; border-radius: 999px; border: 2px solid var(--brand); background: transparent; color: var(--ink); cursor: pointer; }
+
+/* terms */
+.terms { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)); gap: 10px; margin: 0; }
+.terms > div { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: 8px; padding: 10px 12px; }
+.terms dt { font: 700 1rem var(--display); color: var(--ct); }
+.terms dd { margin: 3px 0 0; font-size: .93rem; line-height: 1.5; }
+
+/* tables */
+.tbl-wrap { overflow-x: auto; margin: 6px 0; }
+table { border-collapse: collapse; width: 100%; background: var(--card); font-size: .93rem; }
+th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+thead th { background: color-mix(in srgb, var(--c) 18%, var(--card)); }
+tbody th { background: color-mix(in srgb, var(--c) 8%, var(--card)); }
+th small { font-weight: 400; color: var(--muted); }
+table.gen th, table.gen td { min-width: 140px; }
+
+/* week 1 staircase */
+.ladder { list-style: none; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.ladder li {
+  display: flex; flex-direction: column; gap: 2px; padding: 10px 10px 12px; border-radius: 10px; border: 1px solid var(--c);
+  background: color-mix(in srgb, var(--c) calc(6% + var(--i) * 3.5%), var(--card));
+}
+.ladder .n { font: 500 .75rem/1 var(--mono); color: var(--ct); }
+.ladder b { font-family: var(--display); font-size: 1.02rem; }
+.ladder small { font-size: .82rem; line-height: 1.35; color: var(--muted); }
+@media (min-width: 780px) {
+  .ladder { grid-template-columns: repeat(5, 1fr); align-items: start; }
+  .ladder li { margin-top: calc((4 - var(--j)) * 16px); }
+}
+
+/* week 2 pipeline, week 3 flow */
+.pipe, .flow5 { list-style: none; margin: 8px 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; counter-reset: s; }
+.pipe li, .flow5 li {
+  counter-increment: s; position: relative; flex: 1 1 190px; padding: 12px 12px 14px 12px; border-radius: 10px;
+  background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line));
+}
+.pipe li::before, .flow5 li::before { content: counter(s); display: inline-grid; place-items: center; width: 26px; height: 26px; margin-bottom: 6px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.pipe b, .flow5 b { display: block; font-family: var(--display); font-size: 1.05rem; color: var(--ct); }
+.pipe span, .flow5 span { display: block; font-size: .9rem; line-height: 1.45; }
+@media (min-width: 900px) { .pipe li:not(:last-child)::after, .flow5 li:not(:last-child)::after { content: "\2192"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%); font-size: 1.3rem; color: var(--ct); background: var(--paper); line-height: 1; z-index: 1; } }
+
+/* callouts and answers */
+.callout { margin: 16px 0; padding: 12px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--brand); font-size: .95rem; }
+.callout.trap { border-left-color: var(--warn); background: color-mix(in srgb, var(--warn) 8%, var(--card)); }
+.callout.trap b:first-child { color: var(--warn); }
+.hook { font: 500 .95rem var(--mono); padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--c) 12%, var(--card)); }
+.qa { background: var(--card); border: 1px solid var(--line); border-radius: 10px; margin: 8px 0; }
+.qa summary { cursor: pointer; list-style: none; padding: 12px 14px 12px 14px; display: flex; gap: 12px; align-items: flex-start; font-weight: 600; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; margin-left: auto; font: 500 1.3rem/1 var(--mono); color: var(--ct); }
+.qa[open] summary::after { content: "\2212"; }
+.qn { flex: none; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.ans { padding: 0 14px 12px 52px; }
+.ans p { margin: 8px 0; } .ans ul { margin: 8px 0; padding-left: 1.1rem; }
+
+/* week 3 */
+.heat-wrap { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 820px) { .heat-wrap { grid-template-columns: 1fr; } }
+.heat { background: none; }
+.heat th, .heat td { text-align: center; vertical-align: middle; }
+.heat thead th, .heat tbody th { font-size: .8rem; background: var(--card); }
+.heat .corner { font-family: var(--mono); }
+.heat td { color: var(--hm-ink); font-size: 1.15rem; height: 54px; min-width: 62px; }
+.heat td small { display: block; font-size: .62rem; line-height: 1.1; font-weight: 500; }
+.heat .low, .sw.low { background: var(--low); } .heat .med, .sw.med { background: var(--med); }
+.heat .high, .sw.high { background: var(--high); } .heat .crit, .sw.crit { background: var(--crit); }
+.heat td.key { outline: 3px solid var(--ink); outline-offset: -3px; }
+.legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: .9rem; }
+.legend li { display: flex; gap: 10px; align-items: flex-start; }
+.sw { flex: none; width: 18px; height: 18px; border-radius: 4px; margin-top: 3px; border: 1px solid var(--line); }
+.strat { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.strat div { padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); }
+.strat b { display: block; font: 700 1.1rem var(--display); color: var(--ct); }
+.strat span { font-size: .88rem; }
+.cards3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.cards3 .c { background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); border-radius: 10px; padding: 12px; }
+.cards3 h4 { font-size: 1.05rem; color: var(--ct); }
+.cards3 p { margin: 6px 0 0; font-size: .92rem; line-height: 1.45; }
+.cards3 .eg { color: var(--muted); } .cards3 .imp { font-weight: 600; }
+
+/* week 4 */
+.dbmap { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 8px 12px; align-items: center; max-width: 640px; }
+.dbmap div { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--c); border-radius: 8px; padding: 8px 12px; }
+.dbmap b { display: block; font: 500 .72rem var(--mono); text-transform: uppercase; letter-spacing: .06em; color: var(--ct); }
+.dbmap i { font-style: normal; font-size: 1.4rem; color: var(--ct); }
+
+/* week 5 */
+.goals, .quality { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 10px; }
+.goals li, .quality li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; border-left: 5px solid var(--c); }
+.goals b, .quality b { display: block; font: 700 1.05rem var(--display); color: var(--ct); }
+.goals span, .quality span { font-size: .9rem; line-height: 1.45; }
+.three { list-style: none; counter-reset: q; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.three li { counter-increment: q; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.three li::before { content: counter(q); display: block; font: 800 2.4rem/1 var(--display); color: var(--ct); }
+.three b { font: 700 1.1rem var(--display); display: block; margin-top: 2px; }
+.three span { font-size: .9rem; }
+.groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; }
+.groups .g { background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); border-radius: 10px; padding: 12px; }
+.groups h4 { font-size: 1.02rem; color: var(--ct); margin-bottom: 6px; }
+.groups ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.groups li b { display: block; font-size: .95rem; }
+.groups li span { font-size: .86rem; color: var(--muted); line-height: 1.35; }
+.steps7 { list-style: none; counter-reset: st; margin: 8px 0; padding: 0 0 0 4px; max-width: 760px; }
+.steps7 li { counter-increment: st; position: relative; padding: 4px 0 18px 46px; }
+.steps7 li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .95rem var(--mono); }
+.steps7 li:not(:last-child)::after { content: ""; position: absolute; left: 15px; top: 34px; bottom: 2px; width: 2px; background: color-mix(in srgb, var(--c) 50%, var(--line)); }
+
+/* cheat sheet and flashcards */
+.nums { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+.nums li { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+.nums b { display: block; font: 500 1.35rem/1.2 var(--mono); color: var(--ct); overflow-wrap: anywhere; }
+.nums span { font-size: .88rem; color: var(--muted); }
+.traps { margin: 0; padding-left: 1.2rem; display: grid; gap: 8px; max-width: 78ch; }
+.traps li::marker { color: var(--warn); }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 12px; }
+.card { text-align: left; min-height: 130px; padding: 14px; border-radius: 12px; border: 1px solid var(--line); border-top: 5px solid var(--c); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.card .front { font: 700 1.05rem/1.25 var(--display); }
+.card .back { display: none; font-size: .93rem; line-height: 1.5; }
+.card[aria-pressed="true"] { background: color-mix(in srgb, var(--c) 14%, var(--card)); }
+.card[aria-pressed="true"] .front { display: none; }
+.card[aria-pressed="true"] .back { display: block; }
+.foot { padding-top: 40px; padding-bottom: 48px; color: var(--muted); font-size: .88rem; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media print { .jump, .hint { display: none; } body { background-image: none; } .mm-wrap { overflow: visible; } }
+
+.back { display: inline-block; margin-bottom: 18px; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--brand); border-bottom: 2px solid var(--brand); }
+
+/* hover motion only where a real pointer can hover (touch fires sticky hovers) */
+@media (hover: hover) and (pointer: fine) {
+  .jump a:hover { filter: brightness(1.08); }
+  .story a:hover { border-color: var(--c); }
+  .back:hover { filter: brightness(1.15); }
+}
+
+/* ---- CST435 extras ---- */
+.tl { list-style: none; margin: 8px 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; counter-reset: t; }
+.tl li { counter-increment: t; position: relative; padding: 12px 12px 14px; border-radius: 10px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.tl li::before { content: counter(t); display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .8rem var(--mono); margin-bottom: 4px; }
+.tl b { display: block; font: 700 1rem var(--display); color: var(--ct); }
+.tl span { font-size: .88rem; line-height: 1.4; }
+.bars { display: grid; gap: 8px; margin: 8px 0 14px; }
+.bars .row { display: grid; grid-template-columns: 110px minmax(0, 1fr) 150px; gap: 10px; align-items: center; font-size: .92rem; }
+.bars .track { position: relative; height: 22px; border-radius: 6px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid var(--line); overflow: hidden; }
+.bars .fill { position: absolute; inset: 0 auto 0 0; background: var(--c); border-radius: 5px 0 0 5px; }
+.bars .ideal { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--ink); opacity: .6; }
+@media (max-width: 640px) { .bars .row { grid-template-columns: 1fr; gap: 2px; } }
+.layers { display: grid; gap: 6px; max-width: 760px; margin: 8px 0; }
+.layers .l { display: grid; grid-template-columns: 150px minmax(0, 1fr); border-radius: 10px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--c) 45%, var(--line)); background: var(--card); }
+.layers .l b { display: grid; place-items: center; padding: 10px; background: var(--c); color: var(--on); font: 700 .95rem var(--display); text-align: center; }
+.layers .l span { padding: 10px 12px; font-size: .92rem; }
+.layers .l.you b { background: color-mix(in srgb, var(--c) 18%, var(--card)); color: var(--ct); }
+@media (max-width: 520px) { .layers .l { grid-template-columns: 1fr; } }
+.flynn { display: grid; grid-template-columns: 110px 1fr 1fr; gap: 6px; max-width: 760px; margin: 8px 0; }
+.flynn > div { padding: 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); font-size: .92rem; }
+.flynn .h { background: color-mix(in srgb, var(--c) 18%, var(--card)); font-weight: 700; display: grid; place-items: center; text-align: center; color: var(--ct); }
+.flynn .cell b { display: block; font: 700 1.3rem var(--display); color: var(--ct); }
+.flynn .cell small { color: var(--muted); display: block; margin-top: 2px; }
+@media (max-width: 560px) { .flynn { grid-template-columns: 70px 1fr 1fr; font-size: .85rem; } }
+.pyr { display: grid; gap: 4px; justify-items: center; max-width: 620px; margin: 8px 0; }
+.pyr div { padding: 10px 14px; text-align: center; border-radius: 8px; color: var(--ink); font-size: .92rem; background: color-mix(in srgb, var(--c) calc(14% + var(--k) * 12%), var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); }
+.pyr div b { font-family: var(--display); }
+.pyr-note { display: flex; justify-content: space-between; max-width: 620px; font-size: .82rem; color: var(--muted); }
+.steps-h { list-style: none; counter-reset: sh; margin: 8px 0; padding: 0; display: grid; gap: 8px; max-width: 820px; }
+.steps-h li { counter-increment: sh; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: start; padding: 8px 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; font-size: .94rem; }
+.steps-h li::before { content: counter(sh); display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--c); color: var(--on); font: 600 .85rem var(--mono); }
+.steps-h li.srv { margin-left: 28px; border-left: 5px solid var(--c); }
+.code { margin: 8px 0; padding: 12px 14px; overflow-x: auto; border-radius: 10px; background: color-mix(in srgb, var(--c) 8%, var(--card)); border: 1px solid var(--line); font: 500 .88rem/1.55 var(--mono); }
+.chips-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; padding: 0; list-style: none; }
+.chips-row li { padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--c) 12%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); font-size: .9rem; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.two > div { padding: 12px 14px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c); font-size: .94rem; }
+.two h4 { font-size: 1.05rem; color: var(--ct); margin-bottom: 4px; }
+.two p { margin: 4px 0 0; }
+.tree { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.tree figure { margin: 0; padding: 10px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
+.tree svg { width: 100%; height: auto; }
+.tree .n { fill: color-mix(in srgb, var(--c) 20%, var(--card)); stroke: var(--c); stroke-width: 1.6; }
+.tree .nm { fill: var(--c); }
+.tree text { fill: var(--ink); font: 600 12px var(--body); }
+.tree .ed { stroke: var(--c); stroke-width: 1.6; fill: none; opacity: .8; }
+.tree figcaption { font-size: .88rem; color: var(--muted); padding-top: 6px; }
+.calc { padding: 14px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c); }
+.calc .ctl { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px 24px; }
+.calc label { display: flex; justify-content: space-between; font-weight: 600; font-size: .93rem; }
+.calc output { font-family: var(--mono); color: var(--ct); }
+.calc input[type=range] { width: 100%; min-height: 36px; accent-color: var(--c); }
+.calc .out { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 12px 0; }
+.calc .out div { padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--c) 10%, var(--card)); border: 1px solid var(--line); }
+.calc .out b { display: block; font: 700 1.5rem/1.1 var(--display); color: var(--ct); }
+.calc .out span { font-size: .82rem; color: var(--muted); }
+.calc svg { width: 100%; height: auto; display: block; }
+.calc .ax { stroke: var(--line); stroke-width: 1; }
+.calc .tick { fill: var(--muted); font: 500 11px var(--mono); }
+.calc .c-ideal { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 4; fill: none; }
+.calc .c-am { stroke: var(--warn); stroke-width: 2.6; fill: none; }
+.calc .c-gu { stroke: var(--c); stroke-width: 2.6; fill: none; }
+.calc .pt-am { fill: var(--warn); } .calc .pt-gu { fill: var(--c); }
+.calc .lg { font: 600 12px var(--body); fill: var(--ink); }
+.calc .note { font-size: .86rem; color: var(--muted); margin: 6px 0 0; }
+.tl li, .two > div, .layers .l span, .steps-h li span, .chips-row li { min-width: 0; overflow-wrap: anywhere; }
+
+/* ---- big picture ---- */
+.bigp { margin-top: 26px; padding: 22px 20px 26px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); border-top: 8px solid var(--brand); }
+.bigp h2.sec { margin-bottom: 4px; }
+.bigp h3 { font-size: 1.15rem; margin: 26px 0 8px; color: var(--ct); }
+.bigp .headsup { max-width: 74ch; font-size: 1.05rem; margin: 8px 0 14px; }
+.chain { list-style: none; margin: 12px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 22px; }
+.chain li { position: relative; padding: 12px 12px 12px; border-radius: 12px; background: color-mix(in srgb, var(--c) 9%, var(--card)); border: 1px solid color-mix(in srgb, var(--c) 40%, var(--line)); border-top: 6px solid var(--c); display: flex; flex-direction: column; gap: 4px; }
+.chain .tn { font: 500 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ct); }
+.chain b { font: 700 1.02rem/1.2 var(--display); }
+.chain .kw { font-size: .86rem; color: var(--muted); line-height: 1.4; }
+.chain .bridge { margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--line); font-size: .84rem; line-height: 1.35; color: var(--warn); font-weight: 600; }
+.chain li:not(:last-child)::after { content: "\2192"; position: absolute; right: -19px; top: 34px; font-size: 1.3rem; line-height: 1; color: var(--muted); }
+@media (max-width: 1000px) { .chain { grid-template-columns: repeat(2, minmax(0, 1fr)); } .chain li:not(:last-child)::after { content: none; } }
+@media (max-width: 560px) { .chain { grid-template-columns: 1fr; gap: 26px; } .chain li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -26px; transform: translateX(-50%); } }
+.bigp table { min-width: 760px; }
+.bigp .promise table { min-width: 0; }
+.bigp td, .bigp th { font-size: .9rem; }
+.bigp thead th.t1 { background: color-mix(in srgb, #0b7a7c 22%, var(--card)); } .bigp thead th.t2 { background: color-mix(in srgb, #f0a500 26%, var(--card)); }
+.bigp thead th.t3 { background: color-mix(in srgb, #c93a32 20%, var(--card)); } .bigp thead th.t4 { background: color-mix(in srgb, #3a56d4 20%, var(--card)); }
+.bigp thead th.t5 { background: color-mix(in srgb, #9b2f94 20%, var(--card)); }
+.bigp .five { margin: 12px 0 0; padding-left: 1.2rem; display: grid; gap: 6px; max-width: 78ch; }
+.bigp .five b { color: var(--ct); }
+.bigp .hpc { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.bigp .hpc div { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--brand); font-size: .92rem; }
+.bigp .hpc b { display: block; font: 700 1rem var(--display); }
+
+.pm { list-style: none; margin: 10px 0 4px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.pm li { padding: 10px 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); border-top: 5px solid var(--c, var(--brand)); font-size: .88rem; line-height: 1.35; }
+.pm b { display: block; font: 700 1rem var(--display); }
+.pm .wk2 { display: inline-block; margin-top: 4px; padding: 2px 8px; border-radius: 999px; background: var(--c, var(--brand)); color: var(--on, #fff); font: 500 .72rem var(--mono); }
+.pm li.later { border-style: dashed; color: var(--muted); }
+@media (max-width: 760px) { .pm { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* CMT323 only: redrawn diagrams (inline SVG), 3-step chain, time/space grid, value-chain grid. */
+.chain.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.chain.c3 li:not(:last-child)::after { content: "\2192"; right: -19px; top: 34px; left: auto; bottom: auto; transform: none; }
+@media (max-width: 760px) {
+  .chain.c3 { grid-template-columns: 1fr; gap: 26px; }
+  .chain.c3 li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -26px; transform: translateX(-50%); }
+}
+
+.dgw { overflow-x: auto; margin: 10px 0 14px; padding: 6px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); max-width: 100%; }
+.dg { display: block; width: 100%; min-width: 640px; height: auto; }
+.dg .bx { fill: color-mix(in srgb, var(--c) 14%, var(--card)); stroke: var(--c); stroke-width: 2; }
+.dg .bx2 { fill: var(--card); stroke: var(--line); stroke-width: 2; }
+.dg .bxs { fill: var(--c); stroke: none; }
+.dg .lane { fill: color-mix(in srgb, var(--c) 7%, var(--card)); stroke: var(--line); stroke-width: 1.5; }
+.dg text { font: 500 15px var(--body); fill: var(--ink); }
+.dg .tb { font-weight: 700; font-family: var(--display); }
+.dg .ts { font-size: 13px; fill: var(--muted); }
+.dg .ton { fill: var(--on); }
+.dg .tc { fill: var(--ct); }
+.dg .ln { stroke: var(--ink); stroke-width: 2; fill: none; }
+.dg .ln.dash { stroke-dasharray: 6 5; stroke: var(--muted); }
+.dg .ah { fill: var(--ink); }
+.dg .ln.fb { stroke: var(--warn); }
+.dg .ah.fb { fill: var(--warn); }
+.dg .circ { fill: color-mix(in srgb, var(--c) 30%, var(--card)); stroke: var(--c); stroke-width: 2; }
+
+.tsm { display: grid; grid-template-columns: 92px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 6px; max-width: 820px; margin: 10px 0; }
+.tsm > div { padding: 10px 12px; border-radius: 10px; background: var(--card); border: 1px solid var(--line); font-size: .9rem; line-height: 1.4; min-width: 0; overflow-wrap: anywhere; }
+.tsm .h { padding: 8px 6px; overflow-wrap: normal; hyphens: none; display: grid; place-items: center; text-align: center; background: color-mix(in srgb, var(--c) 18%, var(--card)); font-weight: 700; color: var(--ct); font-size: .85rem; }
+.tsm .h small { display: block; font-weight: 500; color: var(--muted); }
+.tsm .cell b { display: block; font: 700 1rem var(--display); color: var(--ct); }
+.tsm .cell { border-top: 5px solid var(--c); }
+@media (max-width: 560px) { .tsm { grid-template-columns: 74px 1fr 1fr; gap: 4px; } .tsm > div { padding: 8px; font-size: .8rem; } .tsm .h { padding: 6px 3px; font-size: .74rem; } }
+
+.vchain { display: grid; grid-template-columns: 96px repeat(5, minmax(0, 1fr)); gap: 5px; margin: 10px 0; }
+.vchain > div { padding: 8px 9px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); font-size: .84rem; line-height: 1.35; min-width: 0; overflow-wrap: anywhere; }
+.vchain .lab { display: grid; place-items: center; text-align: center; background: var(--c); color: var(--on); font: 700 .85rem var(--display); border: 0; }
+.vchain .sup { grid-column: span 5; background: color-mix(in srgb, var(--c) 10%, var(--card)); }
+.vchain .sup b, .vchain .pri b { display: block; color: var(--ct); font-family: var(--display); }
+.vchain .pri { background: color-mix(in srgb, var(--c) 20%, var(--card)); }
+.vchain-wrap { overflow-x: auto; max-width: 100%; }
+.vchain-wrap .vchain { min-width: 640px; }
+
+</style>
+</head>
+<body>
+<header class="hero">
+  <a class="back" href="../">&larr; All subjects</a>
+  <p class="eyebrow">CMT323 · Test notes</p>
+  <h1>Weeks 1 to 3, as one story</h1>
+  <p class="lead">Every week exists because the one before it left a gap. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>
+  <nav class="jump" aria-label="Jump to a section"><a class="wx" href="#big-picture">Big picture</a><a class="w1" href="#week-1">Week 1</a><a class="w2" href="#week-2">Week 2</a><a class="w3" href="#week-3">Week 3</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
+</header>
+<main>
+
+<section id="big-picture" class="bigp wx">
+  <h2 class="sec">Big picture: read this first</h2>
+  <p class="headsup"><b>One question runs through all three weeks:</b> how does a business turn information technology into real value, and keep that value? Week 1 shows why firms invest and why the technology alone is not enough. Week 2 shows the systems and teamwork that carry the work. Week 3 shows how the organization and its rivals decide whether the investment wins.</p>
+  <h3>The chain: each week fixes a gap the last one left</h3>
+  <ol class="chain c3">
+    <li class="w1"><span class="tn">Week 1</span><b>Information systems in global business</b><span class="kw">Six objectives, data to information, three dimensions, complementary assets, sociotechnical view</span><span class="bridge">But a firm is many people and functions, not one system &hellip;</span></li>
+    <li class="w2"><span class="tn">Week 2</span><b>Global e-business and collaboration</b><span class="kw">Business processes, TPS, MIS, DSS, ESS, ERP, SCM, CRM, KMS, collaboration, IS department</span><span class="bridge">But systems change the organization, and rivals can buy them too &hellip;</span></li>
+    <li class="w3"><span class="tn">Week 3</span><b>Information systems, organizations and strategy</b><span class="kw">Organizational features and impacts, five forces, four strategies, value chain and web, networks</span><span class="bridge">The decks stop here: advantage can be copied, so IT must stay aligned.</span></li>
+  </ol>
+
+  <h3>How Week 1 connects to Week 3</h3>
+  <p class="small">Week 1 ends on the idea that value needs more than technology: the right business model and complementary assets (organizational, managerial and social). Week 3 spells out what those are. Culture, politics, structure and business processes decide whether a new system is accepted, and the five forces, value chain and network strategies decide whether it wins. The six objectives in Week 1 (especially competitive advantage and survival) are the aims; Week 3 is the toolkit for reaching them.</p>
+  <div class="promise tbl-wrap"><table><thead><tr><th>Week 1 raised &hellip;</th><th>Answered in &hellip;</th></tr></thead><tbody>
+    <tr><td>Organization, management and technology as the three dimensions</td><td><b>Week 2</b> (processes, levels, enterprise applications, the IS department). <b>Week 3</b> (organization features and impacts).</td></tr>
+    <tr><td>Complementary assets: business model, efficient processes, teamwork</td><td><b>Week 2</b> (business processes, collaborative culture). <b>Week 3</b> (culture, politics, resistance).</td></tr>
+    <tr><td>Improved decision making</td><td><b>Week 2</b> (MIS, DSS, ESS).</td></tr>
+    <tr><td>Customer and supplier intimacy</td><td><b>Week 2</b> (CRM, SCM). <b>Week 3</b> (a generic strategy).</td></tr>
+    <tr><td>Competitive advantage and survival</td><td><b>Week 3</b> (five forces, four strategies, value chain, challenges).</td></tr></tbody></table></div>
+
+  <h3>Four threads that run through all three weeks</h3>
+  <p class="small">These links are my own summary of the slides, to show how the weeks connect. They are not slide text.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Thread</th><th class="t1">Week 1</th><th class="t2">Week 2</th><th class="t3">Week 3</th></tr></thead><tbody>
+    <tr><th>People and culture decide success</th><td>Complementary assets; sociotechnical view</td><td>Collaborative culture; Sharp case (culture and processes changed with the software)</td><td>Culture and politics; four factors of resistance</td></tr>
+    <tr><th>Better decisions</th><td>Objective 4: real-time data instead of guesses</td><td>MIS, DSS and ESS serve different managers</td><td>Flattening: decisions move to lower levels</td></tr>
+    <tr><th>Connecting with others</th><td>Customer and supplier intimacy</td><td>SCM, CRM, extranets, social business</td><td>Value web, virtual company, ecosystems</td></tr>
+    <tr><th>The value of the firm</th><td>Business information value chain</td><td>Business processes as assets or liabilities</td><td>Value chain; competitive forces</td></tr></tbody></table></div>
+
+  <h3>If you remember only five sentences</h3>
+  <ol class="five">
+    <li><b>Week 1:</b> firms invest in information systems for six strategic objectives, and technology only pays when paired with the right business model and complementary assets.</li>
+    <li><b>Week 1:</b> an information system turns data into information through input, processing, output and feedback, and has organization, management and technology dimensions.</li>
+    <li><b>Week 2:</b> business processes cross departments, so each management level gets its own system (TPS, MIS, DSS, ESS) and enterprise applications link the firm.</li>
+    <li><b>Week 2:</b> collaboration and social business tools, chosen by time and place, only work with a collaborative culture.</li>
+    <li><b>Week 3:</b> organizations and IT shape each other, and a firm uses IS against Porter's forces, but rivals can copy strategic systems.</li>
+  </ol>
+</section>
+
+<section id="story" class="band">
+  <h2 class="sec">Previously on CMT323</h2>
+  <p class="small">Tap a card to jump to that week. Read the "But then" line, then the next card's "Problem": they are the same sentence.</p>
+  <ol class="story"><li class="w1"><a href="#week-1"><span class="wk">Week 1</span><h3>Technology alone does not pay</h3><p><b>Problem</b>Firms spend heavily on IT to compete, but similar spending gives very different returns.</p><p><b>Fix</b>Understand what an information system is (organization, management, technology) and pair the technology with complementary assets and a sociotechnical view.</p><p class="but"><b>But then</b>A firm is not one system. Different people and functions need different systems, and they must work together.</p></a></li><li class="w2"><a href="#week-2"><span class="wk">Week 2</span><h3>Linking the firm and its people</h3><p><b>Problem</b>Work flows through processes that cross departments and levels, each with different decisions to make.</p><p><b>Fix</b>Systems for each level (TPS, MIS, DSS, ESS), enterprise applications (ERP, SCM, CRM, KMS), and collaboration and social tools.</p><p class="but"><b>But then</b>New systems change structure, culture and politics, and rivals can buy the same systems. How do you get lasting value?</p></a></li><li class="w3"><a href="#week-3"><span class="wk">Week 3</span><h3>From systems to strategy</h3><p><b>Problem</b>Organizations and IT shape each other, and competitors keep pressing on the firm.</p><p><b>Fix</b>Fit systems to the organization; use IS against Porter's forces with four strategies; use the value chain, value web and network strategies.</p><p class="but"><b>But then</b>Competitors can copy a strategic system, so IT must stay aligned with business objectives. (The decks stop here.)</p></a></li></ol>
+</section>
+
+<section id="week-1" class="week w1">
+  <div class="week-head"><span class="wk">Week 1</span><h2>Information systems in global business</h2><p class="blurb">Why firms invest in IT, and why the technology alone is not enough.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Firms spend heavily on IT to compete globally, but similar spending gives very different returns.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Understand an information system as organization + management + technology, add complementary assets, and take the sociotechnical view.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>A firm is not one system. Different people and functions need different systems that work together.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 478" role="img" aria-label="Mind map of Week 1: why firms invest in information systems, what an information system is, and how to get value from it" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 239.0 C463.0 239.0 463.0 115.0 432.0 115.0"/><rect class="mm-branch" x="284.0" y="99.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="119.6" text-anchor="middle">Why firms invest</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 47.5 238.0 47.5"/><circle class="mm-dot" cx="238.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="226.0" y="51.9" text-anchor="end">Operational excellence</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 74.5 238.0 74.5"/><circle class="mm-dot" cx="238.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="226.0" y="78.9" text-anchor="end">New products and business models</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 101.5 238.0 101.5"/><circle class="mm-dot" cx="238.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="226.0" y="105.9" text-anchor="end">Customer and supplier intimacy</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 128.5 238.0 128.5"/><circle class="mm-dot" cx="238.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="226.0" y="132.9" text-anchor="end">Improved decision making</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 155.5 238.0 155.5"/><circle class="mm-dot" cx="238.0" cy="155.5" r="4.2"/><text class="mm-leaf" x="226.0" y="159.9" text-anchor="end">Competitive advantage</text><path class="mm-link thin" d="M284.0 115.0 C261.0 115.0 261.0 182.5 238.0 182.5"/><circle class="mm-dot" cx="238.0" cy="182.5" r="4.2"/><text class="mm-leaf" x="226.0" y="186.9" text-anchor="end">Survival</text><path class="mm-link" d="M494.0 239.0 C463.0 239.0 463.0 266.0 432.0 266.0"/><rect class="mm-branch" x="284.0" y="250.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="270.6" text-anchor="middle">The digital firm</text><path class="mm-link thin" d="M284.0 266.0 C261.0 266.0 261.0 225.5 238.0 225.5"/><circle class="mm-dot" cx="238.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="226.0" y="229.9" text-anchor="end">Relationships digitally enabled</text><path class="mm-link thin" d="M284.0 266.0 C261.0 266.0 261.0 252.5 238.0 252.5"/><circle class="mm-dot" cx="238.0" cy="252.5" r="4.2"/><text class="mm-leaf" x="226.0" y="256.9" text-anchor="end">Core processes on digital networks</text><path class="mm-link thin" d="M284.0 266.0 C261.0 266.0 261.0 279.5 238.0 279.5"/><circle class="mm-dot" cx="238.0" cy="279.5" r="4.2"/><text class="mm-leaf" x="226.0" y="283.9" text-anchor="end">Assets managed digitally</text><path class="mm-link thin" d="M284.0 266.0 C261.0 266.0 261.0 306.5 238.0 306.5"/><circle class="mm-dot" cx="238.0" cy="306.5" r="4.2"/><text class="mm-leaf" x="226.0" y="310.9" text-anchor="end">Time shifting, space shifting</text><path class="mm-link" d="M494.0 239.0 C453.6 239.0 453.6 390.0 413.2 390.0"/><rect class="mm-branch" x="302.8" y="374.0" width="110.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="394.6" text-anchor="middle">What is new</text><path class="mm-link thin" d="M302.8 390.0 C270.4 390.0 270.4 349.5 238.0 349.5"/><circle class="mm-dot" cx="238.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="226.0" y="353.9" text-anchor="end">Cloud, big data, IoT, AI</text><path class="mm-link thin" d="M302.8 390.0 C270.4 390.0 270.4 376.5 238.0 376.5"/><circle class="mm-dot" cx="238.0" cy="376.5" r="4.2"/><text class="mm-leaf" x="226.0" y="380.9" text-anchor="end">Mobile digital platform</text><path class="mm-link thin" d="M302.8 390.0 C270.4 390.0 270.4 403.5 238.0 403.5"/><circle class="mm-dot" cx="238.0" cy="403.5" r="4.2"/><text class="mm-leaf" x="226.0" y="407.9" text-anchor="end">New business models</text><path class="mm-link thin" d="M302.8 390.0 C270.4 390.0 270.4 430.5 238.0 430.5"/><circle class="mm-dot" cx="238.0" cy="430.5" r="4.2"/><text class="mm-leaf" x="226.0" y="434.9" text-anchor="end">Managers more mobile</text><path class="mm-link" d="M666.0 239.0 C702.6 239.0 702.6 93.5 739.2 93.5"/><rect class="mm-branch" x="739.2" y="77.5" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="98.1" text-anchor="middle">What an IS is</text><path class="mm-link thin" d="M864.8 93.5 C893.4 93.5 893.4 53.0 922.0 53.0"/><circle class="mm-dot" cx="922.0" cy="53.0" r="4.2"/><text class="mm-leaf" x="934.0" y="57.4" text-anchor="start">Data: raw facts</text><path class="mm-link thin" d="M864.8 93.5 C893.4 93.5 893.4 80.0 922.0 80.0"/><circle class="mm-dot" cx="922.0" cy="80.0" r="4.2"/><text class="mm-leaf" x="934.0" y="84.4" text-anchor="start">Information: useful form</text><path class="mm-link thin" d="M864.8 93.5 C893.4 93.5 893.4 107.0 922.0 107.0"/><circle class="mm-dot" cx="922.0" cy="107.0" r="4.2"/><text class="mm-leaf" x="934.0" y="111.4" text-anchor="start">Input, processing, output</text><path class="mm-link thin" d="M864.8 93.5 C893.4 93.5 893.4 134.0 922.0 134.0"/><circle class="mm-dot" cx="922.0" cy="134.0" r="4.2"/><text class="mm-leaf" x="934.0" y="138.4" text-anchor="start">Feedback corrects the input</text><path class="mm-link" d="M666.0 239.0 C697.0 239.0 697.0 204.0 728.0 204.0"/><rect class="mm-branch" x="728.0" y="188.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="208.6" text-anchor="middle">Three dimensions</text><path class="mm-link thin" d="M876.0 204.0 C899.0 204.0 899.0 177.0 922.0 177.0"/><circle class="mm-dot" cx="922.0" cy="177.0" r="4.2"/><text class="mm-leaf" x="934.0" y="181.4" text-anchor="start">Organization</text><path class="mm-link thin" d="M876.0 204.0 C899.0 204.0 899.0 204.0 922.0 204.0"/><circle class="mm-dot" cx="922.0" cy="204.0" r="4.2"/><text class="mm-leaf" x="934.0" y="208.4" text-anchor="start">Management</text><path class="mm-link thin" d="M876.0 204.0 C899.0 204.0 899.0 231.0 922.0 231.0"/><circle class="mm-dot" cx="922.0" cy="231.0" r="4.2"/><text class="mm-leaf" x="934.0" y="235.4" text-anchor="start">Technology</text><path class="mm-link" d="M666.0 239.0 C693.2 239.0 693.2 301.0 720.5 301.0"/><rect class="mm-branch" x="720.5" y="285.0" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="305.6" text-anchor="middle">Getting real value</text><path class="mm-link thin" d="M883.5 301.0 C902.8 301.0 902.8 274.0 922.0 274.0"/><circle class="mm-dot" cx="922.0" cy="274.0" r="4.2"/><text class="mm-leaf" x="934.0" y="278.4" text-anchor="start">Business information value chain</text><path class="mm-link thin" d="M883.5 301.0 C902.8 301.0 902.8 301.0 922.0 301.0"/><circle class="mm-dot" cx="922.0" cy="301.0" r="4.2"/><text class="mm-leaf" x="934.0" y="305.4" text-anchor="start">Complementary assets</text><path class="mm-link thin" d="M883.5 301.0 C902.8 301.0 902.8 328.0 922.0 328.0"/><circle class="mm-dot" cx="922.0" cy="328.0" r="4.2"/><text class="mm-leaf" x="934.0" y="332.4" text-anchor="start">The right business model</text><path class="mm-link" d="M666.0 239.0 C697.0 239.0 697.0 398.0 728.0 398.0"/><rect class="mm-branch" x="728.0" y="382.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="402.6" text-anchor="middle">Ways to study it</text><path class="mm-link thin" d="M876.0 398.0 C899.0 398.0 899.0 371.0 922.0 371.0"/><circle class="mm-dot" cx="922.0" cy="371.0" r="4.2"/><text class="mm-leaf" x="934.0" y="375.4" text-anchor="start">Technical approach</text><path class="mm-link thin" d="M876.0 398.0 C899.0 398.0 899.0 398.0 922.0 398.0"/><circle class="mm-dot" cx="922.0" cy="398.0" r="4.2"/><text class="mm-leaf" x="934.0" y="402.4" text-anchor="start">Behavioral approach</text><path class="mm-link thin" d="M876.0 398.0 C899.0 398.0 899.0 425.0 922.0 425.0"/><circle class="mm-dot" cx="922.0" cy="425.0" r="4.2"/><text class="mm-leaf" x="934.0" y="429.4" text-anchor="start">Sociotechnical view</text><rect class="mm-center" x="494.0" y="207.0" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="235.0" text-anchor="middle">Information</text><text class="mm-ctxt" x="580.0" y="255.0" text-anchor="middle">Systems</text></svg></div>
+  
+  <h3>What is new (from the slides)</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>Area</th><th>What the slides say</th></tr></thead><tbody>
+  <tr><th>Spending</th><td>Global spending on IT and IT services: nearly $3.8 trillion in 2019, plus $160 billion on management consulting and services.</td></tr>
+  <tr><th>IT innovations</th><td>Cloud computing, big data, Internet of Things; the mobile digital platform; AI and machine learning; social networks used for business goals.</td></tr>
+  <tr><th>E-commerce</th><td>Worldwide e-commerce nearly $3.6 trillion in 2019. Mobile retail e-commerce grows more than 20 percent a year, almost $300 billion in 2020.</td></tr>
+  <tr><th>Management</th><td>Managers more mobile; they use social networks and collaboration tools; business intelligence applications speed up.</td></tr>
+  <tr><th>The firm</th><td>More collaborative, less hierarchy, more weight on skills, faster decisions based on data, more willingness to talk to consumers.</td></tr></tbody></table></div>
+  <p class="small">The slides also say a firm needs organizational, management and cultural changes, not only IT spending, to get the full business value. That sentence is the seed of the whole week.</p>
+  <div class="two"><div><h4>A flattened world</h4><p>The Internet and global communications cut the cost of operating and trading worldwide. The result is competition for jobs, markets, resources and ideas, and economies that depend on each other.</p></div>
+  <div><h4>The digital firm</h4><p>Its important business relationships, core processes and key assets are all handled digitally. That gives flexibility: <b>time shifting</b> (work at any time) and <b>space shifting</b> (work from any place).</p></div></div>
+
+  <h3>Why firms invest: six strategic business objectives</h3>
+  <div class="cards3">
+    <div class="c"><h4>1. Operational excellence</h4><p>Better efficiency gives higher profit.</p><p class="eg">Walmart: digital links between suppliers and stores; over $524 billion sales in 2019.</p></div>
+    <div class="c"><h4>2. New products, services, business models</h4><p>A <b>business model</b> is how a company produces, delivers and sells its products and services.</p><p class="eg">Apple: iTunes changed music distribution, then iPod, iPhone, iPad.</p></div>
+    <div class="c"><h4>3. Customer and supplier intimacy</h4><p>Well-served customers come back and buy more. Close suppliers lower costs.</p><p class="eg">Mandarin Oriental Hotel tracks guest preferences. JC Penney and its Hong Kong supplier.</p></div>
+    <div class="c"><h4>4. Improved decision making</h4><p>Without accurate information, managers rely on forecasts, best guesses and luck, and resources get misplaced.</p><p class="eg">Verizon: web dashboard with real-time data on complaints, network performance, outages.</p></div>
+    <div class="c"><h4>5. Competitive advantage</h4><p>Often the result of achieving the earlier objectives: charge less, perform better, respond faster.</p><p class="eg">Apple, Walmart, UPS.</p></div>
+    <div class="c"><h4>6. Survival</h4><p>Sometimes IT is just the cost of doing business: keep up with rivals, or obey regulations.</p><p class="eg">Citibank's ATMs. Toxic Substances Control Act, Sarbanes-Oxley Act.</p></div>
+  </div>
+
+  <h3>What an information system is</h3>
+  <div class="two"><div><h4>Data</h4><p>Streams of raw facts.</p></div><div><h4>Information</h4><p>Data shaped into a form that is meaningful and useful.</p></div></div>
+  <p class="small"><b>Information technology (IT)</b> is the hardware and software a business uses. An <b>information system</b> is a set of connected parts that manage information to support decisions and control, and to help with analysis, visualization and creating products. A computer is only the technical foundation, like the materials and tools used to build a house; the information system is the whole house.</p>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 322" role="img" aria-label="Redrawn: input, processing, output and feedback inside an organization, surrounded by suppliers, customers, regulators, stockholders and competitors" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afis" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><text class="ts" x="110" y="18" text-anchor="middle">Suppliers</text><text class="ts" x="590" y="18" text-anchor="middle">Customers</text><line class="ln dash" x1="110" y1="78" x2="110" y2="26" marker-end="url(#ahis)" marker-start="url(#ahis)"/><line class="ln dash" x1="590" y1="78" x2="590" y2="26" marker-end="url(#ahis)" marker-start="url(#ahis)"/><rect class="lane" x="20" y="48" width="660" height="232" rx="14"/><text class="ts" x="36" y="68" text-anchor="start">ORGANIZATION</text><rect class="bx2" x="40" y="80" width="620" height="186" rx="12"/><text class="ts" x="56" y="100" text-anchor="start">INFORMATION SYSTEM</text><rect class="bx" x="64" y="126" width="150" height="70" rx="12"/><text class="tb" x="139.0" y="147.0" text-anchor="middle">Input</text><text class="ts" x="139.0" y="166.0" text-anchor="middle">data from inside</text><text class="ts" x="139.0" y="185.0" text-anchor="middle">and outside</text><rect class="bxs" x="275" y="116" width="150" height="90" rx="12"/><text class="tb ton" x="350.0" y="147.0" text-anchor="middle">Processing</text><text class=" ton" x="350.0" y="166.0" text-anchor="middle">classify, arrange,</text><text class=" ton" x="350.0" y="185.0" text-anchor="middle">calculate</text><rect class="bx" x="486" y="126" width="150" height="70" rx="12"/><text class="tb" x="561.0" y="156.5" text-anchor="middle">Output</text><text class="ts" x="561.0" y="175.5" text-anchor="middle">information</text><line class="ln" x1="214" y1="161" x2="275" y2="161" marker-end="url(#ahis)"/><line class="ln" x1="425" y1="161" x2="486" y2="161" marker-end="url(#ahis)"/><path class="ln fb" d="M561 196 V232 H139 V196" marker-end="url(#afis)"/><text class="ts" x="350" y="252" text-anchor="middle">Feedback to evaluate or correct the input</text><line class="ln dash" x1="130" y1="292" x2="130" y2="266" marker-end="url(#ahis)" marker-start="url(#ahis)"/><line class="ln dash" x1="350" y1="292" x2="350" y2="266" marker-end="url(#ahis)" marker-start="url(#ahis)"/><line class="ln dash" x1="570" y1="292" x2="570" y2="266" marker-end="url(#ahis)" marker-start="url(#ahis)"/><text class="ts" x="130" y="312" text-anchor="middle">Regulatory agencies</text><text class="ts" x="350" y="312" text-anchor="middle">Stockholders</text><text class="ts" x="570" y="312" text-anchor="middle">Competitors</text></svg></div>
+  <p class="small">Redrawn from the slide idea. The four activities are <b>input, processing, output and feedback</b>. Feedback returns output to the right people so they can check or correct the input.</p>
+
+  <h3>The three dimensions: more than computers</h3>
+  <div class="cards3">
+    <div class="c"><h4>Organization</h4><p>Hierarchy of authority (see the levels below), separate business functions (sales and marketing, human resources, finance and accounting, manufacturing and production), unique business processes, unique culture, and organizational politics.</p></div>
+    <div class="c"><h4>Management</h4><p>Managers set the strategy for business challenges. They must also act creatively: create new products and services, and sometimes re-create the organization.</p></div>
+    <div class="c"><h4>Technology</h4><p>Computer hardware and software, data management technology, networking and telecommunications (networks, the Internet, intranets, extranets, the World Wide Web). The <b>IT infrastructure</b> is the platform the system is built on.</p></div>
+  </div>
+  <p class="small"><b>The slides' UPS example:</b> organization = procedures for tracking packages and managing inventory; management = watching service levels and costs; technology = handheld computers, bar-code scanners, networks and desktop computers.</p>
+  <h4>Levels in a firm</h4>
+  <div class="pyr" aria-label="Levels in a firm: senior management at the top, middle management, operational management at the bottom">
+    <div style="--k:3;width:40%"><b>Senior management</b></div>
+    <div style="--k:2;width:68%"><b>Middle management</b><br>scientists and knowledge workers</div>
+    <div style="--k:1;width:100%"><b>Operational management</b><br>production and service workers, data workers</div>
+  </div>
+
+  <h3>Why technology alone does not pay</h3>
+  <p class="small">An information system is a tool for creating value. The <b>business information value chain</b> shows raw data being collected, turned into business information and passed on, so that managers can plan, coordinate, control and decide better. The value of a system depends partly on how far it leads to better decisions, higher efficiency and higher profit.</p>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 292" role="img" aria-label="Redrawn: the business information value chain, from raw data through business systems to firm profitability" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahbv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afbv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><text class="ts" x="10" y="16" text-anchor="start">Business processes (slide figure)</text><rect class="bx" x="10" y="24" width="105" height="48" rx="12"/><text class="tb" x="62.5" y="43.5" text-anchor="middle">Supply chain</text><text class="" x="62.5" y="62.5" text-anchor="middle">management</text><rect class="bx" x="125" y="24" width="105" height="48" rx="12"/><text class="tb" x="177.5" y="43.5" text-anchor="middle">Enterprise</text><text class="" x="177.5" y="62.5" text-anchor="middle">management</text><rect class="bx" x="240" y="24" width="105" height="48" rx="12"/><text class="tb" x="292.5" y="43.5" text-anchor="middle">Customer</text><text class="" x="292.5" y="62.5" text-anchor="middle">management</text><rect class="bx" x="355" y="24" width="105" height="48" rx="12"/><text class="tb" x="407.5" y="43.5" text-anchor="middle">Knowledge</text><text class="" x="407.5" y="62.5" text-anchor="middle">management</text><line class="ln" x1="62" y1="72" x2="62" y2="90"/><line class="ln" x1="177" y1="72" x2="177" y2="90"/><line class="ln" x1="292" y1="72" x2="292" y2="90"/><line class="ln" x1="407" y1="72" x2="407" y2="90"/><line class="ln" x1="62" y1="90" x2="407" y2="90"/><rect class="bx" x="10" y="116" width="125" height="62" rx="12"/><text class="tb" x="72.5" y="142.5" text-anchor="middle">Data collection</text><text class="" x="72.5" y="161.5" text-anchor="middle">and storage</text><rect class="bx" x="160" y="116" width="125" height="62" rx="12"/><text class="tb" x="222.5" y="133.0" text-anchor="middle">Transformation</text><text class="" x="222.5" y="152.0" text-anchor="middle">into business</text><text class="" x="222.5" y="171.0" text-anchor="middle">systems</text><rect class="bx" x="310" y="116" width="125" height="62" rx="12"/><text class="tb" x="372.5" y="152.0" text-anchor="middle">Dissemination</text><line class="ln" x1="135" y1="147" x2="160" y2="147" marker-end="url(#ahbv)"/><line class="ln" x1="285" y1="147" x2="310" y2="147" marker-end="url(#ahbv)"/><line class="ln" x1="372" y1="116" x2="372" y2="91" marker-end="url(#ahbv)"/><line class="ln" x1="372" y1="178" x2="372" y2="195" marker-end="url(#ahbv)"/><line class="ln" x1="57" y1="196" x2="409" y2="196"/><line class="ln" x1="57" y1="196" x2="57" y2="214"/><line class="ln" x1="168" y1="196" x2="168" y2="214"/><line class="ln" x1="281" y1="196" x2="281" y2="214"/><line class="ln" x1="409" y1="196" x2="409" y2="214"/><rect class="bx" x="10" y="214" width="95" height="48" rx="12"/><text class="tb" x="57.5" y="243.0" text-anchor="middle">Planning</text><rect class="bx" x="113" y="214" width="110" height="48" rx="12"/><text class="tb" x="168.0" y="243.0" text-anchor="middle">Coordinating</text><rect class="bx" x="231" y="214" width="100" height="48" rx="12"/><text class="tb" x="281.0" y="243.0" text-anchor="middle">Controlling</text><rect class="bx" x="339" y="214" width="140" height="48" rx="12"/><text class="tb" x="409.0" y="233.5" text-anchor="middle">Modeling and</text><text class="" x="409.0" y="252.5" text-anchor="middle">decision making</text><text class="ts" x="10" y="282" text-anchor="start">Management activities (slide figure)</text><path class="ln" d="M460 48 H590 V108" marker-end="url(#ahbv)"/><path class="ln" d="M479 238 H590 V186" marker-end="url(#ahbv)"/><rect class="bxs" x="500" y="108" width="190" height="78" rx="12"/><text class="tb ton" x="595.0" y="142.5" text-anchor="middle">Firm profitability</text><text class=" ton" x="595.0" y="161.5" text-anchor="middle">and strategic position</text></svg></div>
+  <p class="small">Redrawn. The slide figure shows two groups, business processes and management activities, both feeding firm profitability.</p>
+  <p class="small"><b>But returns vary a lot.</b> The slide plots firms by IT capital stock against productivity (relative to the industry average): firms that spend similar amounts on IT end up at quite different productivity. The two factors the slides name are adopting the right business model and investing in <b>complementary assets</b> (assets you need before the main investment pays off; example: invest in the technology and in the people to make it work).</p>
+  <div class="cards3">
+    <div class="c"><h4>Organizational assets</h4><p>The appropriate business model. Efficient business processes.</p></div>
+    <div class="c"><h4>Managerial assets</h4><p>Incentives for management innovation. Teamwork and collaborative work environments.</p></div>
+    <div class="c"><h4>Social assets</h4><p>The Internet and telecommunications infrastructure. Technology standards.</p></div>
+  </div>
+
+  <h3>Three ways to study information systems</h3>
+  <div class="cards3">
+    <div class="c"><h4>Technical approach</h4><p>Mathematically based models. Disciplines: computer science, management science, operations research.</p></div>
+    <div class="c"><h4>Behavioral approach</h4><p>Behavioral issues such as strategic business integration and implementation. Disciplines: psychology, economics, sociology.</p></div>
+    <div class="c"><h4>Sociotechnical view (this course)</h4><p>Best performance comes from <b>jointly optimizing</b> the social and the technical system, which avoids a purely technological approach. Four actors: hardware and software suppliers, business firms, managers and employees, and the firm's environment (legal, social, cultural).</p></div>
+  </div>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Information technology (IT)</dt><dd>The hardware and software a business uses to reach its objectives.</dd></div><div><dt>Information system</dt><dd>Interrelated components that manage information to support decision making and control, and help with analysis, visualization and creating products.</dd></div><div><dt>Data / Information</dt><dd>Data is a stream of raw facts. Information is data shaped into a meaningful, useful form.</dd></div><div><dt>Input, processing, output, feedback</dt><dd>The four activities that produce information. Feedback sends output back to members of the organization to evaluate or correct the input.</dd></div><div><dt>Business model</dt><dd>How a company produces, delivers and sells its products and services.</dd></div><div><dt>Digital firm</dt><dd>A firm whose key relationships, core processes and corporate assets are digitally enabled and managed. Allows time shifting and space shifting.</dd></div><div><dt>IT infrastructure</dt><dd>The platform an information system is built on (hardware, software, data management, networking).</dd></div><div><dt>Knowledge workers / data workers</dt><dd>Staff groups in the firm hierarchy. The slide figure puts knowledge workers with middle management and data workers with operational management.</dd></div><div><dt>Business information value chain</dt><dd>Raw data is acquired and transformed through stages that add value to it.</dd></div><div><dt>Complementary assets</dt><dd>Assets required to get value from a primary investment. Organizational, managerial and social.</dd></div><div><dt>Technical approach</dt><dd>Mathematical models; computer science, management science, operations research.</dd></div><div><dt>Behavioral approach</dt><dd>Behavioral issues; psychology, economics, sociology.</dd></div><div><dt>Sociotechnical view</dt><dd>Optimize the social and technical systems together, not the technology alone.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Name the six strategic business objectives and give one example from the slides for each.</summary><div class="ans"><ol><li><b>Operational excellence:</b> Walmart's links between suppliers and stores.</li><li><b>New products, services, business models:</b> Apple's iTunes.</li>
+ <li><b>Customer and supplier intimacy:</b> Mandarin Oriental Hotel tracking preferences (customers); JC Penney with its Hong Kong supplier.</li>
+ <li><b>Improved decision making:</b> Verizon's real-time dashboard.</li><li><b>Competitive advantage:</b> Apple, Walmart, UPS.</li><li><b>Survival:</b> Citibank's ATMs; regulations such as Sarbanes-Oxley.</li></ol></div></details><details class="qa"><summary><span class="qn">2</span>A student says "an information system is just a computer". Correct them using the slides.</summary><div class="ans"><p>A computer and its software are only the <b>technical foundation and tools</b>, like the materials and tools used to build a house. An information system also has an <b>organization</b> dimension (hierarchy, functions, processes, culture, politics) and a <b>management</b> dimension (strategy, creative decisions). It turns <b>data</b> into <b>information</b> through <b>input, processing, output and feedback</b>.</p></div></details><details class="qa"><summary><span class="qn">3</span>UPS case (slide question): what are the inputs, processing and outputs of UPS's package tracking system?</summary><div class="ans"><p>The slides give only the question and the three dimensions of the UPS system (procedures for tracking packages, monitoring service levels and costs, and handhelds, bar-code scanners, networks and desktop computers). They give <b>no model answer</b>.</p>
+ <p><b>My own reading:</b> <b>input</b> = package and shipping data captured by scanners and handhelds; <b>processing</b> = the networked systems that record and update each package's status; <b>output</b> = tracking information and reports for staff and managers. Treat this as my summary, not slide text.</p></div></details><details class="qa"><summary><span class="qn">4</span>Two firms spend the same amount on IT but get very different returns. Why, according to the slides?</summary><div class="ans"><p>Investing in technology does not guarantee good returns. The slides name two factors: <b>adopting the right business model</b> and <b>investing in complementary assets</b> (organizational, managerial and social capital). A firm that buys the technology but not the people, processes and teamwork needed to use it gets a lower return.</p></div></details><details class="qa"><summary><span class="qn">5</span>What does the sociotechnical view say, and why does it matter?</summary><div class="ans"><p>Best organizational performance comes from <b>jointly optimizing</b> the social system and the technical system used in production. It matters because it stops a firm from treating a new system as a purely technological project.</p></div></details>
+</section>
+<section id="week-2" class="week w2">
+  <div class="week-head"><span class="wk">Week 2</span><h2>Global e-business and collaboration</h2><p class="blurb">Systems for every level, linked across the firm, and people who work together.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Work crosses departments and levels, and each group makes different decisions.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>TPS, MIS, DSS and ESS for each level; ERP, SCM, CRM and KMS to link the firm; collaboration and social business tools; an IS department to run it.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Systems change structure, culture and politics, and rivals can buy the same tools. How is lasting value won?</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 618" role="img" aria-label="Mind map of Week 2: business processes, systems for each management level, enterprise applications and collaboration" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 309.0 C466.8 309.0 466.8 185.0 439.5 185.0"/><rect class="mm-branch" x="276.5" y="169.0" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="189.6" text-anchor="middle">Business processes</text><path class="mm-link thin" d="M276.5 185.0 C257.2 185.0 257.2 144.5 238.0 144.5"/><circle class="mm-dot" cx="238.0" cy="144.5" r="4.2"/><text class="mm-leaf" x="226.0" y="148.9" text-anchor="end">Logically related tasks</text><path class="mm-link thin" d="M276.5 185.0 C257.2 185.0 257.2 171.5 238.0 171.5"/><circle class="mm-dot" cx="238.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="226.0" y="175.9" text-anchor="end">Flows of material and information</text><path class="mm-link thin" d="M276.5 185.0 C257.2 185.0 257.2 198.5 238.0 198.5"/><circle class="mm-dot" cx="238.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="226.0" y="202.9" text-anchor="end">Can be an asset or a liability</text><path class="mm-link thin" d="M276.5 185.0 C257.2 185.0 257.2 225.5 238.0 225.5"/><circle class="mm-dot" cx="238.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="226.0" y="229.9" text-anchor="end">One function or cross-functional</text><path class="mm-link" d="M494.0 309.0 C463.0 309.0 463.0 309.0 432.0 309.0"/><rect class="mm-branch" x="284.0" y="293.0" width="148.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="313.6" text-anchor="middle">Systems by level</text><path class="mm-link thin" d="M284.0 309.0 C261.0 309.0 261.0 268.5 238.0 268.5"/><circle class="mm-dot" cx="238.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="226.0" y="272.9" text-anchor="end">TPS: daily transactions</text><path class="mm-link thin" d="M284.0 309.0 C261.0 309.0 261.0 295.5 238.0 295.5"/><circle class="mm-dot" cx="238.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="226.0" y="299.9" text-anchor="end">MIS: routine reports</text><path class="mm-link thin" d="M284.0 309.0 C261.0 309.0 261.0 322.5 238.0 322.5"/><circle class="mm-dot" cx="238.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="226.0" y="326.9" text-anchor="end">DSS: nonroutine analysis</text><path class="mm-link thin" d="M284.0 309.0 C261.0 309.0 261.0 349.5 238.0 349.5"/><circle class="mm-dot" cx="238.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="226.0" y="353.9" text-anchor="end">ESS: senior judgment</text><path class="mm-link" d="M494.0 309.0 C476.1 309.0 476.1 433.0 458.2 433.0"/><rect class="mm-branch" x="257.8" y="417.0" width="200.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="437.6" text-anchor="middle">Enterprise applications</text><path class="mm-link thin" d="M257.8 433.0 C247.9 433.0 247.9 392.5 238.0 392.5"/><circle class="mm-dot" cx="238.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="226.0" y="396.9" text-anchor="end">Enterprise systems (ERP)</text><path class="mm-link thin" d="M257.8 433.0 C247.9 433.0 247.9 419.5 238.0 419.5"/><circle class="mm-dot" cx="238.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="226.0" y="423.9" text-anchor="end">Supply chain management</text><path class="mm-link thin" d="M257.8 433.0 C247.9 433.0 247.9 446.5 238.0 446.5"/><circle class="mm-dot" cx="238.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="226.0" y="450.9" text-anchor="end">Customer relationship mgmt</text><path class="mm-link thin" d="M257.8 433.0 C247.9 433.0 247.9 473.5 238.0 473.5"/><circle class="mm-dot" cx="238.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="226.0" y="477.9" text-anchor="end">Knowledge management</text><path class="mm-link" d="M666.0 309.0 C693.2 309.0 693.2 88.0 720.5 88.0"/><rect class="mm-branch" x="720.5" y="72.0" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="92.6" text-anchor="middle">Linking technology</text><path class="mm-link thin" d="M883.5 88.0 C902.8 88.0 902.8 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">Intranet: internal</text><path class="mm-link thin" d="M883.5 88.0 C902.8 88.0 902.8 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">Extranet: authorized partners</text><path class="mm-link thin" d="M883.5 88.0 C902.8 88.0 902.8 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">E-commerce is part of e-business</text><path class="mm-link thin" d="M883.5 88.0 C902.8 88.0 902.8 128.5 922.0 128.5"/><circle class="mm-dot" cx="922.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="934.0" y="132.9" text-anchor="start">E-government</text><path class="mm-link" d="M666.0 309.0 C702.6 309.0 702.6 212.0 739.2 212.0"/><rect class="mm-branch" x="739.2" y="196.0" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="216.6" text-anchor="middle">Collaboration</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 171.5 922.0 171.5"/><circle class="mm-dot" cx="922.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="934.0" y="175.9" text-anchor="start">Short or long term</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Informal or formal teams</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 225.5 922.0 225.5"/><circle class="mm-dot" cx="922.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="934.0" y="229.9" text-anchor="start">Needs a collaborative culture</text><path class="mm-link thin" d="M864.8 212.0 C893.4 212.0 893.4 252.5 922.0 252.5"/><circle class="mm-dot" cx="922.0" cy="252.5" r="4.2"/><text class="mm-leaf" x="934.0" y="256.9" text-anchor="start">Gains: quality, innovation</text><path class="mm-link" d="M666.0 309.0 C698.9 309.0 698.9 322.5 731.8 322.5"/><rect class="mm-branch" x="731.8" y="306.5" width="140.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="327.1" text-anchor="middle">Social business</text><path class="mm-link thin" d="M872.2 322.5 C897.1 322.5 897.1 295.5 922.0 295.5"/><circle class="mm-dot" cx="922.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="934.0" y="299.9" text-anchor="start">Internal and external networks</text><path class="mm-link thin" d="M872.2 322.5 C897.1 322.5 897.1 322.5 922.0 322.5"/><circle class="mm-dot" cx="922.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="934.0" y="326.9" text-anchor="start">Needs information transparency</text><path class="mm-link thin" d="M872.2 322.5 C897.1 322.5 897.1 349.5 922.0 349.5"/><circle class="mm-dot" cx="922.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="934.0" y="353.9" text-anchor="start">Efficiency, innovation, speed</text><path class="mm-link" d="M666.0 309.0 C717.6 309.0 717.6 433.0 769.2 433.0"/><rect class="mm-branch" x="769.2" y="417.0" width="65.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="437.6" text-anchor="middle">Tools</text><path class="mm-link thin" d="M834.8 433.0 C878.4 433.0 878.4 392.5 922.0 392.5"/><circle class="mm-dot" cx="922.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="934.0" y="396.9" text-anchor="start">E-mail, IM, wikis</text><path class="mm-link thin" d="M834.8 433.0 C878.4 433.0 878.4 419.5 922.0 419.5"/><circle class="mm-dot" cx="922.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="934.0" y="423.9" text-anchor="start">Videoconferencing</text><path class="mm-link thin" d="M834.8 433.0 C878.4 433.0 878.4 446.5 922.0 446.5"/><circle class="mm-dot" cx="922.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="934.0" y="450.9" text-anchor="start">Cloud: Google Drive and Docs</text><path class="mm-link thin" d="M834.8 433.0 C878.4 433.0 878.4 473.5 922.0 473.5"/><circle class="mm-dot" cx="922.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="934.0" y="477.9" text-anchor="start">SharePoint, IBM Notes, Yammer</text><path class="mm-link" d="M666.0 309.0 C706.4 309.0 706.4 543.5 746.8 543.5"/><rect class="mm-branch" x="746.8" y="527.5" width="110.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="548.1" text-anchor="middle">IS function</text><path class="mm-link thin" d="M857.2 543.5 C889.6 543.5 889.6 516.5 922.0 516.5"/><circle class="mm-dot" cx="922.0" cy="516.5" r="4.2"/><text class="mm-leaf" x="934.0" y="520.9" text-anchor="start">CIO leads</text><path class="mm-link thin" d="M857.2 543.5 C889.6 543.5 889.6 543.5 922.0 543.5"/><circle class="mm-dot" cx="922.0" cy="543.5" r="4.2"/><text class="mm-leaf" x="934.0" y="547.9" text-anchor="start">Programmers, analysts, end users</text><path class="mm-link thin" d="M857.2 543.5 C889.6 543.5 889.6 570.5 922.0 570.5"/><circle class="mm-dot" cx="922.0" cy="570.5" r="4.2"/><text class="mm-leaf" x="934.0" y="574.9" text-anchor="start">IT governance</text><rect class="mm-center" x="494.0" y="277.0" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="305.0" text-anchor="middle">E-business</text><text class="mm-ctxt" x="580.0" y="325.0" text-anchor="middle">and Collaboration</text></svg></div>
+  
+  <h3>Business processes: how work actually flows</h3>
+  <p class="small">A <b>business process</b> is a logically related set of tasks that defines how a specific piece of business is done; it carries flows of material, information and knowledge. A business can be seen as a collection of processes. A process may sit in one functional area or cut across several, and it can be an <b>asset</b> (done well) or a <b>liability</b> (done badly).</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Functional area</th><th>Example process (slides)</th></tr></thead><tbody>
+  <tr><th>Manufacturing and production</th><td>Assembling the product</td></tr><tr><th>Sales and marketing</th><td>Identifying customers</td></tr>
+  <tr><th>Finance and accounting</th><td>Creating financial statements</td></tr><tr><th>Human resources</th><td>Hiring employees</td></tr></tbody></table></div>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 282" role="img" aria-label="Redrawn: the order fulfillment process across sales, accounting, and manufacturing and production" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahof" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afof" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><rect class="lane" x="160" y="10" width="530" height="80" rx="10"/><rect class="lane" x="160" y="100" width="530" height="80" rx="10"/><rect class="lane" x="160" y="190" width="530" height="80" rx="10"/><rect class="bxs" x="10" y="10" width="140" height="80" rx="12"/><text class="tb ton" x="80.0" y="55.0" text-anchor="middle">Sales</text><rect class="bxs" x="10" y="100" width="140" height="80" rx="12"/><text class="tb ton" x="80.0" y="145.0" text-anchor="middle">Accounting</text><rect class="bxs" x="10" y="190" width="140" height="80" rx="12"/><text class="tb ton" x="80.0" y="225.5" text-anchor="middle">Manufacturing</text><text class=" ton" x="80.0" y="244.5" text-anchor="middle">and production</text><rect class="bx" x="180" y="25" width="120" height="50" rx="12"/><text class="tb" x="240.0" y="55.0" text-anchor="middle">Generate order</text><rect class="bx" x="325" y="25" width="120" height="50" rx="12"/><text class="tb" x="385.0" y="55.0" text-anchor="middle">Submit order</text><rect class="bx" x="325" y="115" width="120" height="50" rx="12"/><text class="tb" x="385.0" y="145.0" text-anchor="middle">Check credit</text><rect class="bx" x="465" y="115" width="100" height="50" rx="12"/><text class="tb" x="515.0" y="135.5" text-anchor="middle">Approve</text><text class="" x="515.0" y="154.5" text-anchor="middle">credit</text><rect class="bx" x="585" y="115" width="100" height="50" rx="12"/><text class="tb" x="635.0" y="135.5" text-anchor="middle">Generate</text><text class="" x="635.0" y="154.5" text-anchor="middle">invoice</text><rect class="bx" x="465" y="205" width="100" height="50" rx="12"/><text class="tb" x="515.0" y="225.5" text-anchor="middle">Assemble</text><text class="" x="515.0" y="244.5" text-anchor="middle">product</text><rect class="bx" x="585" y="205" width="100" height="50" rx="12"/><text class="tb" x="635.0" y="225.5" text-anchor="middle">Ship</text><text class="" x="635.0" y="244.5" text-anchor="middle">product</text><line class="ln" x1="300" y1="50" x2="325" y2="50" marker-end="url(#ahof)"/><line class="ln" x1="385" y1="75" x2="385" y2="115" marker-end="url(#ahof)"/><line class="ln" x1="445" y1="140" x2="465" y2="140" marker-end="url(#ahof)"/><line class="ln" x1="565" y1="140" x2="585" y2="140" marker-end="url(#ahof)"/><path class="ln" d="M635 165 V185 H515 V205" marker-end="url(#ahof)"/><line class="ln" x1="565" y1="230" x2="585" y2="230" marker-end="url(#ahof)"/></svg></div>
+  <p class="small">Redrawn from the slide's order fulfillment example: one order crosses three departments, so one process involves several functions.</p>
+  <div class="two"><div><h4>IT makes existing processes more efficient</h4><p>Automate steps that were manual.</p></div>
+  <div><h4>IT enables entirely new processes</h4><p>Change the flow of information, replace sequential steps with parallel steps, remove delays in decision making, and support new business models.</p></div></div>
+
+  <h3>Systems for different management groups</h3>
+  <div class="pyr" aria-label="System types by management level">
+    <div style="--k:3;width:38%"><b>ESS</b> senior management</div>
+    <div style="--k:2;width:70%"><b>DSS and MIS</b> middle management</div>
+    <div style="--k:1;width:100%"><b>TPS</b> operational managers and staff</div>
+  </div>
+  <p class="small">The slides group MIS, DSS and ESS as <b>systems for business intelligence</b>: data and software tools for organizing and analyzing data so managers can decide better.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>System</th><th>Serves</th><th>What it does</th><th>Example in the slides</th></tr></thead><tbody>
+  <tr><th>Transaction processing system (TPS)</th><td>Operational managers and staff</td><td>Performs and records the daily routine transactions; lets managers watch operations; predefined, structured goals and decisions.</td><td>Sales order entry, payroll, shipping</td></tr>
+  <tr><th>Management information system (MIS)</th><td>Middle management</td><td>Reports on current performance from TPS data; answers routine questions with a predefined procedure; little analytic capability.</td><td>Sales by product and region report</td></tr>
+  <tr><th>Decision support system (DSS)</th><td>Middle management</td><td>Supports <b>nonroutine</b> decisions; may use outside data as well as TPS and MIS data.</td><td>"What happens to the production schedule if December sales double?" Model-driven: voyage-estimating. Data-driven: Intrawest marketing analysis.</td></tr>
+  <tr><th>Executive support system (ESS)</th><td>Senior management</td><td>Nonroutine decisions that need judgment, evaluation and insight; uses outside events (new tax laws, competitors) plus summaries from MIS and DSS.</td><td>Digital dashboard with a real-time view of financial performance</td></tr></tbody></table></div>
+  <p class="small">The data chain from the slides: the TPS collects the transactions, and the MIS reads the TPS files to build reports and online displays for managers.</p>
+
+  <h3>Enterprise applications: linking the whole firm</h3>
+  <p class="small">Enterprise applications work across functional areas, run business processes across the firm and include all management levels.</p>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 330" role="img" aria-label="Redrawn: enterprise applications link supply chain, customers and knowledge across the functional areas of a firm" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afea" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><text class="ts" x="190" y="18" text-anchor="middle">Suppliers, business partners</text><text class="ts" x="510" y="18" text-anchor="middle">Customers, distributors</text><rect class="bx" x="50" y="30" width="280" height="62" rx="12"/><text class="tb" x="190.0" y="56.5" text-anchor="middle">Supply chain management</text><text class="" x="190.0" y="75.5" text-anchor="middle">systems</text><rect class="bx" x="370" y="30" width="280" height="62" rx="12"/><text class="tb" x="510.0" y="56.5" text-anchor="middle">Customer relationship</text><text class="" x="510.0" y="75.5" text-anchor="middle">management systems</text><line class="ln" x1="190" y1="92" x2="190" y2="118"/><line class="ln" x1="510" y1="92" x2="510" y2="118"/><rect class="bxs" x="20" y="118" width="660" height="56" rx="12"/><text class="tb ton" x="350.0" y="141.5" text-anchor="middle">Enterprise systems</text><text class=" ton" x="350.0" y="160.5" text-anchor="middle">one platform across all functional areas</text><rect class="bx" x="20" y="188" width="660" height="44" rx="12"/><text class="tb" x="350.0" y="215.0" text-anchor="middle">Knowledge management systems</text><line class="ln" x1="100" y1="232" x2="100" y2="258"/><line class="ln" x1="270" y1="232" x2="270" y2="258"/><line class="ln" x1="440" y1="232" x2="440" y2="258"/><line class="ln" x1="605" y1="232" x2="605" y2="258"/><rect class="bx2" x="20" y="258" width="160" height="44" rx="12"/><text class="tb" x="100.0" y="285.0" text-anchor="middle">Sales and marketing</text><rect class="bx2" x="190" y="258" width="160" height="44" rx="12"/><text class="tb" x="270.0" y="275.5" text-anchor="middle">Manufacturing</text><text class="" x="270.0" y="294.5" text-anchor="middle">and production</text><rect class="bx2" x="360" y="258" width="160" height="44" rx="12"/><text class="tb" x="440.0" y="275.5" text-anchor="middle">Finance and</text><text class="" x="440.0" y="294.5" text-anchor="middle">accounting</text><rect class="bx2" x="530" y="258" width="150" height="44" rx="12"/><text class="tb" x="605.0" y="285.0" text-anchor="middle">Human resources</text><text class="ts" x="350" y="322" text-anchor="middle">Functional areas</text></svg></div>
+  <div class="cards3">
+    <div class="c"><h4>Enterprise systems (ERP)</h4><p>Also called enterprise resource planning. Put data from key business processes into one system and speed up information flow. This gives more flexibility in answering customer requests, more accuracy in order fulfillment, and an overall view of operations for managers.</p></div>
+    <div class="c"><h4>Supply chain management (SCM)</h4><p>Manages relationships and shared information (orders, production, inventory) with suppliers, purchasers, distributors and logistics firms. Goal: move the right amount of product from source to consumer as quickly and cheaply as possible. It is an <b>interorganizational system</b>: information flows across organizational boundaries.</p></div>
+    <div class="c"><h4>Customer relationship management (CRM)</h4><p>Coordinates sales, marketing and customer service. Goals: optimize revenue, improve satisfaction, increase retention, identify and keep the most profitable customers, increase sales.</p></div>
+    <div class="c"><h4>Knowledge management (KMS)</h4><p>Captures and applies knowledge and expertise, makes it available wherever it is needed, and links the firm to outside sources of knowledge.</p></div>
+  </div>
+  <p class="small"><b>Platforms.</b> An <b>intranet</b> is an internal network built on Internet standards, often a private part of the company website. An <b>extranet</b> is a company site open only to authorized vendors and suppliers, which helps collaboration. <b>E-business</b> = using digital technology and the Internet to run major business processes. <b>E-commerce</b> = the part of e-business that is buying and selling over the Internet. <b>E-government</b> = delivering information and services to citizens, employees and businesses with Internet technology.</p>
+
+  <h3>Collaboration and social business</h3>
+  <p class="small"><b>Collaboration</b> can be short or long term, informal or formal (teams). The slides give six reasons it matters more now: the changing nature of work, growth of professional "interaction jobs", changes in how the firm is organized, the changing scope of the firm, the emphasis on innovation, and the changing culture of work.</p>
+  <div class="two"><div><h4>Social business</h4><p>Using internal and external social networking platforms to engage employees, customers and suppliers. It aims to deepen interactions and speed up information sharing, needs information transparency, and is seen as a way to raise efficiency, spur innovation and speed up decisions.</p></div>
+  <div><h4>Business benefits</h4><p><b>Productivity</b> (share knowledge, solve problems), <b>quality</b> (faster fixes), <b>innovation</b> (more ideas), <b>customer service</b> (complaints handled faster), and so better <b>financial performance</b>.</p></div></div>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 262" role="img" aria-label="Redrawn: collaboration capability and collaboration technology lead to collaboration quality, which leads to firm performance" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahcr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afcr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bx" x="10" y="10" width="300" height="108" rx="12"/><text class="tb" x="160.0" y="40.5" text-anchor="middle">Collaboration capability</text><text class="" x="160.0" y="59.5" text-anchor="middle">Open culture</text><text class="" x="160.0" y="78.5" text-anchor="middle">Decentralized structure</text><text class="" x="160.0" y="97.5" text-anchor="middle">Breadth of collaboration</text><rect class="bx" x="10" y="138" width="300" height="108" rx="12"/><text class="tb" x="160.0" y="178.0" text-anchor="middle">Collaboration technology</text><text class="" x="160.0" y="197.0" text-anchor="middle">for implementation and operations</text><text class="" x="160.0" y="216.0" text-anchor="middle">for strategic planning</text><rect class="bx" x="390" y="88" width="130" height="70" rx="12"/><text class="tb" x="455.0" y="118.5" text-anchor="middle">Collaboration</text><text class="" x="455.0" y="137.5" text-anchor="middle">quality</text><rect class="bxs" x="570" y="88" width="120" height="70" rx="12"/><text class="tb ton" x="630.0" y="118.5" text-anchor="middle">Firm</text><text class=" ton" x="630.0" y="137.5" text-anchor="middle">performance</text><line class="ln" x1="310" y1="64" x2="390" y2="112" marker-end="url(#ahcr)"/><line class="ln" x1="310" y1="192" x2="390" y2="134" marker-end="url(#ahcr)"/><line class="ln" x1="520" y1="123" x2="570" y2="123" marker-end="url(#ahcr)"/></svg></div>
+  <p class="small">Redrawn. A firm that relies on "command and control" puts no value on teamwork; a collaborative culture has senior managers who rely on teams, and a manager's purpose is to build teams.</p>
+  <h4>The time/space matrix: pick the tool by when and where people work</h4>
+  <div class="tsm">
+    <div></div><div class="h">Same time<small>synchronous</small></div><div class="h">Different time<small>asynchronous</small></div>
+    <div class="h">Same place<small>colocated</small></div>
+    <div class="cell"><b>Face-to-face interactions</b>decision rooms, single-display groupware, shared table, wall displays, roomware</div>
+    <div class="cell"><b>Continuous task</b>team rooms, large public display, shift work groupware, project management</div>
+    <div class="h">Different place<small>remote</small></div>
+    <div class="cell"><b>Remote interactions</b>video conferencing, instant messaging, chat and virtual worlds (the slide spells it "charts/MUDs/virtual words"; I read that as a typo), shared screens, multi-user editors</div>
+    <div class="cell"><b>Communication + coordination</b>e-mail, bulletin boards, blogs, asynchronous conferencing, group calendars, workflow, version control, wikis</div>
+  </div>
+  <h4>Choosing collaboration tools: six steps</h4>
+  <ol class="steps-h">
+    <li>Identify your firm's collaboration challenges.</li><li>Identify what kinds of solutions are available.</li><li>Analyze the cost and benefit of the available products.</li>
+    <li>Evaluate security risks.</li><li>Consult users about implementation and training issues.</li><li>Evaluate the product vendors.</li>
+  </ol>
+  <p class="small"><b>Tools named in the slides:</b> e-mail and instant messaging, wikis, virtual worlds, virtual meeting systems (videoconferencing, telepresence), cloud collaboration services (Google Drive, Google Docs), Microsoft SharePoint and IBM Notes, and enterprise social networking tools.</p>
+
+  <h3>The information systems department</h3>
+  <div class="two"><div><h4>People</h4><p>Led by a <b>chief information officer (CIO)</b>. Other senior roles: chief security officer, chief knowledge officer, chief privacy officer, chief data officer. Staff: programmers, systems analysts, information systems managers and end users.</p></div>
+  <div><h4>IT governance</h4><p>The strategies and policies for using IT in the organization: decision rights, accountability, and how the IS function is organized (centralized, decentralized and so on).</p></div></div>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Business process</dt><dd>A logically related set of tasks that defines how a specific business task is done; flows of material, information and knowledge.</dd></div><div><dt>Transaction processing system (TPS)</dt><dd>Records daily routine transactions such as order entry, payroll and shipping.</dd></div><div><dt>Management information system (MIS)</dt><dd>Here: a type of system that reports on current performance from TPS data. Do not confuse it with MIS as the name of the field.</dd></div><div><dt>Decision support system (DSS)</dt><dd>Supports nonroutine decisions. Model-driven or data-driven.</dd></div><div><dt>Executive support system (ESS)</dt><dd>Supports senior management with outside events plus MIS and DSS summaries; for example a digital dashboard.</dd></div><div><dt>Business intelligence</dt><dd>Data and software tools for organizing and analyzing data to improve decisions.</dd></div><div><dt>Enterprise application</dt><dd>A system that spans functional areas, runs processes across the firm and includes all management levels.</dd></div><div><dt>Enterprise system (ERP)</dt><dd>Integrates data from key business processes into a single system.</dd></div><div><dt>Supply chain management (SCM)</dt><dd>Manages shared information and relationships with suppliers, distributors and logistics firms.</dd></div><div><dt>Customer relationship management (CRM)</dt><dd>Coordinates sales, marketing and service to keep and grow profitable customers.</dd></div><div><dt>Knowledge management system (KMS)</dt><dd>Captures and applies knowledge and expertise across the firm.</dd></div><div><dt>Interorganizational system</dt><dd>A system that automates information flow across organizational boundaries (the slides use SCM as the example).</dd></div><div><dt>Intranet / Extranet</dt><dd>Intranet: internal network on Internet standards. Extranet: site open to authorized vendors and suppliers.</dd></div><div><dt>E-business / E-commerce / E-government</dt><dd>Digital-run business processes / buying and selling online (a subset of e-business) / services to citizens, employees and businesses.</dd></div><div><dt>Social business</dt><dd>Using social networking platforms to engage employees, customers and suppliers.</dd></div><div><dt>Time/space matrix</dt><dd>A grid of collaboration tools by same or different time, and same or different place.</dd></div><div><dt>IT governance</dt><dd>Strategies, policies, decision rights and accountability for IT, and how the IS function is organized.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Match each system type to the management level it serves, and give its key feature.</summary><div class="ans"><ul><li><b>TPS</b> serves operational managers and staff: daily routine transactions with predefined, structured goals.</li><li><b>MIS</b> serves middle management: routine reports from TPS data with little analytic capability.</li>
+ <li><b>DSS</b> serves middle management: nonroutine decisions, may use outside data.</li><li><b>ESS</b> serves senior management: nonroutine decisions needing judgment, with outside events and a dashboard view.</li></ul></div></details><details class="qa"><summary><span class="qn">2</span>Difference between an MIS and a DSS? Use the slides' example.</summary><div class="ans"><p>An MIS answers <b>routine</b> questions with a predefined procedure (for example a sales-by-product-and-region report). A DSS supports <b>nonroutine</b> questions such as "what is the impact on the production schedule if December sales double?", and may add outside information to TPS and MIS data.</p></div></details><details class="qa"><summary><span class="qn">3</span>Why do firms need enterprise applications, and what are the four?</summary><div class="ans"><p>The slides say they link the enterprise: they span functional areas, run business processes across the firm and include all levels of management. The four are <b>enterprise systems (ERP), supply chain management, customer relationship management and knowledge management</b>.</p>
+ <p><b>My own reading:</b> without them, each department's system holds its own data, so the order in the fulfillment example would have to be re-entered at each step. The slides do not say this in so many words.</p></div></details><details class="qa"><summary><span class="qn">4</span>Sharp Corporation (slide case): what was the problem, and what solved it?</summary><div class="ans"><p><b>Problem:</b> hierarchical, top-down processes, new competitors, and a lack of collaboration and idea sharing. <b>Solution:</b> develop a knowledge-sharing strategy and goals, redesign the knowledge-sharing and collaboration processes, change the organizational culture, and implement Microsoft Yammer. The slides conclude that culture and business processes matter as much as the software.</p></div></details><details class="qa"><summary><span class="qn">5</span>Place these in the time/space matrix: wikis, video conferencing, team rooms.</summary><div class="ans"><ul><li><b>Wikis:</b> different place, different time (communication + coordination).</li><li><b>Video conferencing:</b> different place, same time (remote interactions).</li><li><b>Team rooms:</b> same place, different time (continuous task).</li></ul></div></details><details class="qa"><summary><span class="qn">6</span>How are e-business, e-commerce and e-government related?</summary><div class="ans"><p><b>E-business</b> is the broad idea: running major business processes with digital technology and the Internet. <b>E-commerce</b> is a subset of it: buying and selling goods and services over the Internet. <b>E-government</b> is the same Internet technology used to deliver information and services to citizens, employees and businesses.</p></div></details>
+</section>
+<section id="week-3" class="week w3">
+  <div class="week-head"><span class="wk">Week 3</span><h2>Information systems, organizations and strategy</h2><p class="blurb">How organizations and IT shape each other, and how IS builds competitive advantage.</p></div>
+  <div class="psn"><div class="p"><b>Problem</b><p>Organizations and IT influence each other, and competitors keep pressing on the firm.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="s"><b>Solution</b><p>Fit systems to the organization, use IS against the five forces with four strategies, and use the value chain, value web, synergies, core competencies and networks.</p></div><span class="arr" aria-hidden="true">&rarr;</span><div class="n"><b>New problem</b><p>Competitors can copy a strategic system, so IT has to stay aligned with business objectives.</p></div></div>
+  <h3>Mind map</h3>
+  <div class="mm-wrap" tabindex="0" role="group" aria-label="Scrollable mind map"><p class="hint">Swipe sideways to see the whole map</p><svg class="mm" viewBox="0 0 1160 591" role="img" aria-label="Mind map of Week 3: how organizations and information technology shape each other, and strategies for competitive advantage" xmlns="http://www.w3.org/2000/svg"><path class="mm-link" d="M494.0 295.5 C479.5 295.5 479.5 185.0 465.0 185.0"/><rect class="mm-branch" x="251.0" y="169.0" width="214.0" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="189.6" text-anchor="middle">Features of organizations</text><path class="mm-link thin" d="M251.0 185.0 C244.5 185.0 244.5 144.5 238.0 144.5"/><circle class="mm-dot" cx="238.0" cy="144.5" r="4.2"/><text class="mm-leaf" x="226.0" y="148.9" text-anchor="end">Hierarchy and accountability</text><path class="mm-link thin" d="M251.0 185.0 C244.5 185.0 244.5 171.5 238.0 171.5"/><circle class="mm-dot" cx="238.0" cy="171.5" r="4.2"/><text class="mm-leaf" x="226.0" y="175.9" text-anchor="end">Routines and business processes</text><path class="mm-link thin" d="M251.0 185.0 C244.5 185.0 244.5 198.5 238.0 198.5"/><circle class="mm-dot" cx="238.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="226.0" y="202.9" text-anchor="end">Politics and culture</text><path class="mm-link thin" d="M251.0 185.0 C244.5 185.0 244.5 225.5 238.0 225.5"/><circle class="mm-dot" cx="238.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="226.0" y="229.9" text-anchor="end">Environment and structure</text><path class="mm-link" d="M494.0 295.5 C457.4 295.5 457.4 309.0 420.8 309.0"/><rect class="mm-branch" x="295.2" y="293.0" width="125.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="313.6" text-anchor="middle">Impacts of IT</text><path class="mm-link thin" d="M295.2 309.0 C266.6 309.0 266.6 268.5 238.0 268.5"/><circle class="mm-dot" cx="238.0" cy="268.5" r="4.2"/><text class="mm-leaf" x="226.0" y="272.9" text-anchor="end">Lower transaction costs</text><path class="mm-link thin" d="M295.2 309.0 C266.6 309.0 266.6 295.5 238.0 295.5"/><circle class="mm-dot" cx="238.0" cy="295.5" r="4.2"/><text class="mm-leaf" x="226.0" y="299.9" text-anchor="end">Lower agency costs</text><path class="mm-link thin" d="M295.2 309.0 C266.6 309.0 266.6 322.5 238.0 322.5"/><circle class="mm-dot" cx="238.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="226.0" y="326.9" text-anchor="end">Flatter organizations</text><path class="mm-link thin" d="M295.2 309.0 C266.6 309.0 266.6 349.5 238.0 349.5"/><circle class="mm-dot" cx="238.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="226.0" y="353.9" text-anchor="end">Resistance to change</text><path class="mm-link" d="M494.0 295.5 C453.6 295.5 453.6 419.5 413.2 419.5"/><rect class="mm-branch" x="302.8" y="403.5" width="110.5" height="32" rx="16"/><text class="mm-btxt" x="358.0" y="424.1" text-anchor="middle">Environment</text><path class="mm-link thin" d="M302.8 419.5 C270.4 419.5 270.4 392.5 238.0 392.5"/><circle class="mm-dot" cx="238.0" cy="392.5" r="4.2"/><text class="mm-leaf" x="226.0" y="396.9" text-anchor="end">Reciprocal relationship</text><path class="mm-link thin" d="M302.8 419.5 C270.4 419.5 270.4 419.5 238.0 419.5"/><circle class="mm-dot" cx="238.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="226.0" y="423.9" text-anchor="end">Disruptive technologies</text><path class="mm-link thin" d="M302.8 419.5 C270.4 419.5 270.4 446.5 238.0 446.5"/><circle class="mm-dot" cx="238.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="226.0" y="450.9" text-anchor="end">First movers, fast followers</text><path class="mm-link" d="M666.0 295.5 C693.2 295.5 693.2 101.5 720.5 101.5"/><rect class="mm-branch" x="720.5" y="85.5" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="106.1" text-anchor="middle">Competitive forces</text><path class="mm-link thin" d="M883.5 101.5 C902.8 101.5 902.8 47.5 922.0 47.5"/><circle class="mm-dot" cx="922.0" cy="47.5" r="4.2"/><text class="mm-leaf" x="934.0" y="51.9" text-anchor="start">Traditional competitors</text><path class="mm-link thin" d="M883.5 101.5 C902.8 101.5 902.8 74.5 922.0 74.5"/><circle class="mm-dot" cx="922.0" cy="74.5" r="4.2"/><text class="mm-leaf" x="934.0" y="78.9" text-anchor="start">New market entrants</text><path class="mm-link thin" d="M883.5 101.5 C902.8 101.5 902.8 101.5 922.0 101.5"/><circle class="mm-dot" cx="922.0" cy="101.5" r="4.2"/><text class="mm-leaf" x="934.0" y="105.9" text-anchor="start">Substitute products</text><path class="mm-link thin" d="M883.5 101.5 C902.8 101.5 902.8 128.5 922.0 128.5"/><circle class="mm-dot" cx="922.0" cy="128.5" r="4.2"/><text class="mm-leaf" x="934.0" y="132.9" text-anchor="start">Customers</text><path class="mm-link thin" d="M883.5 101.5 C902.8 101.5 902.8 155.5 922.0 155.5"/><circle class="mm-dot" cx="922.0" cy="155.5" r="4.2"/><text class="mm-leaf" x="934.0" y="159.9" text-anchor="start">Suppliers</text><path class="mm-link" d="M666.0 295.5 C698.9 295.5 698.9 239.0 731.8 239.0"/><rect class="mm-branch" x="731.8" y="223.0" width="140.5" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="243.6" text-anchor="middle">Four strategies</text><path class="mm-link thin" d="M872.2 239.0 C897.1 239.0 897.1 198.5 922.0 198.5"/><circle class="mm-dot" cx="922.0" cy="198.5" r="4.2"/><text class="mm-leaf" x="934.0" y="202.9" text-anchor="start">Low-cost leadership</text><path class="mm-link thin" d="M872.2 239.0 C897.1 239.0 897.1 225.5 922.0 225.5"/><circle class="mm-dot" cx="922.0" cy="225.5" r="4.2"/><text class="mm-leaf" x="934.0" y="229.9" text-anchor="start">Product differentiation</text><path class="mm-link thin" d="M872.2 239.0 C897.1 239.0 897.1 252.5 922.0 252.5"/><circle class="mm-dot" cx="922.0" cy="252.5" r="4.2"/><text class="mm-leaf" x="934.0" y="256.9" text-anchor="start">Focus on market niche</text><path class="mm-link thin" d="M872.2 239.0 C897.1 239.0 897.1 279.5 922.0 279.5"/><circle class="mm-dot" cx="922.0" cy="279.5" r="4.2"/><text class="mm-leaf" x="934.0" y="283.9" text-anchor="start">Customer and supplier intimacy</text><path class="mm-link" d="M666.0 295.5 C715.8 295.5 715.8 349.5 765.5 349.5"/><rect class="mm-branch" x="765.5" y="333.5" width="73.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="354.1" text-anchor="middle">Models</text><path class="mm-link thin" d="M838.5 349.5 C880.2 349.5 880.2 322.5 922.0 322.5"/><circle class="mm-dot" cx="922.0" cy="322.5" r="4.2"/><text class="mm-leaf" x="934.0" y="326.9" text-anchor="start">Value chain</text><path class="mm-link thin" d="M838.5 349.5 C880.2 349.5 880.2 349.5 922.0 349.5"/><circle class="mm-dot" cx="922.0" cy="349.5" r="4.2"/><text class="mm-leaf" x="934.0" y="353.9" text-anchor="start">Value web</text><path class="mm-link thin" d="M838.5 349.5 C880.2 349.5 880.2 376.5 922.0 376.5"/><circle class="mm-dot" cx="922.0" cy="376.5" r="4.2"/><text class="mm-leaf" x="934.0" y="380.9" text-anchor="start">Synergies, core competencies</text><path class="mm-link" d="M666.0 295.5 C693.2 295.5 693.2 446.5 720.5 446.5"/><rect class="mm-branch" x="720.5" y="430.5" width="163.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="451.1" text-anchor="middle">Network strategies</text><path class="mm-link thin" d="M883.5 446.5 C902.8 446.5 902.8 419.5 922.0 419.5"/><circle class="mm-dot" cx="922.0" cy="419.5" r="4.2"/><text class="mm-leaf" x="934.0" y="423.9" text-anchor="start">Network economics</text><path class="mm-link thin" d="M883.5 446.5 C902.8 446.5 902.8 446.5 922.0 446.5"/><circle class="mm-dot" cx="922.0" cy="446.5" r="4.2"/><text class="mm-leaf" x="934.0" y="450.9" text-anchor="start">Virtual company</text><path class="mm-link thin" d="M883.5 446.5 C902.8 446.5 902.8 473.5 922.0 473.5"/><circle class="mm-dot" cx="922.0" cy="473.5" r="4.2"/><text class="mm-leaf" x="934.0" y="477.9" text-anchor="start">Business ecosystems</text><path class="mm-link" d="M666.0 295.5 C708.2 295.5 708.2 530.0 750.5 530.0"/><rect class="mm-branch" x="750.5" y="514.0" width="103.0" height="32" rx="16"/><text class="mm-btxt" x="802.0" y="534.6" text-anchor="middle">Challenges</text><path class="mm-link thin" d="M853.5 530.0 C887.8 530.0 887.8 516.5 922.0 516.5"/><circle class="mm-dot" cx="922.0" cy="516.5" r="4.2"/><text class="mm-leaf" x="934.0" y="520.9" text-anchor="start">Rivals can copy systems</text><path class="mm-link thin" d="M853.5 530.0 C887.8 530.0 887.8 543.5 922.0 543.5"/><circle class="mm-dot" cx="922.0" cy="543.5" r="4.2"/><text class="mm-leaf" x="934.0" y="547.9" text-anchor="start">Align IT with objectives</text><rect class="mm-center" x="494.0" y="263.5" width="172" height="64" rx="22"/><text class="mm-ctxt" x="580.0" y="291.5" text-anchor="middle">Organizations</text><text class="mm-ctxt" x="580.0" y="311.5" text-anchor="middle">and Strategy</text></svg></div>
+  
+  <h3>Organizations and IT shape each other</h3>
+  <p class="small">The slides say IT and organizations influence each other, and the relationship depends on the organization's structure, business processes, politics, culture, environment and management decisions.</p>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 232" role="img" aria-label="Redrawn: organizations and information technology influence each other, through six mediating factors" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahtw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="aftw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bxs" x="20" y="76" width="170" height="80" rx="12"/><text class="tb ton" x="105.0" y="121.0" text-anchor="middle">Organizations</text><rect class="bxs" x="510" y="76" width="170" height="80" rx="12"/><text class="tb ton" x="595.0" y="111.5" text-anchor="middle">Information</text><text class=" ton" x="595.0" y="130.5" text-anchor="middle">technology</text><rect class="bx" x="250" y="36" width="200" height="160" rx="12"/><text class="tb" x="350.0" y="64.0" text-anchor="middle">Mediating factors</text><text class="" x="350.0" y="83.0" text-anchor="middle">Environment</text><text class="" x="350.0" y="102.0" text-anchor="middle">Culture</text><text class="" x="350.0" y="121.0" text-anchor="middle">Structure</text><text class="" x="350.0" y="140.0" text-anchor="middle">Business processes</text><text class="" x="350.0" y="159.0" text-anchor="middle">Politics</text><text class="" x="350.0" y="178.0" text-anchor="middle">Management decisions</text><path class="ln" d="M105 76 C105 -4 595 -4 595 76" marker-end="url(#ahtw)"/><path class="ln" d="M595 156 C595 236 105 236 105 156" marker-end="url(#ahtw)"/></svg></div>
+  <div class="two"><div><h4>Technical definition</h4><p>A formal social structure that processes resources from the environment to produce outputs. A formal legal entity with internal rules and procedures, and a social structure.</p></div>
+  <div><h4>Behavioral definition</h4><p>A collection of rights, privileges, obligations and responsibilities, balanced over time through conflict and conflict resolution.</p></div></div>
+  <h4>Features of organizations</h4>
+  <ul class="chips-row"><li>Hierarchical structure</li><li>Accountability and authority, with impartial decision making</li><li>The principle of efficiency</li><li>Routines and business processes</li><li>Politics, culture, environments, structures</li></ul>
+  <p class="small"><b>Routines</b> are standard operating procedures: precise rules and practices for almost every expected situation. A <b>business process</b> is a collection of routines, and a <b>firm</b> is a collection of business processes.</p>
+  <div class="cards3">
+    <div class="c"><h4>Politics</h4><p>Different viewpoints cause struggle, competition and conflict. Political resistance greatly hampers organizational change.</p></div>
+    <div class="c"><h4>Culture</h4><p>Assumptions that define goals and products: what to produce, how and where, and for whom. A strong unifying force, and also a limit on change.</p></div>
+    <div class="c"><h4>Environments</h4><p>Organizations and environments affect each other and organizations depend on theirs. Environments change faster than organizations. An information system can act as a lens for scanning the environment.</p></div>
+  </div>
+  <p class="small"><b>Disruptive technologies</b> substitute products that perform as well as or better than the existing one, and bring sweeping change (examples: personal computers, smartphones, big data, AI, the Internet). <b>First movers</b> invent them; <b>fast followers</b> have the size and resources to profit from them.</p>
+  <p class="small"><b>Mintzberg's five structures:</b> entrepreneurial, machine bureaucracy, divisionalized bureaucracy, professional bureaucracy, adhocracy. An information system often reflects the structure. Other features: goals (coercive, utilitarian, normative), constituencies, leadership styles, types of tasks.</p>
+
+  <h3>What IT does to organizations</h3>
+  <div class="two"><div><h4>Economic impact</h4><p>IT is a factor of production, like capital and labor, and it changes the cost of information. <b>Transaction costs</b> are the costs of participating in markets. IT lowers them, so it can be worth dealing with other firms (outsourcing) instead of growing the number of employees.</p></div>
+  <div><h4>Agency theory</h4><p>The firm is a web of contracts among self-interested parties that need supervision. <b>Agency costs</b> (the costs of managing and supervising) rise as the firm grows. IT can reduce them, so a firm can grow without adding supervision costs or employees.</p></div></div>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 222" role="img" aria-label="Redrawn: a traditional hierarchy with many levels next to a flattened organization with fewer levels" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahfl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="affl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><polygon class="lane" points="175,10 17,166 333,166"/><circle class="circ" cx="175.0" cy="40" r="9"/><circle class="circ" cx="141.0" cy="78" r="9"/><circle class="circ" cx="175.0" cy="78" r="9"/><circle class="circ" cx="209.0" cy="78" r="9"/><circle class="circ" cx="107.0" cy="116" r="9"/><circle class="circ" cx="141.0" cy="116" r="9"/><circle class="circ" cx="175.0" cy="116" r="9"/><circle class="circ" cx="209.0" cy="116" r="9"/><circle class="circ" cx="243.0" cy="116" r="9"/><circle class="circ" cx="73.0" cy="154" r="9"/><circle class="circ" cx="107.0" cy="154" r="9"/><circle class="circ" cx="141.0" cy="154" r="9"/><circle class="circ" cx="175.0" cy="154" r="9"/><circle class="circ" cx="209.0" cy="154" r="9"/><circle class="circ" cx="243.0" cy="154" r="9"/><circle class="circ" cx="277.0" cy="154" r="9"/><text class="ts" x="175" y="192" text-anchor="middle">Traditional: many levels of management</text><polygon class="lane" points="525,10 367,166 683,166"/><circle class="circ" cx="525.0" cy="40" r="9"/><circle class="circ" cx="493.0" cy="96" r="9"/><circle class="circ" cx="525.0" cy="96" r="9"/><circle class="circ" cx="557.0" cy="96" r="9"/><circle class="circ" cx="397.0" cy="152" r="9"/><circle class="circ" cx="429.0" cy="152" r="9"/><circle class="circ" cx="461.0" cy="152" r="9"/><circle class="circ" cx="493.0" cy="152" r="9"/><circle class="circ" cx="525.0" cy="152" r="9"/><circle class="circ" cx="557.0" cy="152" r="9"/><circle class="circ" cx="589.0" cy="152" r="9"/><circle class="circ" cx="621.0" cy="152" r="9"/><circle class="circ" cx="653.0" cy="152" r="9"/><text class="ts" x="525" y="192" text-anchor="middle">Flattened: layers of management removed</text><text class="ts" x="350" y="214" text-anchor="middle">Illustration only: the circle counts are mine, the slide figure shows the idea</text></svg></div>
+  <p class="small"><b>Flattening:</b> decisions move to lower levels, fewer managers are needed (IT speeds decisions and widens the span of control), and in postindustrial societies authority rests more on knowledge and competence than on formal position.</p>
+  <h4>Why people resist new systems</h4>
+  <p class="small">Systems affect access to a key resource, information, so they get tangled in organizational politics. They can change structure, culture, politics and work. The slides name four factors: <b>the nature of the innovation, the structure of the organization, the culture of the organization, and the tasks affected</b>.</p>
+  <p class="small"><b>The Internet</b> raises the accessibility, storage and distribution of information and knowledge and can greatly lower transaction and agency costs (example: a large firm that puts its internal manuals on a website saves millions in distribution).</p>
+  <p class="small"><b>Before designing a system, consider:</b> the environment; structure (hierarchy, specialization, routines, processes); culture and politics; type of organization and leadership style; the main interest groups affected and users' attitudes; and the tasks, decisions and processes the system will support.</p>
+
+  <h3>Strategy: Porter's competitive forces</h3>
+  <p class="small">Why do some firms lead their industry? Porter's model gives a general view of a firm, its competitors and its environment. Five forces shape its fate.</p>
+  <div class="dgw" tabindex="0" role="group" aria-label="Scrollable diagram"><svg class="dg" viewBox="0 0 700 358" role="img" aria-label="Redrawn: Porter&#x27;s competitive forces model: new entrants, substitutes, suppliers and customers press on the firm and its competitors" xmlns="http://www.w3.org/2000/svg"><defs><marker id="ahpf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah" d="M0 0L10 5L0 10z"/></marker><marker id="afpf" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path class="ah fb" d="M0 0L10 5L0 10z"/></marker></defs><rect class="bx" x="20" y="12" width="200" height="58" rx="12"/><text class="tb" x="120.0" y="46.0" text-anchor="middle">New market entrants</text><rect class="bx" x="480" y="12" width="200" height="58" rx="12"/><text class="tb" x="580.0" y="36.5" text-anchor="middle">Substitute products</text><text class="" x="580.0" y="55.5" text-anchor="middle">and services</text><rect class="bx" x="20" y="288" width="200" height="58" rx="12"/><text class="tb" x="120.0" y="322.0" text-anchor="middle">Suppliers</text><rect class="bx" x="480" y="288" width="200" height="58" rx="12"/><text class="tb" x="580.0" y="322.0" text-anchor="middle">Customers</text><ellipse class="lane" cx="350" cy="179" rx="190" ry="92"/><text class="tb tc" x="350" y="120" text-anchor="middle">Traditional competitors</text><rect class="bxs" x="232" y="152" width="110" height="56" rx="12"/><text class="tb ton" x="287.0" y="185.0" text-anchor="middle">The firm</text><rect class="bx" x="372" y="152" width="120" height="56" rx="12"/><text class="tb" x="432.0" y="185.0" text-anchor="middle">Competitors</text><line class="ln" x1="342" y1="180" x2="372" y2="180" marker-end="url(#ahpf)" marker-start="url(#ahpf)"/><line class="ln" x1="150" y1="70" x2="232" y2="114" marker-end="url(#ahpf)"/><line class="ln" x1="550" y1="70" x2="468" y2="114" marker-end="url(#ahpf)"/><line class="ln" x1="150" y1="288" x2="232" y2="244" marker-end="url(#ahpf)"/><line class="ln" x1="550" y1="288" x2="468" y2="244" marker-end="url(#ahpf)"/></svg></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Force</th><th>What the slides say</th></tr></thead><tbody>
+  <tr><th>Traditional competitors</th><td>Rivals keep creating new products, services, efficiencies and switching costs.</td></tr>
+  <tr><th>New market entrants</th><td>Some industries have high barriers to entry (computer chips). Newcomers have new equipment and younger workers but little brand recognition.</td></tr>
+  <tr><th>Substitute products and services</th><td>What customers might use if your prices rise too high (iTunes as a substitute for CDs).</td></tr>
+  <tr><th>Customers</th><td>Can they switch easily? Can they force firms to compete on price alone in a transparent marketplace?</td></tr>
+  <tr><th>Suppliers</th><td>They have market power when the firm cannot raise its prices as fast as they raise theirs.</td></tr></tbody></table></div>
+  <h4>Four generic strategies enabled by IT</h4>
+  <div class="cards3">
+    <div class="c"><h4>Low-cost leadership</h4><p>Produce at a lower price than competitors.</p><p class="eg">Walmart's efficient customer response system.</p></div>
+    <div class="c"><h4>Product differentiation</h4><p>New products or services that greatly change customer convenience and experience. Mass customization; customer experience management.</p><p class="eg">The slide's example is written "Google Nike".</p></div>
+    <div class="c"><h4>Focus on market niche</h4><p>Use information systems for a focused strategy on one niche; specialize.</p><p class="eg">Hilton Hotels' OnQ system.</p></div>
+    <div class="c"><h4>Customer and supplier intimacy</h4><p>Build strong ties and loyalty, and raise switching costs.</p><p class="eg">Toyota, Amazon.</p></div>
+  </div>
+  <p class="small"><b>The Internet</b> threatens some industries (travel agencies, printed encyclopedias, media). The forces still apply but rivalry is stronger, universal standards allow new rivals and entrants, and there are new chances to build brands and loyal customers. <b>Smart products and the Internet of Things</b> (Internet-connected sensors in products such as fitness trackers) widen product differentiation, which can increase rivalry, raise switching costs, discourage new entrants and may reduce suppliers' power.</p>
+
+  <h3>The value chain and beyond</h3>
+  <p class="small">The <b>value chain model</b> sees the firm as a series of activities that add value. It shows where competitive strategies fit best. At each stage, ask how information systems can raise efficiency and strengthen customer and supplier intimacy, using <b>benchmarking</b> and industry best practices. Example systems below are from the slide figure.</p>
+  <div class="vchain-wrap" tabindex="0" role="group" aria-label="Scrollable value chain table"><div class="vchain">
+    <div class="lab" style="grid-row: span 4">Support activities</div>
+    <div class="sup"><b>Administration and management</b>Electronic scheduling and messaging systems</div>
+    <div class="sup"><b>Human resources</b>Workforce planning systems</div>
+    <div class="sup"><b>Technology</b>Computer-aided design systems</div>
+    <div class="sup"><b>Procurement</b>Computerized ordering systems</div>
+    <div class="lab">Primary activities</div>
+    <div class="pri"><b>Inbound logistics</b>Automated warehousing systems</div>
+    <div class="pri"><b>Operations</b>Computer-controlled machining systems</div>
+    <div class="pri"><b>Sales and marketing</b>Computerized ordering systems</div>
+    <div class="pri"><b>Service</b>Equipment maintenance systems</div>
+    <div class="pri"><b>Outbound logistics</b>Automated shipment scheduling systems</div>
+  </div></div>
+  <div class="two"><div><h4>Industry value chain</h4><p>The firm's chain is linked to the chains of its suppliers, distributors and customers.</p></div>
+  <div><h4>Value web</h4><p>Independent firms that use tightly synchronized IT to coordinate their chains and make a product or service together. More customer-driven and less linear than a traditional chain.</p></div></div>
+  <div class="cards3">
+    <div class="c"><h4>Synergies</h4><p>The output of some units is the input of others, or organizations pool markets and expertise.</p><p class="eg">Bank of NY and JP Morgan Chase; Google buying YouTube.</p></div>
+    <div class="c"><h4>Core competencies</h4><p>An activity where the firm is a world-class leader. Relies on knowledge and experience shared across business units.</p><p class="eg">Procter and Gamble's intranet and directory of experts.</p></div>
+    <div class="c"><h4>Network economics</h4><p>The cost of adding a participant is almost zero, with much greater gain. The value of a community grows with its size, and so does software's value as its installed base grows. Contrast with the law of diminishing returns.</p></div>
+    <div class="c"><h4>Virtual company</h4><p>Uses networks to ally with other firms and make and distribute products without being limited by organizational boundaries or locations.</p><p class="eg">Li and Fung manages garment production and shipping and outsources all the work to thousands of suppliers.</p></div>
+    <div class="c"><h4>Business ecosystems</h4><p>Industry sets of firms providing related services and products. The slides name platforms (Microsoft, Facebook), keystone firms and niche firms, and say a firm can aim to be a profitable niche player in a larger ecosystem. My reading: keystone firms run the platform.</p></div>
+  </div>
+
+  <h3>The catch: strategic systems are hard to keep</h3>
+  <div class="two"><div><h4>Sustaining the advantage</h4><p>Competitors can retaliate and copy strategic systems, and a system that was an advantage may become a tool for survival.</p></div>
+  <div><h4>Aligning IT with business objectives</h4><p>Do a strategic systems analysis: look at the structure of the industry and at the firm's value chains.</p></div></div>
+  <p class="small">The Week 3 deck ends here. There is no Week 4 deck in the folder yet.</p>
+
+  <h3>Terms to know</h3>
+  <dl class="terms"><div><dt>Organization (technical)</dt><dd>A formal social structure that processes resources from the environment to produce outputs.</dd></div><div><dt>Organization (behavioral)</dt><dd>A balance of rights, privileges, obligations and responsibilities, kept through conflict and conflict resolution.</dd></div><div><dt>Routines</dt><dd>Standard operating procedures: precise rules and practices for expected situations.</dd></div><div><dt>Disruptive technology</dt><dd>A technology that brings sweeping change to businesses, industries or markets (PCs, smartphones, AI, the Internet).</dd></div><div><dt>First mover / fast follower</dt><dd>First movers invent a disruptive technology; fast followers are big enough to profit from it.</dd></div><div><dt>Transaction costs</dt><dd>The costs of participating in markets. IT lowers them.</dd></div><div><dt>Agency costs</dt><dd>The costs of managing and supervising a firm, which rise as it grows. IT can lower them.</dd></div><div><dt>Flattened organization</dt><dd>An organization with fewer layers of management because decisions move to lower levels.</dd></div><div><dt>Competitive forces model (Porter)</dt><dd>Five forces: traditional competitors, new entrants, substitutes, customers, suppliers.</dd></div><div><dt>Switching costs</dt><dd>My plain-words gloss (the slides do not define it): what it costs a customer to move to a competitor. The slides say strategies and smart products can raise them.</dd></div><div><dt>Mass customization</dt><dd>Listed under product differentiation in the slides. The slides give no definition.</dd></div><div><dt>Value chain</dt><dd>The firm as a series of activities (primary and support) that add value to a product or service.</dd></div><div><dt>Value web</dt><dd>Independent firms using synchronized IT to make a product or service together.</dd></div><div><dt>Synergy</dt><dd>Units or firms gain from using each other's outputs, markets or expertise.</dd></div><div><dt>Core competency</dt><dd>An activity for which the firm is a world-class leader.</dd></div><div><dt>Network economics</dt><dd>Near-zero cost of adding a participant; value grows with the size of the network.</dd></div><div><dt>Virtual company</dt><dd>A firm that uses networks and partners to make and deliver products without organizational or physical limits.</dd></div><div><dt>Keystone firm / niche firm</dt><dd>Both appear in the slides under business ecosystems without a definition. My reading: the keystone firm runs the platform and niche firms fill gaps around it.</dd></div></dl>
+  <h3>Boss fight</h3>
+  <p class="small">Tap a question to reveal the model answer. Try it in your head first.</p>
+  <details class="qa"><summary><span class="qn">1</span>Name Porter's five forces and the four generic IS strategies, each with the slide example.</summary><div class="ans"><p><b>Forces:</b> traditional competitors, new market entrants, substitute products and services, customers, suppliers.</p><p><b>Strategies:</b> low-cost leadership (Walmart), product differentiation (the slide says "Google Nike"), focus on a market niche (Hilton's OnQ), strengthening customer and supplier intimacy (Toyota, Amazon).</p></div></details><details class="qa"><summary><span class="qn">2</span>Explain transaction cost theory and agency theory in one line each, and say what IT does to each cost.</summary><div class="ans"><ul><li><b>Transaction costs</b> are the costs of participating in markets. Firms try to cut them by growing (hiring, buying suppliers). IT <b>lowers</b> them, so working with other firms becomes worthwhile instead of growing headcount.</li>
+ <li><b>Agency costs</b> are the costs of supervising the people the firm is a web of contracts with. They rise with size. IT <b>lowers</b> them, so a firm can grow without more supervision cost or employees.</li></ul></div></details><details class="qa"><summary><span class="qn">3</span>Why do organizations resist new information systems? List the four factors.</summary><div class="ans"><p>Systems control access to information, so they are tied up in politics, and they can change structure, culture and work. The four factors named in the slides: the <b>nature of the innovation</b>, the <b>structure</b> of the organization, its <b>culture</b>, and the <b>tasks affected</b>.</p></div></details><details class="qa"><summary><span class="qn">4</span>How does a value web differ from a traditional value chain?</summary><div class="ans"><p>A value chain is the firm's own series of value-adding activities, which can be linked to those of suppliers, distributors and customers (the industry value chain). A <b>value web</b> is a group of independent firms that use highly synchronized IT to coordinate their chains and make a product together. It is more customer-driven and less linear.</p></div></details><details class="qa"><summary><span class="qn">5</span>Why does network economics break the usual law of diminishing returns?</summary><div class="ans"><p>In a network the marginal cost of adding a participant is almost zero while the gain is much greater, and the value of a community (or of software with a growing installed base) rises with its size. Traditional economics expects returns to shrink as you add more.</p></div></details><details class="qa"><summary><span class="qn">6</span>Walmart (slide case): what problems did it face and how did it respond?</summary><div class="ans"><p><b>Problems:</b> opportunities from new technology, a large geographic footprint, powerful competition and high costs. <b>Solutions:</b> determine business strategy, design new products and services, integrate multiple lines of business, optimize the in-store experience, and use edge computing. Result: supercenter systems speed ordering and shipping, add in-store services, warehouse for third-party sellers and offer targeted online ads.</p></div></details><details class="qa"><summary><span class="qn">7</span>If a strategic system gives a firm an edge, why might the edge disappear, and what should the firm do about it?</summary><div class="ans"><p>Competitors can retaliate and copy the system, and the system may end up as a tool for survival. The slides' advice is to align IT with business objectives by running a strategic systems analysis of the industry structure and the firm's value chains.</p></div></details>
+</section>
+<section id="cheat-sheet" class="band wx">
+  <h2 class="sec">Cheat sheet</h2>
+  <h3>Numbers to remember</h3>
+  <ul class="nums"><li><b>~$3.8 trillion</b><span>global IT and IT services spending, 2019</span></li><li><b>$160 billion</b><span>spent on management consulting and services</span></li><li><b>~$3.6 trillion</b><span>worldwide e-commerce, 2019</span></li><li><b>> 20% a year</b><span>growth of mobile retail e-commerce (almost $300 billion in 2020)</span></li><li><b>$524 billion+</b><span>Walmart sales in 2019 (slide figure)</span></li><li><b>6</b><span>strategic business objectives</span></li><li><b>4</b><span>activities of an information system: input, processing, output, feedback</span></li><li><b>3</b><span>dimensions: organization, management, technology</span></li><li><b>4</b><span>system types: TPS, MIS, DSS, ESS</span></li><li><b>4</b><span>enterprise applications: ERP, SCM, CRM, KMS</span></li><li><b>6</b><span>steps to choose collaboration tools</span></li><li><b>2 × 2</b><span>time/space matrix (time × place)</span></li><li><b>5</b><span>competitive forces</span></li><li><b>4</b><span>generic IS strategies</span></li><li><b>5</b><span>Mintzberg structures</span></li><li><b>4</b><span>factors of resistance to change</span></li></ul>
+  <h3>Exam traps</h3>
+  <ul class="traps"><li><b>Information technology</b> is hardware and software; an <b>information system</b> also includes the organization and management dimensions.</li><li><b>Data</b> is raw facts; <b>information</b> is data shaped to be useful.</li><li>The <b>MIS</b> system type (routine reports for middle management) is not the same as <b>MIS</b> the field of study.</li><li><b>MIS</b> = routine questions; <b>DSS</b> = nonroutine questions; <b>ESS</b> = senior managers, judgment and outside events.</li><li><b>E-commerce</b> is a subset of <b>e-business</b>.</li><li><b>Intranet</b> = internal; <b>extranet</b> = authorized outside vendors and suppliers.</li><li><b>Complementary assets</b> are organizational, managerial and social. Buying technology without them gives weak returns.</li><li>IT <b>lowers</b> transaction costs and agency costs. It does not raise them.</li><li><b>Value chain</b> = one firm's activities; <b>value web</b> = independent firms working together.</li><li>Porter's five forces include <b>customers and suppliers</b>, not only competitors.</li><li>A strategic system is <b>not permanent</b>: competitors can copy it.</li><li>Slides give class-discussion questions with <b>no model answers</b>. Answers on this page are labelled "my own reading".</li></ul>
+</section>
+<section id="drill" class="band wx">
+  <h2 class="sec">Flashcards</h2>
+  <p class="small">Tap a card to flip it. Say the answer out loud before you flip.</p>
+  <div class="cards" id="cards"><button class="card" type="button" aria-pressed="false"><span class="front">Six strategic business objectives</span><span class="back">Operational excellence; new products, services and business models; customer and supplier intimacy; improved decision making; competitive advantage; survival.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Data vs information</span><span class="back">Data: streams of raw facts. Information: data shaped into a meaningful, useful form.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Four activities of an information system</span><span class="back">Input, processing, output, feedback.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Three dimensions of an information system</span><span class="back">Organization, management and technology.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Why technology alone does not pay</span><span class="back">Returns vary. You also need the right business model and complementary assets (organizational, managerial, social).</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Sociotechnical view</span><span class="back">Jointly optimize the social and the technical system. Avoids a purely technological approach.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">What is a business process?</span><span class="back">A logically related set of tasks that defines how a specific business task is done. It can be an asset or a liability.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">TPS</span><span class="back">Records daily routine transactions for operational managers and staff: order entry, payroll, shipping.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">MIS (system type)</span><span class="back">Routine reports on current performance for middle management, based on TPS data. Little analytic capability.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">DSS</span><span class="back">Supports nonroutine decisions for middle management; model-driven or data-driven.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">ESS</span><span class="back">For senior management: nonroutine decisions needing judgment; outside events plus MIS and DSS summaries; digital dashboard.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Four enterprise applications</span><span class="back">Enterprise systems (ERP), supply chain management, customer relationship management, knowledge management.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">SCM in one line</span><span class="back">Shares information with suppliers and distributors to move the right product from source to consumer fast and cheaply.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Intranet vs extranet</span><span class="back">Intranet: internal network on Internet standards. Extranet: open only to authorized vendors and suppliers.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">E-business, e-commerce, e-government</span><span class="back">E-business: digital technology runs the major processes. E-commerce: buying and selling online (a subset). E-government: services to citizens and businesses.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Social business</span><span class="back">Using internal and external social networks to engage employees, customers and suppliers; needs information transparency.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Time/space matrix</span><span class="back">Same or different time, same or different place: face-to-face, continuous task, remote interaction, communication + coordination.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">IT governance</span><span class="back">Strategies, policies, decision rights and accountability for IT, and how the IS function is organized.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Transaction costs and IT</span><span class="back">Costs of participating in markets. IT lowers them, so firms can work with other firms instead of growing staff.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Agency costs and IT</span><span class="back">Costs of managing and supervising, rising with firm size. IT lowers them, so firms grow without more supervisors.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Four factors of resistance</span><span class="back">Nature of the innovation, structure of the organization, culture of the organization, tasks affected.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Porter's five forces</span><span class="back">Traditional competitors, new market entrants, substitute products, customers, suppliers.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Four generic IS strategies</span><span class="back">Low-cost leadership, product differentiation, focus on market niche, customer and supplier intimacy.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Value chain: primary vs support</span><span class="back">Primary: inbound logistics, operations, sales and marketing, service, outbound logistics. Support: administration, human resources, technology, procurement.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Value web</span><span class="back">Independent firms using synchronized IT to make a product together; more customer-driven, less linear.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Network economics</span><span class="back">Adding a participant costs almost nothing and value grows with network size, unlike diminishing returns.</span></button><button class="card" type="button" aria-pressed="false"><span class="front">Challenges of strategic systems</span><span class="back">Rivals can copy them, and IT must be aligned with business objectives by strategic systems analysis.</span></button></div>
+</section>
+</main>
+<footer class="foot"><p>Built from the CMT323 lecture decks (Weeks 1 to 3, covering Chapters 1 to 3 of the course textbook). The lecture slides belong to their publisher and lecturers; this page is a student's own summary and the diagrams are redrawn, not copied. Items marked "my own reading" or "my own summary" are not from the slides.</p></footer>
+<script>
+(function () {
+  try {
+    document.querySelectorAll('.card').forEach(function (c) {
+      c.addEventListener('click', function () {
+        c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+      });
+    });
+  } catch (e) {}
+  try {
+    var box = document.getElementById('lightbox');
+    var big = box.querySelector('img');
+    document.querySelectorAll('.zoom').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var img = b.querySelector('img');
+        big.src = img.src;
+        big.alt = img.alt;
+        if (box.showModal) { box.showModal(); }
+      });
+    });
+    box.querySelector('.close').addEventListener('click', function () { box.close(); });
+    box.addEventListener('click', function (e) { if (e.target === box) { box.close(); } });
+  } catch (e) {}
+})();
+
+</script>
+</body>
+</html>
