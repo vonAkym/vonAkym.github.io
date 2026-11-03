@@ -29,7 +29,7 @@ subjects = [
 ]
 def card(s):
     state = '<span class="state on"><i></i>Ready</span>' if s['ready'] else '<span class="state"><i></i>Coming soon</span>'
-    art = (f'<div class="art" style="--h:{s["hue"]}"><span class="orb sm" aria-hidden="true"></span><span class="tag">{s["code"]}</span></div>')
+    art = (f'<div class="art" style="--h:{s["hue"]}"><img class="ico" src="assets/subjects/{s["code"].lower()}.svg" width="512" height="512" alt="" loading="lazy" decoding="async"></div>')
     body = (f'<div class="row"><span class="num" data-scramble>{s["n"]}</span>{state}</div>{art}'
             f'<h3>{s["title"]}</h3><p>{s["text"]}</p>')
     if s['ready']:
@@ -164,7 +164,8 @@ h2 { margin: 0 0 14px; font: 400 clamp(1.9rem, 4.6vw, 3.6rem)/1.08 var(--display
 .state.on { color: #CBB9FA; } .state.on i { background: #7CF2B6; box-shadow: 0 0 10px #7CF2B6; }
 .art { position: relative; display: grid; place-items: center; aspect-ratio: 16/10; overflow: hidden; border-radius: 18px;
   background: radial-gradient(80% 90% at 68% 30%, color-mix(in srgb, var(--h) 30%, #0b0a1e), #07061a 72%); }
-.proj.soon .art .orb { filter: grayscale(.55) brightness(.8); animation: none; }
+.art .ico { position: absolute; left: 50%; top: 50%; translate: -50% -50%; display: block; height: 94%; width: auto; aspect-ratio: 1; max-width: 100%; }
+.proj.soon .art .ico { filter: grayscale(.45) brightness(.85); }
 .art .tag { position: absolute; left: 14px; bottom: 12px; font: 500 .72rem var(--display); letter-spacing: .1em; color: rgba(245,241,254,.85); }
 .proj h3 { margin: 6px 0 0; font: 400 1.25rem/1.2 var(--display); letter-spacing: -.02em; }
 .proj p { margin: 0; color: var(--muted); font-size: .98rem; }
@@ -364,7 +365,7 @@ PAGE = f'''<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#060510">
-<title>Y4S1 Study Hub</title>
+<title>Study Arc: Y4S1 notes told as one story</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -376,7 +377,7 @@ PAGE = f'''<!DOCTYPE html>
 <body>
 <div class="stars a" aria-hidden="true"></div><div class="stars b" aria-hidden="true"></div>
 <header class="bar"><div class="wrap">
-  <a class="logo" href="./" aria-label="Y4S1 Study Hub, home"><img src="favicon.svg" width="38" height="38" alt=""><span><b>Y4</b>S1</span></a>
+  <a class="logo" href="./" aria-label="Study Arc, home"><img src="favicon.svg" width="38" height="38" alt=""><span><b>Study</b> Arc</span></a>
   <nav aria-label="Main"><a href="#subjects">Subjects</a><a href="#method">Method</a>
   <button class="icon motion-btn" type="button" aria-pressed="false" aria-label="Pause animations"><svg class="ic pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="ic play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5v14l12-7z"/></svg></button>
   <a class="icon" href="https://github.com/vonAkym" aria-label="GitHub profile">{svg(GH, 20)}</a></nav>
@@ -384,7 +385,7 @@ PAGE = f'''<!DOCTYPE html>
 <main>
 <section class="hero"><div class="wrap">
   <div>
-    <p class="eyebrow">Y4S1 · USM · 2026</p>
+    <p class="eyebrow">Study Arc · Y4S1 · USM · 2026</p>
     <h1>Learn every subject as <em>one story.</em></h1>
     <p class="lead">Problem, fix, new problem. Six subjects in one hub, each told so the next idea always explains itself.</p>
     <div class="btns"><a class="btn solid" href="#subjects">See subjects</a><a class="btn" href="cmt322/">Open CMT322 {svg(ARROW, 18, 2.2)}</a></div>

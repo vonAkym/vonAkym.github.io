@@ -534,6 +534,7 @@ PAGE = f'''<!DOCTYPE html>
 <body>
 <header class="hero">
   <a class="back" href="../">&larr; All subjects</a>
+  <img class="subj" src="../assets/subjects/cmt322.svg" width="96" height="96" alt="">
   <p class="eyebrow">Web Engineering and Technologies · Test notes</p>
   <h1>Weeks 1 to 5, as one story</h1>
   <p class="lead">Every week exists because the week before it wasn't enough. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>

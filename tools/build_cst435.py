@@ -643,6 +643,7 @@ PAGE = f'''<!DOCTYPE html>
 <body>
 <header class="hero">
   <a class="back" href="../">&larr; All subjects</a>
+  <img class="subj" src="../assets/subjects/cst435.svg" width="96" height="96" alt="">
   <p class="eyebrow">CST435 Parallel and Cloud Computing · Test notes</p>
   <h1>Topics 1 to 5, as one story</h1>
   <p class="lead">Every topic exists because the one before it left a gap. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>
