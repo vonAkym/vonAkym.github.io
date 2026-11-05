@@ -711,20 +711,58 @@ weeks_html = ''.join([
 supplement_html = '''
 <section id="supplement" class="band wx">
   <h2 class="sec">Supplement: examples of views</h2>
-  <p class="small">This is the extra deck, <i>Supplementary material: views</i> (slides 28 to 38, from another university&rsquo;s course). It carries a Pearson Education copyright line, so nothing is copied. It has <b>no explanatory text</b>: each slide is a title and one UML figure. The notes below are <b>my own plain-words reading of what each figure shows</b>, at the level I could see them, and my own mapping to the three kinds of view from Topics 4 to 6. The slides themselves do not explain the figures.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Slide title</th><th>Kind of view (my mapping)</th><th>What the figure shows (my reading)</th><th>Tie back to</th></tr></thead><tbody>
-  <tr><th>Module View Example: UML Module Diagram (slide 29)</th><td>Module</td><td>Folder-like packages inside a presentation layer, a business layer and a data layer, with dashed dependency arrows between them, labelled with what each shape is.</td><td>Topic 4: layered style, depends-on</td></tr>
-  <tr><th>Module View Example (slide 30)</th><td>Module</td><td>Nested packages (a customer-service package, an order-processing system and a domain package) with dependency and access arrows between them, and database interfaces at the bottom.</td><td>Topic 4: decomposition and uses</td></tr>
-  <tr><th>Module View Example: UML Domain Model Class Diagram (slide 31)</th><td>Module</td><td>Classes for things like book, author, account and library, with multiplicities and association, aggregation, composition and generalization lines, plus interfaces.</td><td>Topic 4: generalization. Topic 5: data model</td></tr>
-  <tr><th>Module View Example: UML Class Diagram (slide 32)</th><td>Module</td><td>A university class diagram: student, seminar, course, professor and address, with attributes, operations and multiplicities on the links.</td><td>Topic 4: is-a and depends-on. Topic 5: data model</td></tr>
-  <tr><th>Component-and-Connector: UML Component Diagram (slide 33)</th><td>C&amp;C</td><td>Several subsystems (web store, warehouses, accounting), each with components inside, joined through ports by provided and required interfaces and delegation connectors.</td><td>Topic 6: components, ports, attachment</td></tr>
-  <tr><th>Component-and-Connector: Client Server View Example (slide 34)</th><td>C&amp;C</td><td>Repository-access client libraries on one side and a server holding a web server and a version-control service on the other, linked by protocol connectors.</td><td>Topic 6: client-server</td></tr>
-  <tr><th>Component-and-Connector: Another Example (slide 35)</th><td>C&amp;C</td><td>Two user-interface components calling data-access components for facilities, students, seminars and schedules, which in turn use infrastructure components for security and persistence, ending at a university database.</td><td>Topic 6: call-return</td></tr>
-  <tr><th>Component-and-Connector: Embedded Example (slide 36)</th><td>C&amp;C</td><td>A dense component diagram of an embedded system: a control system, sensors, actuators and an operator panel, joined by buses and ports.</td><td>Topic 6: components and connectors in a real system</td></tr>
-  <tr><th>Allocation View: UML Deployment Diagram Example (slide 37)</th><td>Allocation (deployment)</td><td>Nested boxes for a server device, a web-server runtime and the deployed packaged application, with a second device holding database schemas, joined by a TCP/IP link.</td><td>Topic 6: deployment style</td></tr>
-  <tr><th>Allocation View: UML Implementation Diagram (slide 38)</th><td>Allocation (install)</td><td>A packaged web application drawn as folders and files (configuration, libraries, pages), each file linked to the component it implements.</td><td>Topic 6: install style</td></tr>
-  </tbody></table></div>
-  <p class="small"><b>Note:</b> the slides also mark which parts of each figure are, for example, a port, an interface or an execution environment, in small red labels. I have not reproduced those. The first slide in the deck (slide 28) is only the title, <i>Supplemental Material: Examples of Views</i>.</p>
+  <p class="small">This is the extra deck, <i>Supplementary material: views</i> (slides 28 to 38, from another university&rsquo;s course). It has <b>no explanatory text</b>: each slide is a title and one UML figure. The figures below are <b>cropped from those slides</b> (the owner asked for them to be included), not redrawn. Credit lines on the slides: &copy; Pearson Education; J. Scott Hawker / R. Kuehl, RIT Software Engineering; some figures also marked uml-diagrams.org or Scott W. Ambler. They belong to their authors. Under each figure, the kind of view, the tie-back to Topics 4 to 6 and the plain-words description are <b>my own reading</b>; the slides themselves do not explain the figures. Wide figures scroll sideways inside their box.</p>
+  <figure class="slidefig">
+    <figcaption><b>Module View Example: UML Module Diagram</b> <span class="small">(slide 29)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide29.png" alt="Figure from slide 29 of the supplementary deck: Module View Example: UML Module Diagram" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Module. <b>Tie back to:</b> Topic 4: layered style, depends-on.<br><b>My reading:</b> Folder-like packages inside a presentation layer, a business layer and a data layer, with dashed dependency arrows between them, labelled with what each shape is.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Module View Example</b> <span class="small">(slide 30)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide30.png" alt="Figure from slide 30 of the supplementary deck: Module View Example" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Module. <b>Tie back to:</b> Topic 4: decomposition and uses.<br><b>My reading:</b> Nested packages (a customer-service package, an order-processing system and a domain package) with dependency and access arrows between them, and database interfaces at the bottom.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Module View Example: UML Domain Model Class Diagram</b> <span class="small">(slide 31)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide31.png" alt="Figure from slide 31 of the supplementary deck: Module View Example: UML Domain Model Class Diagram" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Module. <b>Tie back to:</b> Topic 4: generalization. Topic 5: data model.<br><b>My reading:</b> Classes for things like book, author, account and library, with multiplicities and association, aggregation, composition and generalization lines, plus interfaces.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Module View Example: UML Class Diagram</b> <span class="small">(slide 32)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide32.png" alt="Figure from slide 32 of the supplementary deck: Module View Example: UML Class Diagram" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Module. <b>Tie back to:</b> Topic 4: is-a and depends-on. Topic 5: data model.<br><b>My reading:</b> A university class diagram: student, seminar, course, professor and address, with attributes, operations and multiplicities on the links.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Component-and-Connector: UML Component Diagram</b> <span class="small">(slide 33)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide33.png" alt="Figure from slide 33 of the supplementary deck: Component-and-Connector: UML Component Diagram" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> C&amp;C. <b>Tie back to:</b> Topic 6: components, ports, attachment.<br><b>My reading:</b> Several subsystems (web store, warehouses, accounting), each with components inside, joined through ports by provided and required interfaces and delegation connectors.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Component-and-Connector: Client Server View Example</b> <span class="small">(slide 34)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide34.png" alt="Figure from slide 34 of the supplementary deck: Component-and-Connector: Client Server View Example" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> C&amp;C. <b>Tie back to:</b> Topic 6: client-server.<br><b>My reading:</b> Repository-access client libraries on one side and a server holding a web server and a version-control service on the other, linked by protocol connectors.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Component-and-Connector: Another Example</b> <span class="small">(slide 35)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide35.png" alt="Figure from slide 35 of the supplementary deck: Component-and-Connector: Another Example" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> C&amp;C. <b>Tie back to:</b> Topic 6: call-return.<br><b>My reading:</b> Two user-interface components calling data-access components for facilities, students, seminars and schedules, which in turn use infrastructure components for security and persistence, ending at a university database.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Component-and-Connector: Embedded Example</b> <span class="small">(slide 36)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide36.png" alt="Figure from slide 36 of the supplementary deck: Component-and-Connector: Embedded Example" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> C&amp;C. <b>Tie back to:</b> Topic 6: components and connectors in a real system.<br><b>My reading:</b> A dense component diagram of an embedded system: a control system, sensors, actuators and an operator panel, joined by buses and ports.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Allocation View: UML Deployment Diagram Example</b> <span class="small">(slide 37)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide37.png" alt="Figure from slide 37 of the supplementary deck: Allocation View: UML Deployment Diagram Example" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Allocation (deployment). <b>Tie back to:</b> Topic 6: deployment style.<br><b>My reading:</b> Nested boxes for a server device, a web-server runtime and the deployed packaged application, with a second device holding database schemas, joined by a TCP/IP link.</p>
+  </figure>
+  <figure class="slidefig">
+    <figcaption><b>Allocation View: UML Implementation Diagram</b> <span class="small">(slide 38)</span></figcaption>
+    <div class="dgw" tabindex="0" role="group" aria-label="Scrollable figure"><img src="img/sup-slide38.png" alt="Figure from slide 38 of the supplementary deck: Allocation View: UML Implementation Diagram" loading="lazy"></div>
+    <p class="small"><b>Kind of view (my mapping):</b> Allocation (install). <b>Tie back to:</b> Topic 6: install style.<br><b>My reading:</b> A packaged web application drawn as folders and files (configuration, libraries, pages), each file linked to the component it implements.</p>
+  </figure>
+  <p class="small"><b>Note:</b> the first slide in the deck (slide 28) is only the title, <i>Supplemental Material: Examples of Views</i>.</p>
 </section>'''
 nav = '<a class="wx" href="#big-picture">Big picture</a>' + ''.join(f'<a class="w{n}" href="#week-{n}">Topic {n}</a>' for n in range(1, 7)) + '<a class="wx" href="#supplement">Supplement</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a>'
 
@@ -821,7 +859,7 @@ PAGE = f'''<!DOCTYPE html>
   {cards_html}
 </section>
 </main>
-<footer class="foot"><p>Built from the CSE341 (CKS221) Software Architecture and Design lecture decks, Lectures 1 to 6, one topic each, plus the supplementary views deck as its own section. The slides belong to their lecturers and publishers; this page is a student&rsquo;s own summary and the diagrams are redrawn, not copied. Items marked "my own" are not from the slides. Topic numbers here group the lectures as: Topic 1 = Lecture 1, Topic 2 = Lecture 2, Topic 3 = Lecture 3, Topic 4 = Lectures 4 and 5, Topic 5 = Lecture 6 and the supplement.</p></footer>
+<footer class="foot"><p>Built from the CSE341 (CKS221) Software Architecture and Design lecture decks, Lectures 1 to 6, one topic each, plus the supplementary views deck as its own section. The slides belong to their lecturers and publishers; this page is a student&rsquo;s own summary. The diagrams are redrawn, except the figures in the Supplement section, which are cropped from the supplementary deck. Items marked "my own" are not from the slides. Topic numbers here group the lectures as: Topic 1 = Lecture 1, Topic 2 = Lecture 2, Topic 3 = Lecture 3, Topic 4 = Lectures 4 and 5, Topic 5 = Lecture 6 and the supplement.</p></footer>
 <script>
 {JS}
 </script>
