@@ -7,7 +7,7 @@ Diagrams are redrawn as inline SVG (the project's own PNG diagrams are not copie
 
 Six topics (one story of the project): 1 the idea and the plan, 2 the data, 3 hidden gems and search,
 4 the route planner, 5 the proof (feasibility), 6 the application (backend and web).
-Extra sections: #status (status, risks, next steps) and #meeting (supervisor meeting preparation)."""
+Extra sections: #eytk (the owner's own study guide, tools/eytk.md, converted), #status (status, risks, next steps) and #meeting (supervisor meeting preparation)."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -673,7 +673,18 @@ meeting_html = '''
   <ul class="chips-row"><li>Open the Supabase dashboard so the project wakes up</li><li>Start the backend and the web app</li><li>Check <code>/health/db</code> shows 1241 places</li><li>Practise the demo once</li><li>Have the diagrams open, laptop charged, phone hotspot ready</li></ul>
 </section>'''
 
-nav = '<a class="wx" href="#big-picture">Big picture</a>' + ''.join(f'<a class="w{n}" href="#week-{n}">Topic {n}</a>' for n in range(1, 7)) + '<a class="wx" href="#status">Status</a><a class="wx" href="#meeting">Meeting</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a>'
+import markdown, re
+_md = open(os.path.join(HERE, 'eytk.md')).read().split('\n', 1)[1]  # drop the H1
+_h = markdown.markdown(_md, extensions=['tables', 'fenced_code'])
+_h = _h.replace('<h3>', '<h5>').replace('</h3>', '</h5>').replace('<h2>', '<h3>').replace('</h2>', '</h3>')
+_h = re.sub(r'<table>', '<div class="tbl-wrap"><table>', _h).replace('</table>', '</table></div>')
+_h = re.sub(r'<pre>', '<div class="dgw" tabindex="0" role="group" aria-label="Scrollable code"><pre>', _h).replace('</pre>', '</pre></div>')
+_h = _h.replace('<hr />', '')
+eytk_html = ('<section id="eytk" class="band wx eytk"><h2 class="sec">EYTK: Everything You Need To Know</h2>'
+             '<p class="small">The project&rsquo;s own study guide (<code>docs/presentation/EVERYTHING-YOU-NEED-TO-KNOW.md</code>), included in full, as written by the project owner. Names and the meeting time were removed from the first lines. Counts such as 277 / 93 tests are the guide&rsquo;s own and were not re-run.</p>'
+             + _h + '</section>')
+
+nav = '<a class="wx" href="#big-picture">Big picture</a>' + ''.join(f'<a class="w{n}" href="#week-{n}">Topic {n}</a>' for n in range(1, 7)) + '<a class="wx" href="#status">Status</a><a class="wx" href="#meeting">Meeting</a><a class="wx" href="#eytk">EYTK</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a>'
 
 CSS = (open(os.path.join(HERE, 'style.css')).read() + open(os.path.join(HERE, 'extra_cst.css')).read()
        + open(os.path.join(HERE, 'bigp.css')).read() + open(os.path.join(HERE, 'extra_cmt323.css')).read())
@@ -757,6 +768,7 @@ PAGE = f'''<!DOCTYPE html>
 {weeks_html}
 {status_html}
 {meeting_html}
+{eytk_html}
 <section id="cheat-sheet" class="band wx">
   <h2 class="sec">Cheat sheet</h2>
   <h3>Numbers to remember</h3>

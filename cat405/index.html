@@ -430,6 +430,13 @@ table.gen th, table.gen td { min-width: 140px; }
 .slidefig figcaption { margin-bottom: 4px; }
 .slidefig img { display: block; min-width: 640px; width: 100%; height: auto; background: #fff; }
 
+/* CAT405 EYTK section: markdown converted to HTML */
+.eytk h3{margin-top:2.2rem}
+.eytk h5{margin:1.4rem 0 .4rem;font-size:1.02rem}
+.eytk blockquote{margin:1rem 0;padding:.6rem 1rem;border-left:4px solid var(--ink,#444);background:rgba(127,127,127,.1)}
+.eytk pre{margin:0;padding:.8rem 1rem;min-width:max-content;font-family:'IBM Plex Mono',monospace;font-size:.85rem}
+.eytk td,.eytk th{vertical-align:top}
+
 </style>
 </head>
 <body>
@@ -439,7 +446,7 @@ table.gen th, table.gen td { min-width: 140px; }
   <p class="eyebrow">CAT405 · Final Year Project · MyMakanRoute</p>
   <h1>One project, told as one story</h1>
   <p class="lead">There are no slides for this subject, so these are notes on the project itself. Read it as <b>problem, solution, new problem</b>: each part exists because the one before it left a gap.</p>
-  <nav class="jump" aria-label="Jump to a section"><a class="wx" href="#big-picture">Big picture</a><a class="w1" href="#week-1">Topic 1</a><a class="w2" href="#week-2">Topic 2</a><a class="w3" href="#week-3">Topic 3</a><a class="w4" href="#week-4">Topic 4</a><a class="w5" href="#week-5">Topic 5</a><a class="w6" href="#week-6">Topic 6</a><a class="wx" href="#status">Status</a><a class="wx" href="#meeting">Meeting</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
+  <nav class="jump" aria-label="Jump to a section"><a class="wx" href="#big-picture">Big picture</a><a class="w1" href="#week-1">Topic 1</a><a class="w2" href="#week-2">Topic 2</a><a class="w3" href="#week-3">Topic 3</a><a class="w4" href="#week-4">Topic 4</a><a class="w5" href="#week-5">Topic 5</a><a class="w6" href="#week-6">Topic 6</a><a class="wx" href="#status">Status</a><a class="wx" href="#meeting">Meeting</a><a class="wx" href="#eytk">EYTK</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a></nav>
 </header>
 <main>
 
@@ -764,6 +771,1008 @@ table.gen th, table.gen td { min-width: 140px; }
   <h3>Before you start</h3>
   <ul class="chips-row"><li>Open the Supabase dashboard so the project wakes up</li><li>Start the backend and the web app</li><li>Check <code>/health/db</code> shows 1241 places</li><li>Practise the demo once</li><li>Have the diagrams open, laptop charged, phone hotspot ready</li></ul>
 </section>
+<section id="eytk" class="band wx eytk"><h2 class="sec">EYTK: Everything You Need To Know</h2><p class="small">The project&rsquo;s own study guide (<code>docs/presentation/EVERYTHING-YOU-NEED-TO-KNOW.md</code>), included in full, as written by the project owner. Names and the meeting time were removed from the first lines. Counts such as 277 / 93 tests are the guide&rsquo;s own and were not re-run.</p><p>A study guide for the supervisor meeting. It covers the project end to end: what it is, how each part works, the numbers, the technical terms, and answers to likely questions.</p>
+<p>Every fact here comes from the code and the project docs (<code>PLAN.md</code>, <code>FEASIBILITY.md</code>, <code>erd.md</code>, <code>architecture.md</code>, <code>CLAUDE.md</code>) as of 5 Nov 2026. Where something is planned rather than built, it says so.</p>
+<p><strong>How to use it:</strong> read sections 1 to 3 first; they are enough to answer most questions. Then read the part you feel least sure about. Section 15 has likely questions with short answers, section 16 has the numbers on one card, and section 17 is an A to Z glossary.</p>
+
+<h3>1. The project in 30 seconds</h3>
+<blockquote>
+<p>MyMakanRoute is a food hopping and food discovery planner for Penang. It helps tourists and locals find <strong>hidden gems</strong>: food places that are well rated but not yet well known. The user picks a few places, and the app plans the <strong>shortest walking route</strong> between them. The route planner uses <strong>Dijkstra's algorithm</strong> on a real OpenStreetMap road network to get the walking times, and <strong>Ant Colony Optimisation</strong> to choose the visiting order.</p>
+</blockquote>
+<ul>
+<li><strong>Course:</strong> CAT405 Final Year Project, School of Computer Sciences, USM, Intelligent Computing major.</li>
+<li><strong>Area covered so far:</strong> George Town to Gelugor/USM (bounding box 5.33 to 5.46 N, 100.27 to 100.345 E).</li>
+<li><strong>Status:</strong> the proposed work is feasible. All four modules run end to end. Two gaps remain: <strong>real ratings</strong> and <strong>real user accounts</strong>.</li>
+</ul>
+<p><strong>Why "Intelligent Computing"?</strong> The route planner uses Ant Colony Optimisation, a nature-inspired optimisation method (swarm intelligence). That is the intelligent computing part.</p>
+
+<h3>2. Modules and submodules (fixed from the proposal)</h3>
+<p>4 modules, 13 submodules. These names never change.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Submodules</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>User Management</strong></td>
+<td>Registration, Login, Profile and Preference Setup</td>
+<td>Partial (web screens in demo mode)</td>
+</tr>
+<tr>
+<td><strong>Food Discovery</strong></td>
+<td>Food Place Searching, Hidden Gem Highlighting, Food Place Visualisation</td>
+<td>Built</td>
+</tr>
+<tr>
+<td><strong>Food Hopping</strong></td>
+<td>Itinerary Planner, Route Planner, Itinerary Review and Customisation, Past Food Hopping Visualisation</td>
+<td>Route Planner built; the other 3 partial</td>
+</tr>
+<tr>
+<td><strong>Food Stalls Analytics</strong></td>
+<td>Food Places Visualisation, Food Places Analysis, Food Place Suggestion</td>
+<td>Built</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Built (7):</strong> has a server part (API), a web page, and automated tests.</li>
+<li><strong>Partial (6):</strong> the web screen works, but in <strong>demo mode</strong>: login does not check a real password, and data is kept in the browser (localStorage). The database tables are ready. The real server part comes in <strong>Phase 2B</strong>.</li>
+<li><strong>Filtering</strong> (halal, budget, cuisine, dietary, open now) is <strong>not a module</strong>. It is part of Food Discovery and Food Hopping.</li>
+</ul>
+
+<h3>3. How the whole system works (end to end)</h3>
+<h5>3.1 The three layers</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>Technology</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Presentation</strong> (what the user sees)</td>
+<td>Web app in the browser. Mobile app planned</td>
+<td>React + Vite (web); React Native + Expo (mobile, planned)</td>
+</tr>
+<tr>
+<td><strong>Application</strong> (the logic)</td>
+<td>Backend API: one server program that all apps talk to</td>
+<td>Node.js + Express (JavaScript)</td>
+</tr>
+<tr>
+<td><strong>Data</strong> (what is stored)</td>
+<td>Database of places, users and trips</td>
+<td>Supabase: PostgreSQL + PostGIS</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>External data:</strong> OpenStreetMap gives us the food places and the road network. Google Places ratings are planned.</p>
+<p>The apps <strong>never talk to the database directly</strong>. They call our backend API, and only the backend talks to the database. This keeps database passwords off the user's device and keeps all rules in one place.</p>
+<h5>3.2 What happens when a user plans a trip (step by step)</h5>
+<ol>
+<li>The user opens the web app and chooses a location (for example Komtar).</li>
+<li>The web app calls <code>GET /api/discovery/places?lat=..&amp;lng=..&amp;radius=1500</code>.</li>
+<li>The backend runs a <strong>PostGIS</strong> query: "all places within 1,500 m of this point, with their distance".</li>
+<li>The backend applies the <strong>hidden gem rule</strong> to every place and <strong>ranks</strong> them: Hidden Gems first, then Popular, then unlabelled; nearest first within each group.</li>
+<li>The web app shows the list and a <strong>Leaflet</strong> map with labels.</li>
+<li>The user adds 2 to 10 places to the trip and presses <strong>Plan route</strong>.</li>
+<li>The web app calls <code>POST /api/hopping/route</code> with the place IDs and travel mode (walking or driving).</li>
+<li>The backend:</li>
+<li>loads the places from the database;</li>
+<li><strong>snaps</strong> each place to its nearest road node;</li>
+<li>runs <strong>Dijkstra</strong> from each place to build a <strong>time matrix</strong> (walking time between every pair);</li>
+<li>runs <strong>ACO</strong> on the matrix to choose the visiting order;</li>
+<li>also runs <strong>nearest neighbour</strong> and <strong>brute force</strong> (up to 8 stops) for comparison;</li>
+<li>builds the <strong>legs</strong> (time, distance, and the road path to draw on the map).</li>
+<li>The web app draws the route on the map and shows total minutes, metres, and the comparison card.</li>
+<li>The user can reorder or remove stops, plan again, and save the trip (saved in the browser for now; on the server from Phase 2B).</li>
+</ol>
+<h5>3.3 The tech stack, and why each was chosen</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Choice</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend language</td>
+<td>JavaScript (Node.js 20+)</td>
+<td>Same language as the web and mobile apps; one language for the whole project</td>
+</tr>
+<tr>
+<td>Web framework</td>
+<td>Express 4</td>
+<td>The most common and simplest Node.js web framework</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>PostgreSQL + PostGIS</td>
+<td>Real SQL database; PostGIS handles map distances ("within 1.5 km") efficiently</td>
+</tr>
+<tr>
+<td>Hosting</td>
+<td>Supabase (Singapore region)</td>
+<td>Free hosted PostgreSQL with PostGIS and a built-in login service (Supabase Auth)</td>
+</tr>
+<tr>
+<td>Database access</td>
+<td><code>pg</code> library with plain SQL</td>
+<td>Same code runs on Supabase, a laptop or a test server; easier to explain than a heavy tool</td>
+</tr>
+<tr>
+<td>Input checking</td>
+<td>zod</td>
+<td>One readable rule set per request; clear error messages</td>
+</tr>
+<tr>
+<td>Security headers</td>
+<td>helmet, cors</td>
+<td>Standard protections in one line each</td>
+</tr>
+<tr>
+<td>Web app</td>
+<td>React 19 + Vite</td>
+<td>Most popular UI library; Vite is a fast development server</td>
+</tr>
+<tr>
+<td>Maps (web)</td>
+<td>Leaflet + react-leaflet with OpenStreetMap tiles</td>
+<td>Free, no API key</td>
+</tr>
+<tr>
+<td>Charts (web)</td>
+<td>Recharts</td>
+<td>Simple React charts</td>
+</tr>
+<tr>
+<td>Mobile (planned)</td>
+<td>React Native + Expo</td>
+<td>Reuses React knowledge; Expo Go runs on a real phone easily</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Jest + Supertest (backend), Vitest (web)</td>
+<td>Standard tools; Supertest calls the API without starting a server</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3>4. The backend (code structure)</h3>
+<h5>4.1 Folders</h5>
+<div class="dgw" tabindex="0" role="group" aria-label="Scrollable code"><pre><code>backend/src/
+  app.js          builds the Express app (tests use this)
+  index.js        starts the server on port 3000
+  config/         reads settings from .env and checks them with zod
+  lib/            db.js (database connection pool), response.js (standard answers, AppError)
+  middleware/     validate.js, errorHandler.js, notFound.js
+  modules/
+    food-discovery/        search, hidden gem rule, opening hours
+    food-hopping/          travel graph, Dijkstra, ACO, baselines
+    food-stalls-analytics/ overview and findings
+    user-management/       empty (Phase 2B)
+backend/db/migrations/     001 to 004 .sql files
+backend/db/seeds/          55 SAMPLE places
+backend/scripts/           import-osm.js, build-road-graph.js, feasibility.js
+</code></pre></div>
+<p>Each module has the same four files:</p>
+<ul>
+<li><strong>routes:</strong> the URLs, and the input rules for each URL.</li>
+<li><strong>controller:</strong> reads the request and sends the response.</li>
+<li><strong>service:</strong> the actual logic.</li>
+<li><strong>model:</strong> the SQL queries.</li>
+</ul>
+<p>This is a <strong>layered</strong> design (similar to MVC). Each file has one job, so it is easy to test and explain.</p>
+<h5>4.2 API endpoints (built)</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Method and path</th>
+<th>Submodule</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /health</code>, <code>GET /health/db</code></td>
+<td>(checks)</td>
+<td>Is the server up? Can it reach the database?</td>
+</tr>
+<tr>
+<td><code>GET /api/discovery/places</code></td>
+<td>Food Place Searching + Hidden Gem Highlighting</td>
+<td>Search by location and radius, with filters; labelled and ranked</td>
+</tr>
+<tr>
+<td><code>GET /api/discovery/places/:id</code></td>
+<td>Food Place Visualisation</td>
+<td>One place's details</td>
+</tr>
+<tr>
+<td><code>POST /api/hopping/route</code></td>
+<td>Route Planner</td>
+<td>Plan the best visiting order and route</td>
+</tr>
+<tr>
+<td><code>GET /api/analytics/overview</code></td>
+<td>Food Places Visualisation, Analysis, Suggestion</td>
+<td>Chart data, written findings, suggested places</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Search filters:</strong> <code>lat</code>, <code>lng</code>, <code>radius</code> (100 to 5,000 m, default 1,500), <code>halal</code>, <code>maxPrice</code> (1 to 4), <code>cuisine</code>, <code>dietary</code>, <code>openNow</code>, <code>label</code>, <code>limit</code> (1 to 100, default 50).</p>
+<p><strong>Route request:</strong> <code>{ placeIds (2 to 10, no repeats), travelMode ("walking" or "driving", default walking), startPlaceId (optional, must be one of the places), seed (optional) }</code>.</p>
+<p><strong>Planned (Phase 2B):</strong> <code>/api/auth/register</code>, <code>/api/auth/login</code>, <code>/api/auth/refresh</code>, profile and preferences, and itinerary (save, edit, list) endpoints.</p>
+<h5>4.3 API design rules</h5>
+<ul>
+<li><strong>REST API:</strong> each URL is a "resource" (places, routes), and the HTTP method says what to do (GET reads, POST creates or computes).</li>
+<li><strong>JSON:</strong> the text format all data is sent in.</li>
+<li><strong>Same answer shape everywhere:</strong></li>
+<li>Success: <code>{ "success": true, "data": { ... } }</code></li>
+<li>Failure: <code>{ "success": false, "error": { "code": "VALIDATION_ERROR", "message": "...", "details": [...] } }</code></li>
+<li><strong>Validation:</strong> every request is checked with a zod schema <strong>before</strong> the logic runs. Bad input gives HTTP <strong>400</strong> <code>VALIDATION_ERROR</code>.</li>
+<li><strong>Errors:</strong></li>
+<li>Expected problems throw an <code>AppError</code>, for example 404 <code>NOT_FOUND</code>.</li>
+<li>Anything unexpected becomes 500 <code>INTERNAL_ERROR</code>, with <strong>no stack trace or SQL shown</strong> to the user. The details go to the server log only.</li>
+<li><strong>Parameterised SQL</strong> (<code>$1, $2</code>): user input is never pasted into SQL text, which prevents <strong>SQL injection</strong>.</li>
+</ul>
+
+<h3>5. Database and Supabase</h3>
+<h5>5.1 What Supabase is</h5>
+<p><strong>Supabase</strong> is a hosted service that gives us a <strong>PostgreSQL</strong> database (with the <strong>PostGIS</strong> add-on) in the cloud, plus an optional login service (<strong>Supabase Auth</strong>). Our project is in the <strong>Singapore</strong> region (close to Malaysia, so it is fast). We use the free tier.</p>
+<p><strong>How the app uses it:</strong> only our backend connects, with the <code>pg</code> library and a connection string (<code>DATABASE_URL</code>) kept in <code>backend/.env</code>. That file is never committed to Git.</p>
+<h5>5.2 The 6 tables</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Table</th>
+<th>What it holds</th>
+<th>Used by the API today?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>places</code></td>
+<td>Every food place: name, cuisine, area, location (map point), halal, price level, rating, review count, opening hours, source, sample flag</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>profiles</code></td>
+<td>One row per user: display name, role (user or admin). id = Supabase Auth user id</td>
+<td>Not yet (2B)</td>
+</tr>
+<tr>
+<td><code>preferences</code></td>
+<td>A user's default filters: halal only, max price, cuisines, dietary</td>
+<td>Not yet (2B)</td>
+</tr>
+<tr>
+<td><code>itineraries</code></td>
+<td>Saved trips: title, travel mode, total time and distance</td>
+<td>Not yet (2B)</td>
+</tr>
+<tr>
+<td><code>itinerary_stops</code></td>
+<td>The ordered stops of each trip (links a trip to places)</td>
+<td>Not yet (2B)</td>
+</tr>
+<tr>
+<td><code>schema_migrations</code></td>
+<td>Which migration files have been applied</td>
+<td>Yes (by the migration runner)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Relationships (as in the ERD):</strong></p>
+<ul>
+<li>One profile <strong>has</strong> zero or one preferences row (1 to 1). <code>preferences.user_id</code> is both the PK and the FK.</li>
+<li>One profile <strong>owns</strong> zero or many itineraries (1 to many).</li>
+<li>One itinerary <strong>contains</strong> zero or many stops (1 to many).</li>
+<li>One place can be <strong>visited in</strong> zero or many stops (1 to many).</li>
+</ul>
+<p><code>itinerary_stops</code> is a <strong>junction table</strong>. It turns the many-to-many link between itineraries and places into two one-to-many links, and it also stores the <strong>position</strong> (order) of each stop.</p>
+<h5>5.3 Key database ideas</h5>
+<ul>
+<li><strong>Primary key (PK):</strong> the column that identifies each row (we use <code>uuid</code>, a long random id).</li>
+<li><strong>Foreign key (FK):</strong> a column pointing to another table's PK. <code>on delete cascade</code> means deleting a user also deletes their trips.</li>
+<li><strong>Unique key (UK):</strong> <code>osm_id</code> must not repeat, so re-running the import updates places instead of duplicating them.</li>
+<li><strong><code>geography(Point, 4326)</code>:</strong> the location type. 4326 is the standard GPS coordinate system (latitude and longitude, as used by phones).</li>
+<li><strong>GiST index:</strong> a spatial index that makes "within N metres" searches fast without checking every row.</li>
+<li><strong>The search query:</strong> <code>ST_DWithin(location, point, radius)</code> finds places within the radius, and <code>ST_Distance</code> gives each distance in metres.</li>
+<li><strong>Migrations:</strong> numbered SQL files (001 to 004) that build the database. Running them in order rebuilds the same database anywhere. A small runner (<code>migrate.js</code>) records applied files in <code>schema_migrations</code>, so running it twice applies nothing new.</li>
+<li>001: places</li>
+<li>002: users (profiles, preferences)</li>
+<li>003: itineraries</li>
+<li>004: lock down the public API</li>
+<li><strong>Normalisation:</strong> each fact is stored once (a place's data lives only in <code>places</code>; stops only point to it). This avoids copies that can disagree.</li>
+</ul>
+<h5>5.4 Database security</h5>
+<ul>
+<li><strong>Row Level Security (RLS)</strong> is switched on for every table. RLS means rules decide which rows a database user may see.</li>
+<li><code>places</code> has one read-only rule.</li>
+<li>The other tables have no rules, so the public sees nothing in them.</li>
+<li>Supabase automatically publishes tables through a public REST API. <strong>Migration 004 revokes</strong> (takes away) write rights from Supabase's public roles (<code>anon</code>, <code>authenticated</code>) and blocks the private tables.</li>
+<li>Our backend connects as the table owner, so these rules do not limit it.</li>
+<li>We do <strong>not</strong> use the powerful <code>service_role</code> key in the app.</li>
+<li>There is no foreign key to Supabase's internal <code>auth.users</code> table, on purpose: the same migrations then also run on a plain PostgreSQL test database.</li>
+</ul>
+
+<h3>6. The data</h3>
+<h5>6.1 Where it comes from</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Source</th>
+<th>How much</th>
+<th>Where it is stored</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Food places</td>
+<td><strong>OpenStreetMap (OSM)</strong>, a free world map made by volunteers. Tags used: restaurant, fast_food, food_court, cafe</td>
+<td>1,298 raw elements; 1,241 have a name and are imported</td>
+<td>Supabase <code>places</code> table</td>
+</tr>
+<tr>
+<td>Sample places</td>
+<td>55 of those real OSM places, with <strong>invented</strong> ratings, reviews, price, halal, hours and dietary tags</td>
+<td>55</td>
+<td>Supabase <code>places</code> (<code>source='sample'</code>, <code>is_sample=true</code>)</td>
+</tr>
+<tr>
+<td>Road network</td>
+<td>OSM roads for the same area</td>
+<td><strong>26,689 nodes, 34,732 edges</strong></td>
+<td>File <code>data/road-graph-penang.json</code> (about 2.5 MB), loaded into the backend's memory</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Total in the database: 1,241 places</strong> = 1,186 stored as OSM places + 55 kept as SAMPLE rows.</p>
+<p><strong>How it is downloaded:</strong> through the <strong>Overpass API</strong>, a public service for querying OSM data. The scripts try several Overpass servers and save <strong>snapshots</strong> in <code>data/</code>, so a busy server cannot break the demo.</p>
+<p><strong>Why the road network is a file, not in Supabase:</strong> the route planner reads the whole network on every route request. Keeping it in memory is much faster than querying the database each time, and it is loaded only once (about 0.2 s).</p>
+<h5>6.2 What OSM has and does not have</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">OSM (1,186 places)</th>
+<th style="text-align: right;">SAMPLE (55)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td style="text-align: right;">100%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td>Cuisine</td>
+<td style="text-align: right;">45.4%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td>Opening hours</td>
+<td style="text-align: right;">23.2%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td>Halal tag</td>
+<td style="text-align: right;"><strong>2.3%</strong></td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr>
+<td>Rating</td>
+<td style="text-align: right;"><strong>0%</strong></td>
+<td style="text-align: right;">100%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Key finding:</strong> OSM is good for <strong>where</strong> places are, but weak on <strong>what they are like</strong>. It has <strong>no ratings at all</strong>, so the hidden gem rule cannot run on OSM data alone. That is why the 55 SAMPLE places exist, and why real Google ratings are the next step.</p>
+<p><strong>Be honest about it:</strong> sample ratings are <strong>invented</strong>. Any result based on ratings shows that the <strong>method works</strong>, not facts about real Penang food.</p>
+<h5>6.3 Opening hours ("open now")</h5>
+<ul>
+<li>Stored as JSON, for example <code>{"mon":[["08:00","15:00"],["18:00","22:00"]], ...}</code>. A missing day means closed.</li>
+<li>The check uses <strong>Malaysian time</strong> and handles ranges past midnight (for example 18:00 to 02:00).</li>
+<li>Places <strong>without structured hours count as not open</strong>, because we cannot promise they are. The raw OSM text is kept under <code>"osm"</code> but not used by the filter.</li>
+</ul>
+
+<h3>7. Hidden gem rule (Hidden Gem Highlighting)</h3>
+<p><strong>The idea:</strong> a hidden gem is "well liked, but not many people know it yet". So it needs a <strong>high rating</strong> and <strong>few reviews</strong>.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Rule (defaults, changeable in config)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hidden Gem</strong></td>
+<td>rating <strong>≥ 4.3</strong> and <strong>1 to 100</strong> reviews</td>
+</tr>
+<tr>
+<td><strong>Popular</strong></td>
+<td><strong>more than 100</strong> reviews, whatever the rating</td>
+</tr>
+<tr>
+<td><strong>No label</strong></td>
+<td>everything else: no rating, 0 reviews, or few reviews with a lower rating</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>Code:</strong> <code>labelHiddenGem()</code> in <code>food-discovery/hiddenGem.js</code>. It is a <strong>pure function</strong> (same input always gives the same output, no database), so it is easy to unit test.</li>
+<li><strong>Ranking</strong> (<code>rankFoodPlaces()</code>):</li>
+<li>Hidden Gems first, then Popular, then no label.</li>
+<li>Within each group, nearest first.</li>
+<li>A higher rating breaks ties.</li>
+<li><strong>Result on the 55 sample places:</strong> 14 Hidden Gems, 35 Popular, 6 no label.</li>
+<li><strong>Komtar example (1.5 km):</strong> 704 places found. The top 5 are all Hidden Gems, nearest first: Sister Yao's Char Koay Kak at 275 m, then Muscle Man Char Koay Kak, VR Pinxin Vegan, Hot Bowl White Curry Mee and Tok Tok Mee.</li>
+<li><strong>Sensitivity test:</strong> at rating 4.0 there are 16 gems; at 4.5 there are 7; at the current 4.3 there are 14. The ≤ 100 and ≤ 200 review limits give the same count because no sample place has 101 to 200 reviews. That is a gap in the sample data, which real Google data will fix.</li>
+</ul>
+<p><strong>Why 4.3 and 100?</strong> These are reasonable starting values: 4.3 is clearly above average on most review sites, and 100 reviews separates "known locally" from "famous". They are configurable, and real Google data (step 2.9a) will show where they should sit.</p>
+
+<h3>8. Route planner (Food Hopping): the core algorithm</h3>
+<p>This is the most technical part. Learn the four steps in order: <strong>graph → snap → Dijkstra → ACO</strong>.</p>
+<h5>8.1 The road graph</h5>
+<ul>
+<li>A <strong>graph</strong> is a set of <strong>nodes</strong> (points) linked by <strong>edges</strong> (connections).</li>
+<li>In our road graph:</li>
+<li>a <strong>node</strong> is a junction or a road end (a <strong>road node</strong>);</li>
+<li>an <strong>edge</strong> is a piece of road between two nodes, with a <strong>length</strong> and a <strong>travel time</strong>.</li>
+<li>Built from OSM by <code>npm run build:road-graph</code>: 26,689 nodes and 34,732 edges.</li>
+<li><strong>Connectivity:</strong> 99% of usable walking nodes are in one connected part, so almost every place can reach every other.</li>
+<li><strong>Walking vs driving:</strong></li>
+<li>Walking: 1.4 m/s (about 5 km/h), and people may walk <strong>both ways</strong> on one-way streets.</li>
+<li>Driving: speed depends on road type (motorway 70 km/h, primary 40 km/h, residential 20 km/h, ...), and one-way streets are respected.</li>
+<li>These speeds are <strong>assumptions</strong>, not measurements.</li>
+</ul>
+<h5>8.2 Snapping</h5>
+<ul>
+<li>Places are not exactly on a road node, so each place is <strong>snapped</strong> to its <strong>nearest road node</strong> in the main connected part. That way a place is never stuck on an isolated road piece such as a car park.</li>
+<li>A <strong>grid index</strong> (squares of about 220 m) makes the nearest-node search fast: it checks only nearby squares, not all 26,689 nodes.</li>
+<li>A place more than 1 km from any road cannot be routed.</li>
+<li><strong>Fallback:</strong> if the road file is missing, a simple graph is used instead. Each place links to its 4 nearest places, with road distance estimated as straight line × 1.3.</li>
+</ul>
+<h5>8.3 Dijkstra's algorithm (travel times)</h5>
+<ul>
+<li><strong>What it does:</strong> finds the <strong>quickest path</strong> from one node to every other node in a graph with non-negative edge weights.</li>
+<li><strong>How:</strong></li>
+<li>Keep a "frontier" of nodes ordered by best known time.</li>
+<li>Always settle (finalise) the closest unsettled node next.</li>
+<li><strong>Relax</strong> its edges: "is going through this node quicker than what I knew?"</li>
+<li>Because times are never negative, a settled node's time is final.</li>
+<li><strong>Our implementation</strong> uses a <strong>binary min-heap</strong> (a <strong>priority queue</strong>) to always get the closest node quickly. Complexity: <strong>O((V + E) log V)</strong>, where V is nodes and E is edges.</li>
+<li><strong>Time matrix:</strong> we run Dijkstra <strong>once per stop</strong> to get the travel time between <strong>every pair of stops</strong>. For 10 stops that is a 10 × 10 table. This took about <strong>46 ms</strong> for 10 stops.</li>
+</ul>
+<h5>8.4 The visiting order problem (a small TSP)</h5>
+<ul>
+<li><strong>The question:</strong> given the time matrix, in what <strong>order</strong> should we visit the stops so the total time is smallest?</li>
+<li>This is the <strong>Travelling Salesman Problem (TSP)</strong>, a classic <strong>NP-hard</strong> problem: no known method solves large cases exactly and quickly.</li>
+<li>Our routes are <strong>open</strong>: they start at the first (or chosen) stop, visit each stop once, and <strong>do not return</strong>. This is called an <strong>open TSP</strong> or <strong>shortest Hamiltonian path</strong>.</li>
+<li>Number of possible orders for n stops with a fixed start: <strong>(n − 1)!</strong></li>
+<li>8 stops: 7! = 5,040</li>
+<li>10 stops: 9! = 362,880</li>
+<li>13 stops: 12! = 479,001,600</li>
+<li>15 stops: 14! ≈ 87 billion</li>
+</ul>
+<h5>8.5 The three ways we solve it</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How it works</th>
+<th>Good</th>
+<th>Bad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Brute force</strong> (with pruning)</td>
+<td>Try every order; cut a branch as soon as it is already slower than the best found</td>
+<td>Always optimal (<strong>ground truth</strong>)</td>
+<td>Grows as (n−1)!; the API limits it to 8 stops</td>
+</tr>
+<tr>
+<td><strong>Nearest neighbour</strong></td>
+<td>Always go to the closest unvisited stop (<strong>greedy</strong>)</td>
+<td>Very fast (about 0.01 ms)</td>
+<td>Often not optimal: about 9% longer at 8 to 10 stops</td>
+</tr>
+<tr>
+<td><strong>Ant Colony Optimisation (ACO)</strong></td>
+<td>Simulated ants build orders, guided by distance and pheromone (below)</td>
+<td>Near-optimal; cost grows only <strong>polynomially</strong></td>
+<td>A <strong>heuristic</strong>: usually, but not always, optimal</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>ACO is what the app uses.</strong> The other two are for comparison, and the web app shows all three on the comparison card.</p>
+<h5>8.6 Ant Colony Optimisation, step by step</h5>
+<p><strong>The inspiration:</strong> real ants find short paths to food by leaving <strong>pheromone</strong> (a scent). Shorter paths get walked more often, so they collect more pheromone, and more ants follow them. This is <strong>swarm intelligence</strong>: simple agents together find a good solution.</p>
+<p><strong>Each round (iteration):</strong></p>
+<ol>
+<li><strong>Build orders.</strong> Every ant builds a full order from the start stop. At each step it picks the next unvisited stop <strong>at random</strong>, but with a probability proportional to
+   <strong>pheromone^α × (1 / time)^β</strong>.</li>
+<li><strong>Pheromone (τ, tau):</strong> learned experience, meaning "this move was part of good orders before".</li>
+<li><strong>Heuristic (η, eta) = 1 / time:</strong> closer stops are more attractive.</li>
+<li><strong>α (alpha) = 1:</strong> weight of pheromone. <strong>β (beta) = 2:</strong> weight of closeness.</li>
+<li>The random pick is a <strong>roulette wheel selection</strong>: a bigger weight means a bigger slice of the wheel.</li>
+<li><strong>Evaporate.</strong> Every pheromone trail loses a share: × (1 − ρ), with <strong>ρ (rho) = 0.5</strong>. Old information fades, so bad early choices are forgotten.</li>
+<li><strong>Deposit.</strong> Each ant adds <strong>q / L</strong> on every move of its order, where L is its total time (q = 1). Shorter orders add more.</li>
+<li><strong>Elitist deposit:</strong> the <strong>best order so far</strong> gets an extra deposit. This helps the colony converge on it.</li>
+<li><strong>Trail limits (MAX-MIN).</strong> Pheromone is kept between <strong>τmin and τmax</strong> (τmin = 0.2 × τmax). No move becomes impossible, so the ants keep exploring a little instead of all copying the first good order (this avoids <strong>premature convergence</strong> or <strong>stagnation</strong>).</li>
+</ol>
+<p><strong>Stop:</strong> after <strong>200 iterations</strong>, or earlier if there has been no better order for <strong>100 rounds</strong>.</p>
+<p><strong>Other settings:</strong></p>
+<ul>
+<li><strong>Number of ants:</strong> max(10, 2 × stops).</li>
+<li><strong>Starting pheromone τ0</strong> = ants × q / (length of the nearest-neighbour order). This keeps it on the same scale as later deposits.</li>
+<li><strong>Seeded random numbers</strong> (mulberry32, seed 42): the same input always gives the same route. That makes tests and the demo <strong>repeatable</strong>.</li>
+<li><strong>Cost:</strong> about iterations × ants × n² operations, which is <strong>polynomial</strong> rather than factorial.</li>
+</ul>
+<h5>8.7 "Improved" vs "textbook" ACO</h5>
+<ul>
+<li><strong>Textbook ACO:</strong> the original <strong>Ant System</strong> (Dorigo, Maniezzo &amp; Colorni, 1996) with β = 3, no elitist deposit and no trail limits.</li>
+<li><strong>Our improved ACO</strong> adds:</li>
+<li>the <strong>elitist deposit</strong> (idea from the Elitist Ant System);</li>
+<li><strong>trail limits</strong> (idea from the <strong>MAX-MIN Ant System</strong>, Stützle &amp; Hoos);</li>
+<li>β = 2.</li>
+<li><strong>Result:</strong></li>
+<li>Both are always optimal at 4 to 6 stops.</li>
+<li>At 8 stops: improved 100% optimal vs textbook 60%.</li>
+<li>At 10 stops: improved 90% vs textbook 70%; worst gap 2.03% vs 4.48%.</li>
+</ul>
+<h5>8.8 Results (feasibility study, 5 Nov 2026)</h5>
+<ul>
+<li><strong>Method:</strong></li>
+<li>walking;</li>
+<li>4, 6, 8 and 10 stops, with <strong>10 random trips per size</strong>;</li>
+<li>places from 42 sample places in George Town, Pulau Tikus, Jelutong and Gurney;</li>
+<li>seeded trips (seed 2026 + n) and seeded ACO (seed 42);</li>
+<li>brute force used as ground truth (raised to 10 stops for this study).</li>
+<li><strong>Improved ACO found the exact optimum in 39 of 40 trips (97.5%).</strong></li>
+<li>The one miss was at 10 stops, 2.03% longer.</li>
+<li>At 8 to 10 stops, nearest neighbour was optimal in only 3 of 20 trips and <strong>about 9% longer</strong> on average.</li>
+<li><strong>Speed:</strong> a 10-stop plan takes about <strong>46 ms (Dijkstra) + 7 ms (ACO)</strong>, well under 0.1 s.</li>
+<li><strong>Demo route:</strong> 6 stops in George Town, <strong>17.9 min, 1,505 m</strong>. Nearest neighbour gave 19.3 min (about 8% longer).</li>
+<li><strong>Optimality gap</strong> = (method − optimum) / optimum × 100. <strong>Opt%</strong> = share of trips where the method found the optimum.</li>
+</ul>
+<p><strong>Be honest:</strong> these are <strong>indicative</strong>: 10 trips per size and one ACO seed. A larger test is planned: 50+ trips, several seeds, 12 to 20 stops.</p>
+<h5>8.9 "Why ACO if brute force is faster?" (very likely question)</h5>
+<ul>
+<li>For <strong>10 stops or fewer</strong>, brute force with pruning is exact and fast (2.9 ms at 10 stops vs 7.26 ms for ACO). That is why it is used as <strong>ground truth</strong>.</li>
+<li>But the number of orders grows <strong>factorially</strong>: 479 million at 13 stops, 87 billion at 15. Pruning helps but does not stop that growth.</li>
+<li>ACO grows only <strong>polynomially</strong>, so it scales to longer trips and multi-day trips.</li>
+<li>ACO is also the <strong>Intelligent Computing</strong> component of the project.</li>
+<li>Next step: test 12 to 20 stops, where brute force is no longer practical. A possible extra baseline there is nearest neighbour + <strong>2-opt</strong> (a simple local improvement that swaps pairs of edges).</li>
+</ul>
+
+<h3>9. Food Stalls Analytics</h3>
+<p><code>GET /api/analytics/overview</code> uses the <strong>rated places</strong> (currently the 55 SAMPLE places):</p>
+<ul>
+<li><strong>Food Places Visualisation:</strong> totals, counts by area and cuisine, label counts, and points for a scatter chart (rating vs review count).</li>
+<li><strong>Food Places Analysis:</strong> written <strong>findings</strong> sentences generated by the backend, for example "George Town has the highest average rating among areas with at least 3 rated places". Groups need at least 3 places, so one lucky place cannot top a list.</li>
+<li><strong>Food Place Suggestion:</strong> the best rated Hidden Gems. With equal ratings, fewer reviews (less known) comes first.</li>
+<li><strong>Current numbers (sample):</strong> average rating 4.18; 20 halal places (36%); Hidden Gems average 4.5 stars from about 66 reviews, while Popular places average 4.2 from about 1,226.</li>
+</ul>
+<p><strong>Be honest:</strong> these show the pipeline works; they are not claims about Penang food, because the ratings are invented.</p>
+
+<h3>10. The web app</h3>
+<ul>
+<li><strong>Pages:</strong> Landing (<code>/</code>), Discover (<code>/discover</code>), Trip (<code>/trip</code>), My Trips (<code>/trips</code>), Analytics (<code>/analytics</code>), Login, Register, Profile.</li>
+<li><strong>Map:</strong> Leaflet with OpenStreetMap tiles; places shown with label badges, routes drawn along real roads.</li>
+<li><strong>Charts:</strong> Recharts on the Analytics page.</li>
+<li><strong>State:</strong></li>
+<li><code>TripBasketContext</code> holds the places chosen for a trip.</li>
+<li><code>AuthContext</code> holds the <strong>demo</strong> user.</li>
+<li>Saved trips and preferences are in <strong>localStorage</strong> (browser storage) until Phase 2B.</li>
+<li><strong>Design:</strong> dark charcoal and orange landing page. Restyling the other pages to match is planned.</li>
+<li><strong>SAMPLE data is labelled</strong> in the app, so nobody mistakes invented ratings for real ones.</li>
+</ul>
+
+<h3>11. Login and accounts (planned, Phase 2B)</h3>
+<ul>
+<li><strong>Supabase Auth</strong> will store emails and passwords. Passwords are <strong>hashed</strong> (stored as a scrambled, one-way value), so even we cannot read them.</li>
+<li>Our backend gets <code>/api/auth/register</code>, <code>/login</code> and <code>/refresh</code>, which call Supabase Auth. The apps only ever talk to our backend and never hold a Supabase key.</li>
+<li>After login, the user gets a <strong>JWT</strong> (JSON Web Token): a signed piece of text sent with each request to prove who they are. An <code>auth</code> <strong>middleware</strong> checks it on protected routes.</li>
+<li><strong>Why Supabase Auth instead of our own login?</strong> Password storage is easy to get wrong. Supabase handles hashing, tokens and resets securely, and our backend still owns the Registration and Login submodules.</li>
+</ul>
+
+<h3>12. Security (what is already done)</h3>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>What we do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Secrets leaking</td>
+<td><code>.env</code> is never committed; <code>.env.example</code> has placeholders only; the old key is to be rotated</td>
+</tr>
+<tr>
+<td>SQL injection</td>
+<td>Parameterised queries only (<code>$1, $2</code>)</td>
+</tr>
+<tr>
+<td>Bad input</td>
+<td>zod validation on every request (400 on failure); body size limit 100 KB</td>
+</tr>
+<tr>
+<td>Leaking internals</td>
+<td>The error handler hides stack traces and SQL (500 <code>INTERNAL_ERROR</code>)</td>
+</tr>
+<tr>
+<td>Public database access</td>
+<td>RLS on every table; migration 004 revokes public write rights</td>
+</tr>
+<tr>
+<td>Browser attacks</td>
+<td><strong>helmet</strong> sets safe HTTP headers; <strong>CORS</strong> allows only our web app's address</td>
+</tr>
+<tr>
+<td>Powerful keys</td>
+<td>The app never uses the Supabase <code>service_role</code> key</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>CORS (Cross-Origin Resource Sharing):</strong> browser rules about which websites may call our API.</li>
+<li><strong>Planned (Phase 3):</strong> rate limiting on login (slows password guessing), <code>npm audit</code>, and a full security review.</li>
+</ul>
+
+<h3>13. Testing and quality</h3>
+<ul>
+<li><strong>Unit tests</strong> check one function alone (for example the hidden gem rule, Dijkstra on a small hand-drawn graph with known answers, ACO matching brute force on small cases).</li>
+<li><strong>API tests</strong> (Supertest) call the endpoints and check the answers, including bad input.</li>
+<li><strong>Tests need no database, internet or secrets:</strong> the database is replaced by a <strong>mock</strong> (a fake).</li>
+<li><strong>Count:</strong> 277 backend tests and 93 web tests, all passing on the laptop.</li>
+<li><strong>Lint and format:</strong> ESLint (finds mistakes) and Prettier (one code style).</li>
+<li><strong>Planned (Phase 3):</strong> <strong>CI</strong> with GitHub Actions. GitHub will run lint and tests automatically on every push, with a throwaway PostGIS database.</li>
+<li><strong>Reproducible results:</strong> <code>npm run feasibility</code> regenerates every number in the feasibility report (seeded, so the results are the same each run).</li>
+</ul>
+<p><strong>How we work (Git):</strong> one branch per phase, merged to <code>main</code> after tests pass and the review finds no must-fix items. Phase 1 is on <code>main</code>. The feasibility work is on <code>feature/feasibility-core</code>, not merged yet.</p>
+
+<h3>14. Risks, limitations and the plan</h3>
+<h5>14.1 Limitations (say them before he finds them)</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Limitation</th>
+<th>Effect</th>
+<th>Plan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sample ratings are invented</td>
+<td>Gem and analytics results show the method only</td>
+<td>Google ratings for the 55 (step 2.9a); user ratings later</td>
+</tr>
+<tr>
+<td>Halal tags in OSM: 2.3%</td>
+<td>The halal filter misses untagged halal places</td>
+<td>Google data, manual checks, user reports; show "halal unknown" honestly</td>
+</tr>
+<tr>
+<td>Login is demo mode; trips saved in the browser</td>
+<td>No real accounts; trips lost if browser data is cleared</td>
+<td>Supabase Auth and the itinerary API (2B)</td>
+</tr>
+<tr>
+<td>Fixed walking speed; assumed driving speeds</td>
+<td>Times are estimates (no traffic, crossings, waiting)</td>
+<td>Say so in the app; compare a few legs with a map service</td>
+</tr>
+<tr>
+<td>Snapping to the nearest node</td>
+<td>Small error at each end of a leg</td>
+<td>Report the snap distance (already in the API); snap to road segments later</td>
+</tr>
+<tr>
+<td>Benchmark is small</td>
+<td>10 trips per size, one seed</td>
+<td>50+ trips, several seeds, 12 to 20 stops (Phase 3)</td>
+</tr>
+<tr>
+<td>Supabase free tier pauses when idle</td>
+<td>The demo could fail</td>
+<td>Open the dashboard before demos</td>
+</tr>
+<tr>
+<td>No CI yet</td>
+<td>Mistakes caught later</td>
+<td>GitHub Actions (Phase 3)</td>
+</tr>
+<tr>
+<td>Landing photos supplied by the student</td>
+<td>Licence not confirmed</td>
+<td>Confirm before any public release</td>
+</tr>
+</tbody>
+</table></div>
+<h5>14.2 The plan (dates after today are proposed)</h5>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>When</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Done (3 to 5 Nov)</td>
+<td><strong>Phase 1:</strong> database, migrations, sample data, project setup</td>
+</tr>
+<tr>
+<td>Done (4 to 6 Nov)</td>
+<td><strong>Phase 2A:</strong> search, hidden gems, route planner, analytics, web prototype, feasibility study</td>
+</tr>
+<tr>
+<td>About 7 to 11 Nov</td>
+<td><strong>Step 2.9a:</strong> Google Places ratings for the 55 sample places. Match only if names are similar and positions within about 100 m; report the match rate</td>
+</tr>
+<tr>
+<td>About 11 to 21 Nov</td>
+<td><strong>Phase 2B:</strong> Supabase Auth login, profile and preferences, save, edit and list trips on the server</td>
+</tr>
+<tr>
+<td>About 21 Nov to 1 Dec</td>
+<td><strong>Phase 2C:</strong> restyle all web pages, connect them to the new API</td>
+</tr>
+<tr>
+<td>About 1 to 11 Dec</td>
+<td><strong>Phase 2D:</strong> React Native mobile app with the same features</td>
+</tr>
+<tr>
+<td>About 11 to 25 Dec</td>
+<td><strong>Phase 3:</strong> CI, security review, larger route test (12 to 20 stops)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>End goal:</strong> a web and mobile app with all 13 submodules working, real ratings and user accounts.</p>
+<p><strong>Google ratings note:</strong> Google's terms only allow the <strong>place ID</strong> to be stored permanently, so ratings are refreshed by re-running the script.</p>
+
+<h3>15. Likely questions and short answers</h3>
+<p><strong>About the idea</strong></p>
+<ul>
+<li><strong>What problem does it solve?</strong> Tourists find only the famous places; good small stalls are hard to find, and visiting several places in a good order is hard to plan. MyMakanRoute finds hidden gems and plans the shortest route between them.</li>
+<li><strong>Who are the users?</strong> Tourists and locals in Penang (Guest and Registered user), plus an Admin who updates the place data.</li>
+<li><strong>How is it different from Google Maps?</strong> Google Maps lists places and routes one destination at a time. We <strong>label hidden gems</strong> (high rating, few reviews) and <strong>optimise the order</strong> of several stops in one trip.</li>
+</ul>
+<p><strong>About data</strong></p>
+<ul>
+<li><strong>Where does the data come from?</strong> OpenStreetMap for places and roads; Google Places ratings next.</li>
+<li><strong>Are the ratings real?</strong> No. The 55 sample places have invented ratings, clearly marked SAMPLE. They prove the method works. Real Google ratings are the next step.</li>
+<li><strong>Why not scrape Google or TripAdvisor?</strong> It breaks their terms of service. We use the official Google Places API instead.</li>
+<li><strong>Why only 2.3% halal?</strong> OSM volunteers rarely tag halal. We show "halal unknown" honestly and plan better sources.</li>
+</ul>
+<p><strong>About the algorithms</strong></p>
+<ul>
+<li><strong>What is Dijkstra used for?</strong> To get the walking time between every pair of chosen places along real roads (the time matrix).</li>
+<li><strong>Why not straight-line distance?</strong> Roads are not straight. Real road times give realistic routes (straight line × 1.3 is only the fallback).</li>
+<li><strong>What is ACO used for?</strong> To choose the order of the stops, using the time matrix.</li>
+<li><strong>Why ACO and not a genetic algorithm?</strong> Both are valid metaheuristics. ACO was designed for path and ordering problems like the TSP, builds solutions step by step along edges, and fits a route planner naturally.</li>
+<li><strong>Is ACO always optimal?</strong> No, it is a heuristic. In our test it found the optimum in 39 of 40 trips; the one miss was 2.03% longer.</li>
+<li><strong>How do you know the optimum?</strong> Brute force tries every order, so it is exact. We used it as ground truth up to 10 stops.</li>
+<li><strong>Why open routes?</strong> Food hopping usually ends at the last stop; people don't need to walk back to the start. A round trip can be added as an option.</li>
+<li><strong>What are α, β, ρ?</strong> α = weight of pheromone (experience), β = weight of closeness, ρ = evaporation rate (how fast old pheromone fades).</li>
+<li><strong>Why seed 42?</strong> A fixed seed makes results repeatable for tests and the demo. Several seeds will be tested in the larger evaluation.</li>
+<li><strong>What is the time complexity?</strong></li>
+<li>Dijkstra with a heap: O((V + E) log V) per stop.</li>
+<li>ACO: about O(iterations × ants × n²).</li>
+<li>Brute force: O((n − 1)!).</li>
+</ul>
+<p><strong>About the system</strong></p>
+<ul>
+<li><strong>Why Supabase?</strong> Free hosted PostgreSQL with PostGIS, plus a built-in secure login service.</li>
+<li><strong>Why is the road network not in the database?</strong> It is used on every route request; keeping it in memory is faster. It loads once in about 0.2 s.</li>
+<li><strong>Why a backend at all? Why not call Supabase from the app?</strong> To keep secrets off the device, keep all rules and algorithms in one place, and let web and mobile share the same API.</li>
+<li><strong>How do you keep the database safe?</strong> RLS on, public rights revoked, parameterised SQL, no service_role key in the app, secrets only in <code>.env</code>.</li>
+<li><strong>How do you test it?</strong> 277 backend and 93 web automated tests, with a mocked database; brute force checks ACO; results are seeded and reproducible.</li>
+</ul>
+<p><strong>About progress and plan</strong></p>
+<ul>
+<li><strong>What is done?</strong> 7 of 13 submodules fully built; 6 partial (screens work in demo mode). All four modules run end to end.</li>
+<li><strong>What is the biggest risk?</strong> Real ratings. The hidden gem idea depends on them, and OSM has none.</li>
+<li><strong>Is the timeline realistic?</strong> The hardest parts (data, route planner, hidden gem rule) are done. What remains is mostly standard features: login, saving and screens.</li>
+</ul>
+
+<h3>16. Numbers card (memorise these)</h3>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Number</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">4 / 13</td>
+<td>modules / submodules</td>
+</tr>
+<tr>
+<td style="text-align: right;">7 / 6</td>
+<td>submodules built / partial</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,241</td>
+<td>places in the database (1,186 OSM + 55 SAMPLE)</td>
+</tr>
+<tr>
+<td style="text-align: right;">1,298 → 1,241</td>
+<td>raw OSM elements → named and imported (95.6%)</td>
+</tr>
+<tr>
+<td style="text-align: right;">26,689 / 34,732</td>
+<td>road nodes / road edges</td>
+</tr>
+<tr>
+<td style="text-align: right;">99%</td>
+<td>walking nodes in the main connected part</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td>database tables</td>
+</tr>
+<tr>
+<td style="text-align: right;">0% / 2.3% / 23.2% / 45.4%</td>
+<td>OSM places with rating / halal / opening hours / cuisine</td>
+</tr>
+<tr>
+<td style="text-align: right;">4.3 and 1–100</td>
+<td>hidden gem: min rating and review range</td>
+</tr>
+<tr>
+<td style="text-align: right;">14 / 35 / 6</td>
+<td>Hidden Gem / Popular / no label (55 sample places)</td>
+</tr>
+<tr>
+<td style="text-align: right;">704</td>
+<td>places within 1.5 km of Komtar</td>
+</tr>
+<tr>
+<td style="text-align: right;">39 of 40 (97.5%)</td>
+<td>trips where improved ACO found the optimum</td>
+</tr>
+<tr>
+<td style="text-align: right;">2.03%</td>
+<td>worst ACO gap (one 10-stop trip)</td>
+</tr>
+<tr>
+<td style="text-align: right;">about 9%</td>
+<td>how much longer nearest neighbour is at 8–10 stops</td>
+</tr>
+<tr>
+<td style="text-align: right;">46 ms + 7 ms</td>
+<td>Dijkstra + ACO time for 10 stops</td>
+</tr>
+<tr>
+<td style="text-align: right;">17.9 min, 1,505 m</td>
+<td>6-stop demo route (nearest neighbour 19.3 min)</td>
+</tr>
+<tr>
+<td style="text-align: right;">1.4 m/s</td>
+<td>walking speed (about 5 km/h)</td>
+</tr>
+<tr>
+<td style="text-align: right;">200 / 100 / 42</td>
+<td>ACO max iterations / early-stop rounds / seed</td>
+</tr>
+<tr>
+<td style="text-align: right;">α 1, β 2, ρ 0.5</td>
+<td>ACO weights and evaporation</td>
+</tr>
+<tr>
+<td style="text-align: right;">2 to 10</td>
+<td>stops allowed per route; brute force up to 8 in the API</td>
+</tr>
+<tr>
+<td style="text-align: right;">100 to 5,000 m</td>
+<td>search radius range (default 1,500)</td>
+</tr>
+<tr>
+<td style="text-align: right;">277 / 93</td>
+<td>backend / web tests, all passing</td>
+</tr>
+</tbody>
+</table></div>
+
+<h3>17. Glossary (A to Z)</h3>
+<ul>
+<li><strong>ACO (Ant Colony Optimisation):</strong> a swarm intelligence method where simulated ants build solutions guided by pheromone and closeness.</li>
+<li><strong>Adjacency list:</strong> for each node, the list of nodes it connects to directly (how the graph is stored in memory).</li>
+<li><strong>Ant System:</strong> the original ACO by Dorigo et al. (1996); our "textbook" baseline.</li>
+<li><strong>API (Application Programming Interface):</strong> the server program the apps talk to, through fixed URLs.</li>
+<li><strong>AppError:</strong> our error type for expected problems (for example 404), turned into a clean JSON answer.</li>
+<li><strong>Baseline:</strong> a simple method used for comparison (nearest neighbour, brute force).</li>
+<li><strong>Binary min-heap:</strong> a structure that always gives back the smallest item quickly; used as Dijkstra's priority queue.</li>
+<li><strong>Bounding box (bbox):</strong> the rectangle of map area we cover (5.33 to 5.46 N, 100.27 to 100.345 E).</li>
+<li><strong>Brute force:</strong> trying every possible answer; exact but slow for large inputs.</li>
+<li><strong>CI (Continuous Integration):</strong> automatic lint and tests on every push (GitHub Actions, planned).</li>
+<li><strong>Connected component:</strong> a group of nodes that can all reach each other.</li>
+<li><strong>Controller / Service / Model:</strong> request handling / business logic / SQL queries (our layered structure).</li>
+<li><strong>CORS:</strong> browser rules about which websites may call our API.</li>
+<li><strong>Dijkstra's algorithm:</strong> finds the shortest (quickest) path in a graph with non-negative weights.</li>
+<li><strong>Edge:</strong> a connection between two nodes; here a piece of road with a length and time.</li>
+<li><strong>Elitist deposit:</strong> extra pheromone on the best order found so far.</li>
+<li><strong>Evaporation (ρ):</strong> pheromone fading each round, so old choices are forgotten.</li>
+<li><strong>Express:</strong> the Node.js web framework our backend uses.</li>
+<li><strong>Foreign key (FK):</strong> a column linking to another table's primary key.</li>
+<li><strong>GiST index:</strong> a spatial index for fast location searches in PostGIS.</li>
+<li><strong>Graph:</strong> nodes connected by edges.</li>
+<li><strong>Greedy algorithm:</strong> always takes the best-looking next step (nearest neighbour); fast but not always optimal.</li>
+<li><strong>Haversine / great-circle distance:</strong> straight-line distance on the Earth's surface between two GPS points.</li>
+<li><strong>Heuristic (in ACO, η = 1/time):</strong> a rule of thumb; prefer closer stops.</li>
+<li><strong>Heuristic method:</strong> a method that usually finds a good answer but does not guarantee the best.</li>
+<li><strong>Hidden gem:</strong> a place with rating ≥ 4.3 and 1 to 100 reviews.</li>
+<li><strong>JSON:</strong> the text format data is sent in.</li>
+<li><strong>JWT (JSON Web Token):</strong> a signed token proving who the user is after login (planned).</li>
+<li><strong>Leaflet:</strong> the free map library used in the web app.</li>
+<li><strong>localStorage:</strong> storage inside the browser; used for demo-mode data.</li>
+<li><strong>MAX-MIN Ant System (MMAS):</strong> an ACO variant that keeps pheromone between limits to avoid stagnation.</li>
+<li><strong>Metaheuristic:</strong> a general strategy for searching for good solutions (ACO, genetic algorithms, simulated annealing).</li>
+<li><strong>Middleware:</strong> code that runs before or after each request (validation, error handling, auth).</li>
+<li><strong>Migration:</strong> a numbered SQL file that changes the database structure.</li>
+<li><strong>Mock:</strong> a fake replacement (for example of the database) used in tests.</li>
+<li><strong>Nearest neighbour:</strong> greedy routing; always go to the closest unvisited stop.</li>
+<li><strong>Node:</strong> a point in a graph; here a road junction or road end (a road node).</li>
+<li><strong>NP-hard:</strong> a class of problems with no known fast exact method for large inputs (the TSP is one).</li>
+<li><strong>Open route:</strong> visits every stop once, does not return to the start.</li>
+<li><strong>Optimality gap:</strong> how much longer than the optimum a route is, in percent.</li>
+<li><strong>OSM (OpenStreetMap):</strong> a free world map made by volunteers; our source for places and roads.</li>
+<li><strong>Overpass API:</strong> a public service for downloading OSM data.</li>
+<li><strong>Parameterised query:</strong> SQL with placeholders ($1, $2) so user input cannot change the query (prevents SQL injection).</li>
+<li><strong>Pheromone (τ):</strong> in ACO, the learned value of a move; more for moves in short orders.</li>
+<li><strong>PostGIS:</strong> a PostgreSQL add-on for map locations and distances.</li>
+<li><strong>PostgreSQL:</strong> an open-source relational (SQL) database.</li>
+<li><strong>Primary key (PK):</strong> the column that uniquely identifies each row.</li>
+<li><strong>Priority queue:</strong> a queue that always gives back the most urgent (smallest) item first.</li>
+<li><strong>Pruning:</strong> stopping a search branch early because it cannot beat the best answer so far.</li>
+<li><strong>Pure function:</strong> same input always gives the same output, with no side effects; easy to test.</li>
+<li><strong>React / React Native:</strong> UI libraries for web / mobile apps.</li>
+<li><strong>REST:</strong> an API style where URLs are resources and HTTP methods (GET, POST) are actions.</li>
+<li><strong>RLS (Row Level Security):</strong> database rules about which rows a user may see.</li>
+<li><strong>Roulette wheel selection:</strong> random choice where bigger weights get a bigger chance.</li>
+<li><strong>Seed (random):</strong> a starting number that makes "random" results repeatable.</li>
+<li><strong>Snapping:</strong> matching a place to its nearest road node.</li>
+<li><strong>SRID 4326 (WGS 84):</strong> the standard GPS coordinate system.</li>
+<li><strong>Stagnation:</strong> when all ants keep building the same order and stop exploring.</li>
+<li><strong>Supabase:</strong> hosted PostgreSQL + PostGIS + login service.</li>
+<li><strong>Supabase Auth:</strong> Supabase's login service (planned for Phase 2B).</li>
+<li><strong>Swarm intelligence:</strong> many simple agents together producing smart behaviour (ants, bees, birds).</li>
+<li><strong>Time matrix:</strong> a table of travel times between every pair of chosen stops.</li>
+<li><strong>TSP (Travelling Salesman Problem):</strong> find the shortest order to visit all points.</li>
+<li><strong>Unit test / API test:</strong> a test of one function / of a whole endpoint.</li>
+<li><strong>UUID:</strong> a long random unique id used as a primary key.</li>
+<li><strong>Vite:</strong> a fast development server and build tool for the web app.</li>
+<li><strong>zod:</strong> the library that checks request input against rules.</li>
+</ul>
+
+<h3>18. Things not to overclaim</h3>
+<ul>
+<li>Do <strong>not</strong> say the ratings or analytics findings are real; they are invented SAMPLE data.</li>
+<li>Do <strong>not</strong> say login or saved trips work on the server yet; they are demo mode until Phase 2B.</li>
+<li>Do <strong>not</strong> say ACO is always optimal; it is a heuristic (39 of 40 in a small test).</li>
+<li>Do <strong>not</strong> say ACO is faster than brute force at 10 stops; it is not. The case for ACO is <strong>scalability</strong> for longer trips, and it is the intelligent computing part.</li>
+<li>Do <strong>not</strong> say walking times are exact; speeds are assumptions.</li>
+<li>Do <strong>not</strong> say the benchmark is final; it is indicative, and a larger one is planned.</li>
+<li>The mobile app is <strong>planned</strong>, not started.</li>
+</ul>
+<p>If you don't know an answer, say: "I have not tested that yet; I will check and add it to the next report." That is a strong answer in a feasibility meeting.</p></section>
 <section id="cheat-sheet" class="band wx">
   <h2 class="sec">Cheat sheet</h2>
   <h3>Numbers to remember</h3>
