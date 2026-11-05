@@ -22,8 +22,8 @@ subjects = [
       text='Five topics told as one story: from why one core stalled to how processes talk.'),
  dict(n='0004', code='CAT402', title='Professional and Technopreneurship Development', hue='#8da2ff', ready=True, href='cat402/',
       text='Five topics told as one story: from the course map to running, selling and marketing an e-business.'),
- dict(n='0005', code='CAT405', title='Final year project', hue='#e08ada', ready=False, href=None,
-      text='A project tracker for the proposal and the report.'),
+ dict(n='0005', code='CAT405', title='Final year project', hue='#e08ada', ready=True, href='cat405/',
+      text='Six topics told as one story: the MyMakanRoute project, from the idea and the data to hidden gems, the route planner, the proof and the app.'),
  dict(n='0006', code='CMT323', title='Information System Theory and Management', hue='#7fd6a0', ready=True, href='cmt323/',
       text='Three weeks told as one story: from why firms buy IT to how it wins them an edge.'),
  dict(n='0007', code='CSE341', title='Software Architecture and Design', hue='#b6e35a', ready=True, href='cse341/',
@@ -66,6 +66,11 @@ rows6 = ''.join(f'<li><a href="cat402/#week-{int(n)}"><span class="wn">Topic {n}
 topics7 = [('01', 'The IoT system', 'Parts, stack and gateway'), ('02', 'Sensors and actuators', 'Sense and act'),
            ('03', 'Circuit and embedded systems', 'Power and a brain'), ('04', 'Networks and protocols', 'Talk with CoAP and MQTT'),
            ('05', 'Cloud, data and security', 'Store, clean and protect')]
+topics8 = [('01', 'The idea and the plan', 'Modules, phases, way of working'), ('02', 'The data', 'OSM, sample places, database, road graph'),
+           ('03', 'Hidden gems and search', 'The rule, filters and ranking'), ('04', 'The route planner', 'Dijkstra and Ant Colony Optimisation'),
+           ('05', 'The proof', 'Feasibility results and honest limits'), ('06', 'The application', 'API, web app, security and tests')]
+rows8 = ''.join(f'<li><a href="cat405/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
+                f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics8)
 rows7 = ''.join(f'<li><a href="cpc357/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics7)
 rows = ''.join(f'<li><a href="cmt322/#week-{int(n)}"><span class="wn">Week {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
@@ -412,7 +417,7 @@ PAGE = f'''<!DOCTYPE html>
   <div class="halo" data-loop><span class="orb big" aria-hidden="true"></span><span class="orbit" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span><span class="orbit two" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span></div>
 </div>
 <div class="wrap"><div class="stats">
-  <div><b>07</b><span>Subjects</span></div><div><b>06</b><span>Ready now</span></div><div><b>154</b><span>Flashcards</span></div>
+  <div><b>07</b><span>Subjects</span></div><div><b>07</b><span>Ready now</span></div><div><b>183</b><span>Flashcards</span></div>
 </div></div></section>
 
 <section class="s" id="method"><div class="wrap">
@@ -469,6 +474,13 @@ PAGE = f'''<!DOCTYPE html>
   <h2>Five topics, one chain.</h2>
   <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in.</p>
   <ul class="weeks">{rows7}</ul>
+</div></section>
+
+<section class="s" id="topics-cat405"><div class="wrap">
+  <p class="kicker">CAT405 · Final Year Project</p>
+  <h2>Six topics, one chain.</h2>
+  <p class="sub">Notes on the MyMakanRoute project. Each topic starts from the gap the last one left behind. Plus a <a href="cat405/#status">status and risks</a> section and a <a href="cat405/#meeting">supervisor meeting</a> guide.</p>
+  <ul class="weeks">{rows8}</ul>
 </div></section>
 
 <section class="end"><div class="wrap">
