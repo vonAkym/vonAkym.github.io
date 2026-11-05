@@ -15,6 +15,7 @@
 .w3 { --c: #c93a32; --on: #ffffff; --ct: #c93a32; }
 .w4 { --c: #3a56d4; --on: #ffffff; --ct: #3a56d4; }
 .w5 { --c: #9b2f94; --on: #ffffff; --ct: #9b2f94; }
+.w6 { --c: #1f7a43; --on: #ffffff; --ct: #1f7a43; }
 .wx { --c: #2b3a67; --on: #ffffff; --ct: #2b3a67; }
 
 @media (prefers-color-scheme: dark) {
@@ -28,6 +29,7 @@
   :root:not([data-theme="light"]) .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
   :root:not([data-theme="light"]) .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
   :root:not([data-theme="light"]) .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+  :root:not([data-theme="light"]) .w6 { --c: #6fd68f; --on: #0f1424; --ct: #6fd68f; }
   :root:not([data-theme="light"]) .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
 }
 :root[data-theme="dark"] {
@@ -40,6 +42,7 @@
 :root[data-theme="dark"] .w3 { --c: #ff7a6e; --on: #0f1424; --ct: #ff7a6e; }
 :root[data-theme="dark"] .w4 { --c: #8da2ff; --on: #0f1424; --ct: #8da2ff; }
 :root[data-theme="dark"] .w5 { --c: #e08ada; --on: #0f1424; --ct: #e08ada; }
+:root[data-theme="dark"] .w6 { --c: #6fd68f; --on: #0f1424; --ct: #6fd68f; }
 :root[data-theme="dark"] .wx { --c: #aebaf0; --on: #0f1424; --ct: #aebaf0; }
 
 * { box-sizing: border-box; }

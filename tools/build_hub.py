@@ -27,7 +27,7 @@ subjects = [
  dict(n='0006', code='CMT323', title='Information System Theory and Management', hue='#7fd6a0', ready=True, href='cmt323/',
       text='Three weeks told as one story: from why firms buy IT to how it wins them an edge.'),
  dict(n='0007', code='CSE341', title='Software Architecture and Design', hue='#b6e35a', ready=True, href='cse341/',
-      text='Five topics told as one story: from what architecture is to how views and styles describe it.'),
+      text='Six topics, one per lecture, told as one story: from what architecture is to how views and styles describe it. Plus a supplement of example views.'),
 ]
 def card(s):
     state = '<span class="state on"><i></i>Ready</span>' if s['ready'] else '<span class="state"><i></i>Coming soon</span>'
@@ -53,8 +53,9 @@ weeks3 = [('01', 'Information systems in global business', 'Technology alone doe
 rows3 = ''.join(f'<li><a href="cmt323/#week-{int(n)}"><span class="wn">Week {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in weeks3)
 topics5 = [('01', 'What is software architecture?', 'Structures and views'), ('02', 'Why it matters, how to document it', 'Quality and the 4+1 views'),
-           ('03', 'Architectural styles', 'Reusable shapes of systems'), ('04', 'Module styles', 'Show the static code'),
-           ('05', 'Runtime and allocation styles', 'Behaviour, hardware and teams')]
+           ('03', 'Architectural styles', 'Reusable shapes of systems'), ('04', 'Module views and four styles', 'Decomposition, uses, generalization, layered'),
+           ('05', 'Aspects and data model', 'The last two module styles'),
+           ('06', 'Runtime and allocation styles', 'Behaviour, hardware and teams')]
 rows5 = ''.join(f'<li><a href="cse341/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics5)
 topics6 = [('01', 'Course overview', 'Coursework and the map'), ('02', 'The Augmented Marketer', 'Stay valuable with GenAI'),
@@ -451,8 +452,8 @@ PAGE = f'''<!DOCTYPE html>
 
 <section class="s" id="topics-cse341"><div class="wrap">
   <p class="kicker">CSE341 · Software Architecture and Design</p>
-  <h2>Five topics, one chain.</h2>
-  <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in.</p>
+  <h2>Six topics, one chain.</h2>
+  <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in. The <a href="cse341/#supplement">supplement of example views</a> has its own section.</p>
   <ul class="weeks">{rows5}</ul>
 </div></section>
 

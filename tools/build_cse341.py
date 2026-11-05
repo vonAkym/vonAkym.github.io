@@ -3,10 +3,11 @@
 plus the supplementary "views" deck. Content rules: only what is in the decks; anything that is my own summary,
 example or reading is labelled on the page. Diagrams are redrawn as inline SVG, not copied from the slides.
 
-How I grouped the decks into five topics (my own grouping, the decks call them Topic 1 and Topic 2 Parts 1 and 2):
+Six topics, one per lecture deck (the decks themselves call them Topic 1 and Topic 2 Parts 1 and 2):
   Topic 1 = Lecture 1 (what is architecture), Topic 2 = Lecture 2 (why it matters, documenting, 4+1 views),
-  Topic 3 = Lecture 3 (general architectural styles), Topic 4 = Lectures 4 and 5 (module styles),
-  Topic 5 = Lecture 6 plus the supplement (C&C and allocation styles)."""
+  Topic 3 = Lecture 3 (general architectural styles), Topic 4 = Lecture 4 (module views, first four module styles),
+  Topic 5 = Lecture 5 (aspects and data model styles), Topic 6 = Lecture 6 (C&C and allocation styles).
+The supplementary "views" deck (example figures only) has its own section, id="supplement"."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)  # repo root (the folder that GitHub Pages serves)
@@ -102,12 +103,18 @@ MAPS = {
    ('Notations', ['Informal boxes', 'UML packages and classes', 'Dependency structure matrix']),
    ('Limit', ['Static, no runtime view', 'Map to C&C views'])],
   [('Decomposition', ['Is-part-of, no loops', 'One parent per module']),
-   ('Uses and Generalization', ['Uses: depends on correct B', 'Is-a: commonality, variation']),
-   ('Layered', ['Allowed-to-use, one direction', 'At least two layers', 'Stack, rings, sidecar']),
-   ('Aspects', ['Crosscutting concerns', 'Crosscuts relation']),
-   ('Data model', ['Entities and relations', 'Crow foot or UML'])],
-  'Mind map of Topic 4: module views, their relations, notations and the six module styles'),
-5: mindmap('Runtime and Allocation',
+   ('Uses', ['Uses: depends on correct B', 'Hard to deliver if loops or long chains']),
+   ('Generalization', ['Is-a: commonality, variation', 'Abstract modules']),
+   ('Layered', ['Allowed-to-use, one direction', 'At least two layers', 'Stack, rings, sidecar'])],
+  'Mind map of Topic 4: module views, their relations and notations, and the first four module styles'),
+5: mindmap('Aspects and Data Model',
+  [('Aspects style', ['Crosscutting concerns', 'Aspect modules', 'Crosscuts relation', 'Access control, transactions, logging']),
+   ('Where it comes from', ['Aspect-oriented programming', 'Complements OOP', 'Shown as stereotyped UML classes'])],
+  [('Data model style', ['Elements: data entities', 'Name, attributes, primary key', 'Access rules']),
+   ('Notations', ['Crow foot ERD', 'UML class diagram']),
+   ('Relations', ['One-to-one, one-to-many', 'Many-to-many', 'Generalization, aggregation'])],
+  'Mind map of Topic 5: the aspects style and the data model style'),
+6: mindmap('Runtime and Allocation',
   [('C&C view basics', ['Components and connectors', 'One relation: attachment', 'Ports attach to roles', 'Runtime behaviour', 'Properties for analysis']),
    ('Call-return', ['Client-server', 'Peer-to-peer', 'SOA']),
    ('Data flow', ['Pipe-and-filter', 'Batch sequential']),
@@ -117,7 +124,7 @@ MAPS = {
    ('Deployment', ['Processes to hardware', 'Allocated-to', 'Migrates-to', 'Copy-migrates-to']),
    ('Install', ['Components to files and folders', 'Allocated-to, containment', 'Folders form a tree']),
    ('Work assignment', ['Modules to teams', 'Allocated-to', 'Basis for budget and schedule'])],
-  'Mind map of Topic 5: component-and-connector styles and the three allocation styles'),
+  'Mind map of Topic 6: component-and-connector styles and the three allocation styles'),
 }
 
 # ====================================================================== topic 1 visuals
@@ -410,6 +417,7 @@ w4_vis = f'''
   <p class="small"><b>Notations:</b> informal boxes; UML (packages, classes and more); and a <b>dependency structure matrix</b>, a square matrix showing dependency between modules.</p>
 
   <h3>The six module styles at a glance</h3>
+  <p class="small">This lecture covers the first four. Aspects and data model come in the next lecture (Topic 5).</p>
   <div class="tbl-wrap"><table><thead><tr><th>Style</th><th>Relation</th><th>Key constraints</th><th>What it is for</th></tr></thead><tbody>
   <tr><th>Decomposition</th><td>Is-part-of (decomposition relation); say what criteria you used.</td><td>No loops in the decomposition graph. A module has only one parent.</td><td>Reason about and communicate structure; input for work assignment; localize changes.</td></tr>
   <tr><th>Uses</th><td>Uses (a form of depends-on): A uses B if A needs a correctly working B.</td><td>No topological constraints, but loops, broad fan-out or long chains hurt incremental delivery.</td><td>Plan increments and subsets; debug and test; gauge effect of change.</td></tr>
@@ -437,6 +445,8 @@ w4_vis = f'''
   <tr><th>Size and colour</th><td>Colour may mark the responsible team; size the relative amount of code. Explain them in a key.</td></tr></tbody></table></div>
   <p class="small">The UNIX System V layer structure is the slide example, shown as a figure only.</p>
 
+'''
+w5_vis = f'''
   <h3>Aspects style</h3>
   <p class="small">In practice business code (open an account, deposit, withdraw) gets mixed with code for <b>crosscutting concerns</b> such as access control, transaction management and logging. The aspects style puts that code in separate <b>aspect</b> modules and binds each aspect to the modules that need it. The term comes from aspect-oriented programming (AOP), which complements OOP by factoring the crosscutting code out of the classes. Aspects are shown in UML as stereotyped classes. The slide example, IkeWiki, uses aspects for transaction management, exception handling and authorization checks.</p>
   {d_asp}
@@ -457,10 +467,20 @@ w4_terms = terms([
  ('Layer', 'A grouping of modules that offers a cohesive set of services through a public interface.'),
  ('Allowed-to-use', 'The one-way relation between layers; a lower layer cannot use one above.'),
  ('Sidecar', 'A box beside a layer diagram, often a utility library or platform service.'),
+])
+w5_terms = terms([
  ('Crosscutting concern', 'Logic needed in many modules, such as access control, transaction management and logging.'),
  ('Aspect / AOP', 'A module that holds a crosscutting concern. Aspect-oriented programming factors this code out of classes.'),
  ('Data entity', 'An object that holds information to be stored or represented, with attributes and a primary key.'),
  ('Crow&rsquo;s Foot ERD', 'Entity-relationship notation with symbols at line ends for cardinality.'),
+])
+w5_boss = ''.join([
+ qa('What problem does the aspects style solve? Use the bank example.',
+  '''<p>An Account module should hold only account logic (open, close, deposit, withdraw), but in practice access control, transaction management and logging get mixed in. Aspects move that crosscutting code into separate modules and bind them to Account, Customer, ATM and others.</p>''', 1),
+ qa('Name the elements, notations and example of the data model style.',
+  '''<p>Elements are <b>data entities</b>, each with a name, attributes, a primary key and access rules. Notations: the <b>Crow&rsquo;s Foot ERD</b> (symbols at the line ends show cardinality) or a UML class diagram. Relations: one-to-one, one-to-many, many-to-many, generalization and aggregation. The slide example is a PetShop web store whose functions mostly retrieve, create or update the modelled data.</p>''', 2),
+ qa('Which constraint of the aspects style can cause trouble, and which one of the data model style should you follow?',
+  '''<p>An aspect may crosscut regular modules and other aspects, but one that crosscuts itself can recurse forever. For the data model style the slides say to avoid functional dependencies.</p>''', 3),
 ])
 w4_boss = ''.join([
  qa('List the parts every module-style description has, and the three module relations.',
@@ -474,15 +494,13 @@ w4_boss = ''.join([
  qa('Give the three constraints of the layered style and one reason a lower layer cannot use a higher one.',
   '''<p>Every piece of software is in exactly one layer; there are at least two layers; allowed-to-use must not be circular.</p>
   <p><b>My own reading</b> of the reason: if a lower layer could use a higher one, the layers would form a loop, which is the circular use the rule forbids. The slides state the rule, not the reason.</p>''', 5),
- qa('What problem does the aspects style solve? Use the bank example.',
-  '''<p>An Account module should hold only account logic (open, close, deposit, withdraw), but in practice access control, transaction management and logging get mixed in. Aspects move that crosscutting code into separate modules and bind them to Account, Customer, ATM and others.</p>''', 6),
  qa('Segmented layers: what ambiguity do the slides warn about?',
-  '''<p>Whether segments of a layer may use each other. In the slide example the top layer&rsquo;s segments may not, but the bottom layer&rsquo;s may, so you have to state the usage rules for segments consistently.</p>''', 7),
+  '''<p>Whether segments of a layer may use each other. In the slide example the top layer&rsquo;s segments may not, but the bottom layer&rsquo;s may, so you have to state the usage rules for segments consistently.</p>''', 6),
  qa('Exercise: draw a decomposition view for the e-learning system.',
-  '''<p>Draw the system with five nested modules: course management, lesson delivery, quiz, user management, progress tracking. Then split modules further. <b>My own sketch</b> is in the diagram above (course list and details; videos, documents and slides). The slides set the exercise but give no model answer.</p>''', 8),
+  '''<p>Draw the system with five nested modules: course management, lesson delivery, quiz, user management, progress tracking. Then split modules further. <b>My own sketch</b> is in the diagram above (course list and details; videos, documents and slides). The slides set the exercise but give no model answer.</p>''', 7),
 ])
 
-# ====================================================================== topic 5 visuals
+# ====================================================================== topic 6 visuals
 d_att = svg(700, 188,
     box(20, 40, 160, 84, ['Client', 'component'], 'bxs')
     + '<rect class="bxs" x="174" y="76" width="14" height="14" rx="2"/>'
@@ -509,7 +527,7 @@ d_ps = bus('ps', [['Publisher', 'announces events'], ['Both roles', 'publishes a
            [['Subscriber', 'listens for events'], ['Subscriber', 'listens for events']],
            'Redrawn: publishers announce events to an event distributor, which delivers them to registered subscribers', 'announce', 'listen')
 
-w5_vis = f'''
+w6_vis = f'''
   <h3>Component-and-connector (C&amp;C) views</h3>
   <p class="small">A C&amp;C view shows the system <b>while it runs</b>. A <b>component</b> is a unit of behaviour; its description says what it can do and what it needs to do it (processes, objects, clients, servers, data stores). A <b>connector</b> is a mechanism that relates components, for example data flow, control flow, a communication link and protocol, or shared storage. There is only one relation in a C&amp;C view: <b>attachment</b>. It ties a component&rsquo;s <i>port</i> to a connector&rsquo;s <i>role</i> and so lays out the computational topology.</p>
   {d_att}
@@ -541,9 +559,8 @@ w5_vis = f'''
   <tr><th>Install</th><td>A C&amp;C component</td><td>Configuration items: files and folders (executables, data, logs, configuration, scripts)</td><td>Allocated-to; containment (folders form a tree)</td><td>Understanding file layout; build-and-deploy procedures; finding log and configuration files; updating, multiple installed versions; spotting a missing or damaged file&rsquo;s role.</td></tr>
   <tr><th>Work assignment</th><td>A module</td><td>An organisational unit: person, team, department, subcontractor</td><td>Allocated-to</td><td>Team resourcing; explaining the project to a new hire; basis for work breakdown, budget and schedule estimates.</td></tr></tbody></table></div>
   <p class="small"><b>Migrates-to</b> means a software element can move from one processor to another. <b>Copy-migrates-to</b> is the same, except the element sends a copy and keeps the original where it was. The slide example deployment views (UML) are figures only.</p>
-  <p class="small">The last deck is supplemental, from another university&rsquo;s course, and carries a Pearson Education copyright line. It is a gallery of example figures: a UML module diagram, domain model and class diagram (module views); a component diagram, client-server views and an embedded example (C&amp;C); and a UML deployment diagram and implementation diagram (allocation). They are pictures only, so nothing from them is reproduced here.</p>
 '''
-w5_terms = terms([
+w6_terms = terms([
  ('Attachment', 'The single C&amp;C relation: a component port is attached to a connector role.'),
  ('Port', 'A point on a component where a connector attaches; has an interface.'),
  ('Role', 'What a connector can be called on to do at one end, for example the request role and the reply role.'),
@@ -560,7 +577,7 @@ w5_terms = terms([
  ('Work assignment style', 'Modules allocated to people or teams.'),
  ('Migrates-to / copy-migrates-to', 'A software element moves to another processor / sends a copy there and keeps its own.'),
 ])
-w5_boss = ''.join([
+w6_boss = ''.join([
  qa('What is the only relation in a C&amp;C view, and what does it connect?',
   '''<p><b>Attachment</b>: ports on components are attached to roles on connectors. It lays out the computational topology.</p>''', 1),
  qa('List the four categories of C&amp;C style with one example each.',
@@ -592,10 +609,13 @@ story = [
  (3, 'Architectural styles', 'Certain design choices keep giving better systems, so naming them saves effort.',
   'Nine general styles, from client-server to layered, SOA, microservice and pipe-and-filter.',
   'One line per style is not enough to document a real system. Each style needs its elements, relations and constraints, starting with the code.'),
- (4, 'Module styles', 'We need a static picture of the code: who owns what, who uses whom, in which layer.',
-  'Six module styles: decomposition, uses, generalization, layered, aspects, data model.',
-  'Module views say nothing about how the system behaves at runtime.'),
- (5, 'Runtime and allocation styles', 'We must reason about running behaviour, and about where things live and who builds them.',
+ (4, 'Module views and four styles', 'We need a static picture of the code: who owns what, who uses whom, in which layer.',
+  'Module views with three relations, and the first four styles: decomposition, uses, generalization, layered.',
+  'Two module styles are still missing: code that cuts across modules (logging, security) and the data the system keeps.'),
+ (5, 'Aspects and data model', 'Some code does not sit in one module, and the stored data needs its own description.',
+  'Aspects style for crosscutting concerns, data model style for data entities and their relations.',
+  'All six module styles are static. None of them shows how the system behaves while it runs.'),
+ (6, 'Runtime and allocation styles', 'We must reason about running behaviour, and about where things live and who builds them.',
   'C&amp;C styles (call-return, data flow, event-based, repository) and allocation styles (deployment, install, work assignment).',
   'The slides stop here and do not say how to choose among styles for a given system. That question is not answered in the files.'),
 ]
@@ -674,16 +694,39 @@ weeks_html = ''.join([
       psn('Some design choices keep producing better systems; naming them saves time.',
           'A style = components, connectors, constraints and semantic models. Nine styles from client-server to pipe-and-filter.',
           'One line per style cannot document a real system. We need elements, relations and constraints, starting with the code.'), MAPS[3], w3_vis, w3_terms, w3_boss),
- week(4, '', 'Module styles', 'Six static ways to show the code: decomposition, uses, generalization, layered, aspects, data model.',
+ week(4, '', 'Module views and four styles', 'What a module view is, then decomposition, uses, generalization and layered.',
       psn('We need a static picture of the code: what belongs where, who may use whom.',
-          'Six module styles, each with elements, relations, constraints and uses, drawn in boxes, UML or a matrix.',
-          'Module views cannot show how the system behaves while running.'), MAPS[4], w4_vis, w4_terms, w4_boss),
- week(5, '', 'Runtime and allocation styles', 'Component-and-connector styles, then the three allocation styles.',
+          'Module views with is-part-of, depends-on and is-a, and the first four styles: decomposition, uses, generalization, layered.',
+          'Two styles are still missing: code that crosscuts modules, and the data the system stores.'), MAPS[4], w4_vis, w4_terms, w4_boss),
+ week(5, '', 'Aspects and data model', 'The last two module styles: crosscutting concerns and data entities.',
+      psn('Logging, security and transactions are needed in many modules, and the stored data needs a model.',
+          'The aspects style moves crosscutting code into aspect modules; the data model style shows data entities and how they relate.',
+          'All six module styles are static, so none shows the system running.'), MAPS[5], w5_vis, w5_terms, w5_boss),
+ week(6, '', 'Runtime and allocation styles', 'Component-and-connector styles, then the three allocation styles.',
       psn('We need to reason about running behaviour, and about where software lives and who builds it.',
           'C&amp;C styles in four categories (call-return, data flow, event-based, repository) and three allocation styles (deployment, install, work assignment).',
-          'The slides stop here. How to choose among the styles for a given system is not covered in the files.'), MAPS[5], w5_vis, w5_terms, w5_boss),
+          'The slides stop here. How to choose among the styles for a given system is not covered in the files.'), MAPS[6], w6_vis, w6_terms, w6_boss),
 ])
-nav = '<a class="wx" href="#big-picture">Big picture</a>' + ''.join(f'<a class="w{n}" href="#week-{n}">Topic {n}</a>' for n in range(1, 6)) + '<a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a>'
+
+supplement_html = '''
+<section id="supplement" class="band wx">
+  <h2 class="sec">Supplement: examples of views</h2>
+  <p class="small">This is the extra deck, <i>Supplementary material: views</i> (slides 28 to 38, from another university&rsquo;s course). It carries a Pearson Education copyright line, so nothing is copied. It has <b>no explanatory text</b>: each slide is a title and one UML figure. The notes below are <b>my own plain-words reading of what each figure shows</b>, at the level I could see them, and my own mapping to the three kinds of view from Topics 4 to 6. The slides themselves do not explain the figures.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Slide title</th><th>Kind of view (my mapping)</th><th>What the figure shows (my reading)</th><th>Tie back to</th></tr></thead><tbody>
+  <tr><th>Module View Example: UML Module Diagram (slide 29)</th><td>Module</td><td>Folder-like packages inside a presentation layer, a business layer and a data layer, with dashed dependency arrows between them, labelled with what each shape is.</td><td>Topic 4: layered style, depends-on</td></tr>
+  <tr><th>Module View Example (slide 30)</th><td>Module</td><td>Nested packages (a customer-service package, an order-processing system and a domain package) with dependency and access arrows between them, and database interfaces at the bottom.</td><td>Topic 4: decomposition and uses</td></tr>
+  <tr><th>Module View Example: UML Domain Model Class Diagram (slide 31)</th><td>Module</td><td>Classes for things like book, author, account and library, with multiplicities and association, aggregation, composition and generalization lines, plus interfaces.</td><td>Topic 4: generalization. Topic 5: data model</td></tr>
+  <tr><th>Module View Example: UML Class Diagram (slide 32)</th><td>Module</td><td>A university class diagram: student, seminar, course, professor and address, with attributes, operations and multiplicities on the links.</td><td>Topic 4: is-a and depends-on. Topic 5: data model</td></tr>
+  <tr><th>Component-and-Connector: UML Component Diagram (slide 33)</th><td>C&amp;C</td><td>Several subsystems (web store, warehouses, accounting), each with components inside, joined through ports by provided and required interfaces and delegation connectors.</td><td>Topic 6: components, ports, attachment</td></tr>
+  <tr><th>Component-and-Connector: Client Server View Example (slide 34)</th><td>C&amp;C</td><td>Repository-access client libraries on one side and a server holding a web server and a version-control service on the other, linked by protocol connectors.</td><td>Topic 6: client-server</td></tr>
+  <tr><th>Component-and-Connector: Another Example (slide 35)</th><td>C&amp;C</td><td>Two user-interface components calling data-access components for facilities, students, seminars and schedules, which in turn use infrastructure components for security and persistence, ending at a university database.</td><td>Topic 6: call-return</td></tr>
+  <tr><th>Component-and-Connector: Embedded Example (slide 36)</th><td>C&amp;C</td><td>A dense component diagram of an embedded system: a control system, sensors, actuators and an operator panel, joined by buses and ports.</td><td>Topic 6: components and connectors in a real system</td></tr>
+  <tr><th>Allocation View: UML Deployment Diagram Example (slide 37)</th><td>Allocation (deployment)</td><td>Nested boxes for a server device, a web-server runtime and the deployed packaged application, with a second device holding database schemas, joined by a TCP/IP link.</td><td>Topic 6: deployment style</td></tr>
+  <tr><th>Allocation View: UML Implementation Diagram (slide 38)</th><td>Allocation (install)</td><td>A packaged web application drawn as folders and files (configuration, libraries, pages), each file linked to the component it implements.</td><td>Topic 6: install style</td></tr>
+  </tbody></table></div>
+  <p class="small"><b>Note:</b> the slides also mark which parts of each figure are, for example, a port, an interface or an execution environment, in small red labels. I have not reproduced those. The first slide in the deck (slide 28) is only the title, <i>Supplemental Material: Examples of Views</i>.</p>
+</section>'''
+nav = '<a class="wx" href="#big-picture">Big picture</a>' + ''.join(f'<a class="w{n}" href="#week-{n}">Topic {n}</a>' for n in range(1, 7)) + '<a class="wx" href="#supplement">Supplement</a><a class="wx" href="#cheat-sheet">Cheat sheet</a><a class="wx" href="#drill">Flashcards</a>'
 
 CSS = (open(os.path.join(HERE, 'style.css')).read() + open(os.path.join(HERE, 'extra_cst.css')).read()
        + open(os.path.join(HERE, 'bigp.css')).read() + open(os.path.join(HERE, 'extra_cmt323.css')).read())
@@ -711,7 +754,7 @@ PAGE = f'''<!DOCTYPE html>
   <a class="back" href="../">&larr; All subjects</a>
   <img class="subj" src="../assets/subjects/cse341.svg" width="96" height="96" alt="">
   <p class="eyebrow">CSE341 · Software Architecture and Design</p>
-  <h1>Topics 1 to 5, as one story</h1>
+  <h1>Topics 1 to 6, as one story</h1>
   <p class="lead">Every topic exists because the one before it left a gap. Read it as <b>problem, solution, new problem</b>, and the facts hang together.</p>
   <nav class="jump" aria-label="Jump to a section">{nav}</nav>
 </header>
@@ -719,40 +762,42 @@ PAGE = f'''<!DOCTYPE html>
 
 <section id="big-picture" class="bigp wx">
   <h2 class="sec">Big picture: read this first</h2>
-  <p class="headsup"><b>One question runs through all five topics:</b> how do we describe a software system so that builders, managers and customers can reason about it before and while it is built? Topic 1 says an architecture is a set of structures. Topic 2 says why it matters and why you need several views. Topic 3 names the styles designers reuse. Topics 4 and 5 then spell out each style: first the code (module), then the running system (C&amp;C) and where it lives (allocation).</p>
+  <p class="headsup"><b>One question runs through all six topics:</b> how do we describe a software system so that builders, managers and customers can reason about it before and while it is built? Topic 1 says an architecture is a set of structures. Topic 2 says why it matters and why you need several views. Topic 3 names the styles designers reuse. Topics 4 and 5 then spell out the module styles (the code), and Topic 6 the running system (C&amp;C) and where it lives (allocation).</p>
   <h3>The chain: each topic fixes a gap the last one left</h3>
-  <ol class="chain">
+  <ol class="chain c6">
     <li class="w1"><span class="tn">Topic 1</span><b>What is architecture?</b><span class="kw">Structures, abstraction, views, module / C&amp;C / allocation</span><span class="bridge">But why bother, and one picture is not enough &hellip;</span></li>
     <li class="w2"><span class="tn">Topic 2</span><b>Why it matters, how to document it</b><span class="kw">Quality attributes, documentation, 4+1 views</span><span class="bridge">But designers keep meeting the same problems &hellip;</span></li>
     <li class="w3"><span class="tn">Topic 3</span><b>Architectural styles</b><span class="kw">Nine general styles: client-server, EDA, layered, SOA, microservice &hellip;</span><span class="bridge">But a name is not a design; each style needs detail &hellip;</span></li>
-    <li class="w4"><span class="tn">Topic 4</span><b>Module styles</b><span class="kw">Decomposition, uses, generalization, layered, aspects, data model</span><span class="bridge">But modules are static; what happens at runtime? &hellip;</span></li>
-    <li class="w5"><span class="tn">Topic 5</span><b>Runtime and allocation styles</b><span class="kw">C&amp;C: call-return, data flow, event-based, repository. Allocation: deployment, install, work assignment</span><span class="bridge">The slides stop here: choosing a style is not covered.</span></li>
+    <li class="w4"><span class="tn">Topic 4</span><b>Module views and four styles</b><span class="kw">Decomposition, uses, generalization, layered</span><span class="bridge">But two module styles are still missing &hellip;</span></li>
+    <li class="w5"><span class="tn">Topic 5</span><b>Aspects and data model</b><span class="kw">Crosscutting concerns, data entities</span><span class="bridge">But all module views are static; what happens at runtime? &hellip;</span></li>
+    <li class="w6"><span class="tn">Topic 6</span><b>Runtime and allocation styles</b><span class="kw">C&amp;C: call-return, data flow, event-based, repository. Allocation: deployment, install, work assignment</span><span class="bridge">The slides stop here: choosing a style is not covered.</span></li>
   </ol>
 
-  <h3>How Topic 1 connects to Topic 5</h3>
-  <p class="small">Topic 1 lists three kinds of structure and the questions each answers. Topics 4 and 5 are those three kinds again, one by one: module structures become the six module styles, C&amp;C structures become the C&amp;C styles, and allocation structures become the three allocation styles. Topic 3 is the bridge, because it shows the same styles in short form and tags some of them module (layered) and some C&amp;C (data-centered, SOA).</p>
+  <h3>How Topic 1 connects to Topic 6</h3>
+  <p class="small">Topic 1 lists three kinds of structure and the questions each answers. Topics 4 to 6 are those three kinds again, one by one: module structures become the six module styles (Topics 4 and 5), C&amp;C structures become the C&amp;C styles and allocation structures become the three allocation styles (both Topic 6). Topic 3 is the bridge, because it shows the same styles in short form and tags some of them module (layered) and some C&amp;C (data-centered, SOA).</p>
   <div class="promise tbl-wrap"><table><thead><tr><th>Topic 1 raised &hellip;</th><th>Answered in &hellip;</th></tr></thead><tbody>
-    <tr><td>Module structures and their questions</td><td><b>Topic 4</b> (six module styles).</td></tr>
-    <tr><td>C&amp;C structures and their questions</td><td><b>Topic 5</b> (four categories, five styles).</td></tr>
-    <tr><td>Allocation structures</td><td><b>Topic 5</b> (deployment, install, work assignment).</td></tr>
+    <tr><td>Module structures and their questions</td><td><b>Topics 4 and 5</b> (six module styles).</td></tr>
+    <tr><td>C&amp;C structures and their questions</td><td><b>Topic 6</b> (four categories, five styles).</td></tr>
+    <tr><td>Allocation structures</td><td><b>Topic 6</b> (deployment, install, work assignment).</td></tr>
     <tr><td>Structure vs view, and several views</td><td><b>Topic 2</b> (4+1 views).</td></tr>
-    <tr><td>Quality attributes</td><td><b>Topic 2</b> (what each needs). <b>Topics 4 and 5</b> (each style says what it is for).</td></tr></tbody></table></div>
+    <tr><td>Quality attributes</td><td><b>Topic 2</b> (what each needs). <b>Topics 4 to 6</b> (each style says what it is for).</td></tr></tbody></table></div>
 
-  <h3>Four threads that run through all five topics</h3>
+  <h3>Four threads that run through all six topics</h3>
   <p class="small">These links are my own summary of the slides, to show how the topics connect. They are not slide text.</p>
-  <div class="tbl-wrap"><table><thead><tr><th>Thread</th><th class="t1">Topic 1</th><th class="t2">Topic 2</th><th class="t3">Topic 3</th><th class="t4">Topic 4</th><th class="t5">Topic 5</th></tr></thead><tbody>
-    <tr><th>Structure vs view</th><td>Defined</td><td>4+1 views</td><td>Styles are patterns of structure</td><td>Module views</td><td>C&amp;C and allocation views</td></tr>
-    <tr><th>Quality attributes</th><td>Architecture enables or inhibits them</td><td>Performance, modifiability, security, scalability</td><td>Benefits listed per style</td><td>Modifiability and portability</td><td>Performance, security, availability</td></tr>
-    <tr><th>Audience</th><td>Stakeholders</td><td>Education, communication, analysis</td><td>Designer</td><td>New developers, planners</td><td>Testers, operators, managers</td></tr>
-    <tr><th>Layered and SOA</th><td>&ndash;</td><td>&ndash;</td><td>Layered and SOA introduced</td><td>Layered as a module style</td><td>SOA as a C&amp;C style</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Thread</th><th class="t1">Topic 1</th><th class="t2">Topic 2</th><th class="t3">Topic 3</th><th class="t4">Topic 4</th><th class="t5">Topic 5</th><th class="t6">Topic 6</th></tr></thead><tbody>
+    <tr><th>Structure vs view</th><td>Defined</td><td>4+1 views</td><td>Styles are patterns of structure</td><td>Module views</td><td>Module views (aspects, data)</td><td>C&amp;C and allocation views</td></tr>
+    <tr><th>Quality attributes</th><td>Architecture enables or inhibits them</td><td>Performance, modifiability, security, scalability</td><td>Benefits listed per style</td><td>Modifiability and portability</td><td>Modifiability</td><td>Performance, security, availability</td></tr>
+    <tr><th>Audience</th><td>Stakeholders</td><td>Education, communication, analysis</td><td>Designer</td><td>New developers, planners</td><td>Developers, data designers</td><td>Testers, operators, managers</td></tr>
+    <tr><th>Layered and SOA</th><td>&ndash;</td><td>&ndash;</td><td>Layered and SOA introduced</td><td>Layered as a module style</td><td>&ndash;</td><td>SOA as a C&amp;C style</td></tr></tbody></table></div>
 
-  <h3>If you remember only five sentences</h3>
+  <h3>If you remember only six sentences</h3>
   <ol class="five">
     <li><b>Topic 1:</b> software architecture is a set of structures, an abstraction that shows public details, and there are three kinds: module, component-and-connector and allocation.</li>
     <li><b>Topic 2:</b> architecture decides quality attributes, so document it, and use several views such as the 4+1 model because one picture suits no one.</li>
     <li><b>Topic 3:</b> architectural styles are reusable shapes made of components, connectors and constraints, from client-server to layered, SOA and pipe-and-filter.</li>
-    <li><b>Topic 4:</b> module styles (decomposition, uses, generalization, layered, aspects, data model) show the static code, but not runtime behaviour.</li>
-    <li><b>Topic 5:</b> C&amp;C styles show runtime behaviour in four categories, and allocation styles map software to hardware, files and teams.</li>
+    <li><b>Topic 4:</b> module views show the static code through is-part-of, depends-on and is-a, in four styles: decomposition, uses, generalization and layered.</li>
+    <li><b>Topic 5:</b> the last two module styles are aspects, for crosscutting concerns, and the data model, for data entities.</li>
+    <li><b>Topic 6:</b> C&amp;C styles show runtime behaviour in four categories, and allocation styles map software to hardware, files and teams.</li>
   </ol>
 </section>
 
@@ -762,6 +807,7 @@ PAGE = f'''<!DOCTYPE html>
   {story_html}
 </section>
 {weeks_html}
+{supplement_html}
 <section id="cheat-sheet" class="band wx">
   <h2 class="sec">Cheat sheet</h2>
   <h3>Numbers to remember</h3>
@@ -775,7 +821,7 @@ PAGE = f'''<!DOCTYPE html>
   {cards_html}
 </section>
 </main>
-<footer class="foot"><p>Built from the CSE341 (CKS221) Software Architecture and Design lecture decks, Lectures 1 to 6 plus the supplementary views deck. The slides belong to their lecturers and publishers; this page is a student&rsquo;s own summary and the diagrams are redrawn, not copied. Items marked "my own" are not from the slides. Topic numbers here group the lectures as: Topic 1 = Lecture 1, Topic 2 = Lecture 2, Topic 3 = Lecture 3, Topic 4 = Lectures 4 and 5, Topic 5 = Lecture 6 and the supplement.</p></footer>
+<footer class="foot"><p>Built from the CSE341 (CKS221) Software Architecture and Design lecture decks, Lectures 1 to 6, one topic each, plus the supplementary views deck as its own section. The slides belong to their lecturers and publishers; this page is a student&rsquo;s own summary and the diagrams are redrawn, not copied. Items marked "my own" are not from the slides. Topic numbers here group the lectures as: Topic 1 = Lecture 1, Topic 2 = Lecture 2, Topic 3 = Lecture 3, Topic 4 = Lectures 4 and 5, Topic 5 = Lecture 6 and the supplement.</p></footer>
 <script>
 {JS}
 </script>
