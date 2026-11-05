@@ -70,7 +70,7 @@ a { color: inherit; }
 .lead { max-width: 60ch; font-size: 1.12rem; margin: 14px 0 20px; }
 .jump { display: flex; flex-wrap: wrap; gap: 8px; }
 .jump a {
-  text-decoration: none; font-weight: 600; font-size: .9rem; padding: 7px 14px; border-radius: 999px;
+  text-decoration: none; font-weight: 600; font-size: .9rem; padding: 7px 14px; min-height: 44px; display: inline-flex; align-items: center; border-radius: 999px;
   background: var(--c); color: var(--on); border: 2px solid var(--c);
 }
 .jump a.wx { background: transparent; color: var(--ct); border-color: var(--c); }
@@ -258,7 +258,7 @@ table.gen th, table.gen td { min-width: 140px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 @media print { .jump, .hint { display: none; } body { background-image: none; } .mm-wrap { overflow: visible; } }
 
-.back { display: inline-block; margin-bottom: 18px; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--brand); border-bottom: 2px solid var(--brand); }
+.back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 8px; font-weight: 600; font-size: .92rem; text-decoration: none; color: var(--brand); border-bottom: 2px solid var(--brand); }
 
 /* hover motion only where a real pointer can hover (touch fires sticky hovers) */
 @media (hover: hover) and (pointer: fine) {
