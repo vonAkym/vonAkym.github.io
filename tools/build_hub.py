@@ -20,8 +20,8 @@ subjects = [
       text='Eight chapters of notes and slides wait in the folder.'),
  dict(n='0003', code='CST435', title='Parallel and cloud computing', hue='#ff7a6e', ready=True, href='cst435/',
       text='Five topics told as one story: from why one core stalled to how processes talk.'),
- dict(n='0004', code='CAT402', title='Digital marketing project', hue='#8da2ff', ready=False, href=None,
-      text='A project tracker for guidelines, agenda and deliverables.'),
+ dict(n='0004', code='CAT402', title='Professional and Technopreneurship Development', hue='#8da2ff', ready=True, href='cat402/',
+      text='Five topics told as one story: from the course map to running, selling and marketing an e-business.'),
  dict(n='0005', code='CAT405', title='Final year project', hue='#e08ada', ready=False, href=None,
       text='A project tracker for the proposal and the report.'),
  dict(n='0006', code='CMT323', title='Information System Theory and Management', hue='#7fd6a0', ready=True, href='cmt323/',
@@ -57,6 +57,11 @@ topics5 = [('01', 'What is software architecture?', 'Structures and views'), ('0
            ('05', 'Runtime and allocation styles', 'Behaviour, hardware and teams')]
 rows5 = ''.join(f'<li><a href="cse341/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics5)
+topics6 = [('01', 'Course overview', 'Coursework and the map'), ('02', 'The Augmented Marketer', 'Stay valuable with GenAI'),
+           ('03', 'Operating your e-business', 'Strategy, tactics, operations'), ('04', 'Selling on the web', 'Revenue models and channels'),
+           ('05', 'Marketing on the web', 'Get found and get trusted')]
+rows6 = ''.join(f'<li><a href="cat402/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
+                f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics6)
 rows = ''.join(f'<li><a href="cmt322/#week-{int(n)}"><span class="wn">Week {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in weeks)
 
@@ -401,7 +406,7 @@ PAGE = f'''<!DOCTYPE html>
   <div class="halo" data-loop><span class="orb big" aria-hidden="true"></span><span class="orbit" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span><span class="orbit two" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span></div>
 </div>
 <div class="wrap"><div class="stats">
-  <div><b>07</b><span>Subjects</span></div><div><b>04</b><span>Ready now</span></div><div><b>94</b><span>Flashcards</span></div>
+  <div><b>07</b><span>Subjects</span></div><div><b>05</b><span>Ready now</span></div><div><b>123</b><span>Flashcards</span></div>
 </div></div></section>
 
 <section class="s" id="method"><div class="wrap">
@@ -414,7 +419,7 @@ PAGE = f'''<!DOCTYPE html>
 <section class="s" id="subjects"><div class="wrap">
   <p class="kicker">Subjects</p>
   <h2>Pick a subject.</h2>
-  <p class="sub">Four are ready. The other three are in your Y4S1 folder and get built next.</p>
+  <p class="sub">Five are ready. The other two are in your Y4S1 folder and get built next.</p>
   <ul class="projects">{cards}</ul>
 </div></section>
 
@@ -444,6 +449,13 @@ PAGE = f'''<!DOCTYPE html>
   <h2>Five topics, one chain.</h2>
   <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in.</p>
   <ul class="weeks">{rows5}</ul>
+</div></section>
+
+<section class="s" id="topics-cat402"><div class="wrap">
+  <p class="kicker">CAT402 · Professional and Technopreneurship Development</p>
+  <h2>Five topics, one chain.</h2>
+  <p class="sub">Each topic starts from the gap the last one left behind. Jump straight in.</p>
+  <ul class="weeks">{rows6}</ul>
 </div></section>
 
 <section class="end"><div class="wrap">
