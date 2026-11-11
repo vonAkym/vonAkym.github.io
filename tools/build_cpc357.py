@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """CPC357 IoT Architecture and Smart Applications notes page.
-Sources (all from the owner's folders): current-year decks Lecture 2 Sensors and Actuators, 3 IoT Circuit, 4 Embedded System,
-5 IoT Networks (Mohd Nadhir Ab Wahab, USM); older Learning Materials decks for the topics this year's folder does not have yet:
-Chapters 1 and 2 (Yung-Wey Chong, USM) and the IoT Protocol, Cloud Technology, Data Analytics and Security decks (Mohd Nadhir, 2024/25);
+Sources (all from the owner's folders): current-year decks Lecture 1 Introduction to IoT (added 11 Nov 2026), 2 Sensors and Actuators,
+3 IoT Circuit, 4 Embedded System, 5 IoT Networks (Mohd Nadhir Ab Wahab, USM); older Learning Materials decks for extra depth and for the
+topics this year's folder does not have yet: Chapters 1 and 2 (Yung-Wey Chong, USM) and the IoT Protocol, Cloud Technology, Data Analytics
+and Security decks (Mohd Nadhir, 2024/25);
 the project brief. Content rules: only what is in the decks; my own summaries, calculations and readings of figures are labelled on the page.
 Diagrams are redrawn as inline SVG; no slide images.
 
-Topics (my own grouping of the 12 decks): 1 = Chapters 1+2, 2 = Sensors and Actuators, 3 = IoT Circuit + Embedded System,
+Topics (my own grouping of the 13 decks): 1 = Lecture 1 + older Chapters 1+2, 2 = Sensors and Actuators, 3 = IoT Circuit + Embedded System,
 4 = IoT Networks + IoT Protocol, 5 = Cloud + Data Analytics + Security."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -54,13 +55,13 @@ def ln(x1, y1, x2, y2, dash=False):
 # ====================================================================== mind maps
 MAPS = {
 1: mindmap('IoT System',
-  [('What IoT is', ['Physical devices + software', 'Sensors and connectivity', 'Collect and exchange data', 'Sensor, link, process, UI']),
-   ('Architecture parts', ['Sensors and actuators', 'Embedded system', 'IoT gateway', 'Wireless network', 'Cloud']),
-   ('Design considerations', ['Scalability, reliability', 'Security and privacy', 'Power and cost', 'Interoperability'])],
-  [('Protocol stack', ['IoT apps: CoAP, MQTT', 'Transport: UDP', 'Internet: IPv6, 6LoWPAN', 'Link: 802.X']),
-   ('Gateway', ['Aggregates data', 'Translates protocols', 'Secures the channel', 'Processes locally']),
-   ('Challenges', ['Security and privacy', 'Interoperability', 'Data analytics and AI', 'Scale and updates'])],
-  'Mind map of Topic 1: what IoT is, its architecture parts, protocol stack, gateway and challenges'),
+  [('What IoT is', ['Devices with sensors, actuators', 'Collect and exchange data', 'Sensed, controlled remotely', 'Term: Kevin Ashton, 1999']),
+   ('Five key features', ['AI', 'Connectivity', 'Sensors', 'Active engagement', 'Small devices']),
+   ('Good and bad', ['+ Engagement, optimisation', '+ Less waste, better data', '- Security, privacy', '- Complexity, flexibility', '- Compliance'])],
+  [('Enablers', ['Sensors and actuators', 'Smartphone, smart devices', 'Embedded systems', 'Connectivity, computing']),
+   ('Ecosystem', ['IoT devices and hub', 'Internet network', 'Company platform, analytics', 'IoT remote sends commands']),
+   ('Older deck adds', ['Eight design considerations', 'Gateway: four jobs', 'Stack: CoAP, MQTT, UDP', 'Four challenges'])],
+  'Mind map of Topic 1: what IoT is, its five key features, advantages and disadvantages, enablers, ecosystem, and the older deck additions'),
 2: mindmap('Sensors and Actuators',
   [('Sensors', ['Output for a measurand', 'A transducer', 'Passive or active', 'Analog or digital']),
    ('Choosing one', ['Environment: temperature, size', 'Economics: cost, lifetime', 'Sensitivity, range, linearity', 'Response time, stability']),
@@ -97,7 +98,7 @@ MAPS = {
   'Mind map of Topic 5: cloud computing, IoT data and databases, and security, trust and privacy'),
 }
 
-SRC12 = '<p class="small src"><b>Source of this topic:</b> Learning Materials decks, Chapter 1 (Introduction to IoT and Smart Applications) and Chapter 2 (IoT Architecture and Protocols), by Dr Yung-Wey Chong. These are the older decks in your folder; this year&rsquo;s folder has no Lecture 1.</p>'
+SRC12 = '<p class="small src"><b>Source of this topic:</b> this year&rsquo;s Lecture 1, &ldquo;Introduction and Architecture of IoT System&rdquo; (dated 11 Nov 2026, Mohd Nadhir Ab Wahab). Most of its 26 slides are pictures and charts, so several parts below are my reading of a figure, and I say so. The last part, marked &ldquo;older deck&rdquo;, comes from the Learning Materials Chapters 1 and 2 (Dr Yung-Wey Chong), which go deeper into architecture.</p>'
 SRC2 = '<p class="small src"><b>Source of this topic:</b> this year&rsquo;s Lecture 2 (7 Oct 2026, Mohd Nadhir Ab Wahab). Where marked &ldquo;older deck&rdquo;, the point comes from the Learning Materials Chapter 3 (Dr Chong), which covers the same topic in more depth.</p>'
 
 # ====================================================================== topic 1
@@ -106,64 +107,213 @@ d_sys = svg(700, 150,
     + box(248, 36, 100, 56, ['Gateway', 'aggregate'], small_rest=True) + box(368, 36, 100, 56, ['Network', 'wireless, IP'], small_rest=True)
     + box(488, 36, 100, 56, ['Cloud', 'store, analyse'], small_rest=True) + box(608, 36, 86, 56, ['User', 'interface'], 'bxs', small_rest=True)
     + ''.join(arr(108 + 120 * i, 64, 128 + 120 * i, 64, 'sy') for i in range(5))
-    + txt(350, 20, 'My own sketch of the parts named across Chapters 1 and 2 (the slides show this as a reference-model figure)', 'ts')
+    + txt(350, 20, 'Older deck: my own sketch of the parts named across Chapters 1 and 2', 'ts')
     + txt(68, 124, 'Actuators act on the', 'ts') + txt(68, 140, 'result (Topic 2)', 'ts')
     + arr(68, 112, 68, 96, 'sy', dash=True),
     'Sketch of an IoT system: sensors, embedded device, gateway, network, cloud and user interface, with actuators acting on the result', 'sy')
 
+d_eco = svg(700, 284,
+    box(10, 20, 150, 56, ['IoT company', 'or platform'], small_rest=True) + box(10, 180, 150, 56, ['IoT remote', 'the user side'], 'bxs', small_rest=True)
+    + box(255, 96, 140, 60, ['Internet', 'network'], small_rest=True) + box(470, 96, 100, 60, ['IoT hub'])
+    + ''.join(box(612, 14 + 62 * i, 82, 40, ['Device'], bold=False) for i in range(4))
+    + arr(85, 76, 85, 180, 'ec') + txt(92, 132, 'analytics', 'ts', 'start')
+    + arr(160, 196, 262, 152, 'ec') + txt(232, 190, 'command,', 'ts', 'start') + txt(232, 206, 'request for info', 'ts', 'start')
+    + arr(262, 104, 160, 60, 'ec') + txt(222, 70, 'data', 'ts', 'start')
+    + arr(395, 112, 470, 112, 'ec') + txt(432, 100, 'command', 'ts')
+    + arr(470, 140, 395, 140, 'ec') + txt(432, 160, 'data', 'ts')
+    + ''.join(arr(570, 126, 612, 34 + 62 * i, 'ec', both=True) for i in range(4))
+    + txt(350, 272, 'Redrawn from the slide figure: commands flow out to the devices, data flows back', 'ts'),
+    'Redrawn IoT ecosystem: IoT devices exchange commands and data with an IoT hub, the hub with the internet network, the network sends data to the company platform, analytics reach the IoT remote, and the remote sends commands back through the network', 'ec')
+
+d_io = svg(700, 130,
+    box(10, 36, 170, 56, ['Sensors', 'physical to electrical'], small_rest=True) + box(265, 36, 170, 56, ['IoT system'], 'bxs')
+    + box(520, 36, 170, 56, ['Actuators', 'electrical to physical'], small_rest=True)
+    + arr(180, 64, 265, 64, 'io') + arr(435, 64, 520, 64, 'io')
+    + txt(350, 118, 'Redrawn from the slide: sensors are the inputs, actuators are the outputs', 'ts'),
+    'Redrawn: sensors feed the IoT system and the IoT system drives actuators', 'io')
+
+_impact = [('Internet of things', 72), ('Artificial intelligence', 68), ('Cloud infrastructure', 64), ('Big data / analytics', 54), ('Nanotechnology', 44),
+           ('Advanced robotics / RPA', 40), ('Sensors', 40), ('Blockchain', 17), ('3D printing', 10), ('Augmented reality', 9), ('Quantum computing', 7), ('Edge computing', 6)]
+bars_impact = ('<div class="bars" role="table" aria-label="Share of organisations expecting each Industry 4.0 technology to have the most profound impact">'
+               + ''.join(f'<div class="row" role="row"><span role="cell">{E(n)}</span><span class="track" aria-hidden="true"><span class="fill" style="width:{v}%"></span></span><span role="cell"><b>{v}%</b></span></div>' for n, v in _impact)
+               + '</div>')
+
 w1_vis = f'''
   {SRC12}
-  <h3>What IoT is and how it works</h3>
-  <p class="small"><b>Internet of Things (IoT)</b> means the network of physical devices embedded with electronics, software, sensors and network connectivity, so objects can collect and exchange data. The slides describe the flow in four steps: <b>sensor, connectivity, data processing, user interface</b>. A second slide frames the value as <b>connect things, control anything, gain insights, take action</b>. The phrase &ldquo;Internet of Things&rdquo; is credited to Kevin Ashton (MIT), from a talk about RFID technology to Procter &amp; Gamble. (The timeline figure shows a few more firsts, such as the smart fridge and the smart watch, but its dates are not clear in the text, so I left them out.)</p>
+  <h3>What IoT is</h3>
+  <p class="small">The <b>Internet of Things (IoT)</b> is the internetworking of physical devices, vehicles, buildings and other items that have electronics, software, sensors, actuators and network connectivity built in, so they can <b>collect and exchange data</b>. The slide also calls these &ldquo;connected devices&rdquo; and &ldquo;smart devices&rdquo;. In 2013 the Global Standards Initiative on Internet of Things (IoT-GSI) defined IoT as &ldquo;the infrastructure of the information society&rdquo;. The point of it: objects can be <b>sensed and/or controlled remotely</b> over the network that already exists, which ties the physical world into computer systems and gives better <b>efficiency, accuracy and economic benefit</b>.</p>
+
+  <h3>How it got here (timeline slide)</h3>
+  <ol class="tl">
+    <li><b>1999</b><span>The term &ldquo;Internet of Things&rdquo; is used by Kevin Ashton (MIT) in a presentation about RFID technology to Procter &amp; Gamble. It described a future where all kinds of electronic devices link to each other through the Internet.</span></li>
+    <li><b>2000</b><span>LG announces its first Internet refrigerator plans.</span></li>
+    <li><b>2004</b><span>The number of active mobile connected devices passes the number of people in the world.</span></li>
+    <li><b>2017</b><span>Amazon&rsquo;s Alexa stands out at CES (a consumer electronics show; my gloss) as a would-be &ldquo;IoT operating system&rdquo;, appearing in Ford cars, LG&rsquo;s new refrigerator and Huawei&rsquo;s Mate 9 phone.</span></li>
+    <li><b>2022</b><span>5G expanding (the slide spells it &ldquo;Expending&rdquo;).</span></li>
+  </ol>
+
+  <h3>Why people care: the four numbers slides</h3>
+  <p class="small"><b>1. Impact.</b> A survey chart (source on the slide: Deloitte Global analysis, N = 2,029) asks which Industry 4.0 technologies are expected to have the most profound impact on the organisation. IoT is first.</p>
+  {bars_impact}
+  <p class="small"><b>2. Market forecast.</b> The figure adds up nine &ldquo;settings&rdquo; to a total potential impact of <b>$3.9 trillion to $11.1 trillion per year in 2025</b>. The slide shows no source for it.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Setting</th><th>Example use on the figure</th><th>Value per year</th></tr></thead><tbody>
+  <tr><th>Factories</th><td>Operations and equipment optimisation</td><td>$1.2T to $3.7T</td></tr>
+  <tr><th>Cities</th><td>Public health and transportation</td><td>$930B to $1.7T</td></tr>
+  <tr><th>Human</th><td>Health and fitness</td><td>$170B to $1.6T</td></tr>
+  <tr><th>Retail environments</th><td>Automated checkout</td><td>$410B to $1.2T</td></tr>
+  <tr><th>Worksites</th><td>Operations optimisation, health and safety</td><td>$160B to $930B</td></tr>
+  <tr><th>Outside</th><td>Logistics and navigation</td><td>$560B to $850B</td></tr>
+  <tr><th>Vehicles</th><td>Autonomous vehicles and condition-based maintenance</td><td>$210B to $740B</td></tr>
+  <tr><th>Home</th><td>Chore automation and security</td><td>$200B to $350B</td></tr>
+  <tr><th>Offices</th><td>Security and energy</td><td>$70B to $150B</td></tr></tbody></table></div>
+  <p class="small">The order (largest upper value first) is mine; the figure arranges them in a circle. Factories is the largest setting and Offices the smallest.</p>
+  <p class="small"><b>3. Growth.</b> The &ldquo;explosion of connected possibility&rdquo; chart plots connected devices by year.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Year</th><td>1992</td><td>2003</td><td>2009</td><td>2012</td><td>2013</td><td>2014</td><td>2015</td><td>2016</td><td>2017</td><td>2018</td><td>2019</td><td>2020</td></tr></thead><tbody>
+  <tr><th>Devices</th><td>1 million</td><td>0.5 billion</td><td>&ldquo;IoT inception&rdquo;</td><td>8.7 B</td><td>11.2 B</td><td>14.4 B</td><td>18.2 B</td><td>22.9 B</td><td>28.4 B</td><td>34.8 B</td><td>42.1 B</td><td>50.1 B</td></tr></tbody></table></div>
+  <p class="small">The 2009 point carries no device count on the chart, only the label &ldquo;IoT inception&rdquo;. The small print under each point is too blurred in the PDF to read reliably, so I left it out.</p>
+  <p class="small"><b>4. Need.</b> The &ldquo;2020&rdquo; slide gives five headline figures: <b>4 billion</b> connected people, <b>$4 trillion</b> revenue opportunity, <b>25+ million</b> apps, <b>25+ billion</b> embedded and intelligent systems, <b>50 trillion GB</b> of data.</p>
+  <p class="small"><b>My note:</b> these are forecasts made years ago for 2020 and 2025, not measured results, and they come from different sources. That is why the growth chart says 50.1 billion devices in 2020 while the &ldquo;need&rdquo; slide says 25+ billion embedded and intelligent systems. Learn each number with its slide.</p>
+
+  <h3>Five key features</h3>
+  <div class="cards3">
+    <div class="c"><h4>AI</h4><p>IoT makes almost anything &ldquo;smart&rdquo; by combining data collection, artificial intelligence algorithms and networks. Slide example: a refrigerator and cabinets that notice milk and cereal running low and place an order with your grocer.</p></div>
+    <div class="c"><h4>Connectivity</h4><p>New networking technologies mean networks are no longer tied only to major providers. They can be much smaller and cheaper and still practical. IoT builds these small networks between its devices.</p></div>
+    <div class="c"><h4>Sensors</h4><p>Without sensors IoT loses its distinction. They turn a standard passive network of devices into an active system that can integrate with the real world.</p></div>
+    <div class="c"><h4>Active engagement</h4><p>Most interaction with connected technology today is passive. IoT brings active engagement with content, products and services.</p></div>
+    <div class="c"><h4>Small devices</h4><p>Devices keep getting smaller, cheaper and more powerful. IoT uses purpose-built small devices to get precision, scalability and versatility.</p></div>
+  </div>
+
+  <h3>Advantages and disadvantages</h3>
+  <div class="tbl-wrap"><table><thead><tr><th>Four advantages</th><th>What the slide says</th></tr></thead><tbody>
+  <tr><th>Improved customer engagement</th><td>Current analytics have blind spots and accuracy flaws, and engagement stays passive. IoT gives richer, more effective engagement with audiences.</td></tr>
+  <tr><th>Technology optimisation</th><td>The same technologies and data that improve the customer experience also improve device use and help improve the technology. IoT opens up critical functional and field data.</td></tr>
+  <tr><th>Reduced waste</th><td>IoT makes areas of improvement clear. It gives real-world information, so resources are managed more effectively.</td></tr>
+  <tr><th>Enhanced data collection</th><td>Modern data collection is limited and designed for passive use. IoT places it where people actually want to analyse the world, giving an accurate picture of everything.</td></tr></tbody></table></div>
+  <div class="tbl-wrap"><table><thead><tr><th>Five disadvantages</th><th>What the slide says</th></tr></thead><tbody>
+  <tr><th>Security</th><td>An ecosystem of constantly connected devices talking over networks offers little control despite security measures, so users are exposed to attackers.</td></tr>
+  <tr><th>Privacy</th><td>IoT yields a lot of personal data in extreme detail, without the user actively taking part.</td></tr>
+  <tr><th>Complexity</th><td>Design, deployment and maintenance are complicated because many technologies, including new ones, are used together.</td></tr>
+  <tr><th>Flexibility</th><td>Worry about how easily one IoT system integrates with another; people fear ending up with several conflicting or locked systems.</td></tr>
+  <tr><th>Compliance</th><td>IoT must follow regulations like any business technology, and its complexity makes that very hard.</td></tr></tbody></table></div>
+
+  <h3>Where the technology is heading (roadmap figure)</h3>
+  <p class="small">The roadmap (source on the slide: SRI Consulting Business Intelligence) plots &ldquo;technology reach&rdquo; against time from 2000 to past 2020 as four steps. The position of each step on the time axis is approximate on the figure, so I give no exact year per step.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Step</th><th>What it does</th><th>What pushes it (label beside the step)</th></tr></thead><tbody>
+  <tr><th>1. Supply-chain helpers</th><td>RFID tags for routing, inventorying and loss prevention.</td><td>Demand for expedited logistics.</td></tr>
+  <tr><th>2. Vertical-market applications</th><td>Surveillance, security, healthcare, transport, food safety, document management.</td><td>Cost reduction leading to diffusion into a second wave of applications.</td></tr>
+  <tr><th>3. Ubiquitous positioning</th><td>Locating people and everyday objects.</td><td>Ability of devices located indoors to receive geological signals.</td></tr>
+  <tr><th>4. Physical-world web</th><td>Teleoperation and telepresence: monitor and control distant objects.</td><td>Miniaturisation, power-efficient electronics and available spectrum.</td></tr></tbody></table></div>
+  <p class="small">Beyond step 4 the arrow points to &ldquo;software agents and advanced sensor fusion&rdquo;. Which label pushes which step is my reading of where the labels sit on the figure.</p>
+
+  <h3>Where IoT is used</h3>
+  <p class="small">The slide (its title is cut off as &ldquo;How IoT&rdquo;) shows eight application areas all joined to one <b>network</b> in the middle:</p>
+  <ul class="chips-row"><li>Consumer and home</li><li>Smart infrastructure</li><li>Security and surveillance</li><li>Healthcare</li><li>Transportation</li><li>Retail</li><li>Industrial</li><li>Others</li></ul>
+
+  <h3>From devices to insights (framework figure)</h3>
+  <p class="small">The &ldquo;IoT Insights&rdquo; slide shows one vendor&rsquo;s framework as three layers. Read it from the top down; I describe the layers and leave out the product branding.</p>
+  <div class="layers">
+    <div class="l"><b>1. Connect devices</b><span>Cameras, smart watch, mobiles, sensors, GPS services, smart glasses. Two ways in: <strong>REST and real-time APIs</strong> (connect the app with data coming from devices) and <strong>MQTT</strong> (the device or an edge gateway pushes data on the open, lightweight MQTT protocol). An identity and security framework sits under this layer.</span></div>
+    <div class="l"><b>2. Data blend, associate and enrich</b><span>Big data integration and analytics. Tools shown: MongoDB, Spark, Hadoop.</span></div>
+    <div class="l"><b>3. Real-time insights and analytics</b><span>Real-time insights, actionable alerts, enterprise system integration, data lakes.</span></div>
+  </div>
+  <p class="small">REST and MQTT are explained in Topic 4; databases and big data in Topic 5.</p>
+
+  <h3>The IoT ecosystem</h3>
+  {d_eco}
+  <p class="small"><b>My reading of the figure</b> (the slide has no text): many <b>IoT devices</b> talk to an <b>IoT hub</b>. The hub sends them commands and requests for information, and they send data back. The hub passes data through the <b>internet network</b> to the <b>IoT company or platform</b>, which runs <b>analytics</b>. The result reaches the <b>IoT remote</b> (the user&rsquo;s control point), which sends commands and requests back through the network to the hub. Commands go out, data comes back.</p>
+
+  <h3>IoT enablers: what makes it possible</h3>
+  {d_io}
+  <div class="two"><div><h4>Sensor</h4><p>Measures physical parameters such as temperature, sound and light. It maps a <b>physical quantity into an electrical signal</b>.</p></div>
+  <div><h4>Actuator</h4><p>Modifies physical parameters. It maps an <b>electrical signal into a physical quantity</b>.</p></div></div>
+  <p class="small">A second slide names five more enablers with pictures only: <b>smartphone, connectivity, smart devices, embedded systems, computing</b>.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Enabler</th><th>What the slides show</th></tr></thead><tbody>
+  <tr><th>Smartphone sensors</th><td>Thirteen sensors around a phone: proximity, ambient light, CMOS imager (camera), GPS, accelerometer, humidity, microphone, touch, gyroscope, magnetometer, fingerprint, pressure, temperature.</td></tr>
+  <tr><th>Smart devices</th><td>Photos only. My reading: a smart weighing scale with its phone app, smart glasses, and fitness watches and bands.</td></tr>
+  <tr><th>Embedded systems</th><td>Three boards with their pin diagrams: Arduino Uno, Raspberry Pi 4 (GPIO pinout) and the Maker Feather AIoT S3, which is built on an ESP32-S3 WROOM-1 module and has a USB-C port, LiPo battery connector, reset, boot and user buttons, an RGB LED, a piezo buzzer with a mute switch, and Maker ports. Topic 3 covers these boards.</td></tr>
+  <tr><th>Networks</th><td>A protocol-standards figure in four rows (below).</td></tr></tbody></table></div>
+  <p class="small"><b>Maker Feather pins printed on the diagram</b> (useful for the lab): status LED D2, RGB LED D46, boot button D0, user button D3, piezo buzzer D12, peripheral power on/off D11, battery sense on A12.</p>
+  <div class="tbl-wrap"><table><thead><tr><th>Row on the Networks figure</th><th>Standards shown</th></tr></thead><tbody>
+  <tr><th>Application</th><td>ZigBee ZAL (SE 2.0), REST/HTTPS, CoAP, XMPP, SIP/SIMPLE, DDS-RTPS, MQTT, IEEE 1888, IEC standards (60870, 61850 and others), DNP, MODBUS</td></tr>
+  <tr><th>Network</th><td>TCP/UDP, IPv6/IPv4, 802.1x / EAP-TLS based access control, 6LoWPAN (RFC 6282), ZigBee NWK</td></tr>
+  <tr><th>Link</th><td>IEEE 802.15.4 MAC (with 802.15.4e enhancements), IEEE P1901.2 MAC</td></tr>
+  <tr><th>PHY (physical)</th><td>IEEE 802.15.4 2.4 GHz DSSS, IEEE 802.15.4g, IEEE P1901.2 PHY; and, spanning link and PHY, IEEE 802.11 Wi-Fi, IEEE 802.3 Ethernet, IEEE 802.16 WiMax, 2G/3G/LTE mobile</td></tr></tbody></table></div>
+  <p class="small">The lecturer shows this figure without explanation. You do not need every name; the point is that IoT uses <b>many standards at every layer</b>. Topic 4 explains the ones the course uses (Wi-Fi, 6LoWPAN, UDP, CoAP, MQTT).</p>
+
+  <h3>Older deck: architecture in more depth</h3>
+  <p class="small"><b>Everything from here to the end of this topic is from the older Learning Materials Chapters 1 and 2 (Dr Chong), not this year&rsquo;s Lecture 1.</b> It fills in the architecture that this year&rsquo;s slides only show as pictures. Confirm with your lecturer whether it is examinable.</p>
+  <p class="small">The older slides describe how IoT works in four steps: <b>sensor, connectivity, data processing, user interface</b>. A second slide frames the value as <b>connect things, control anything, gain insights, take action</b>.</p>
   {d_sys}
-  <h3>Design considerations (the eight on the slide)</h3>
+  <h4>Design considerations (the eight on the older slide)</h4>
   <ul class="chips-row"><li>Scalability</li><li>Reliability and availability</li><li>Security and privacy</li><li>Performance</li><li>Interoperability</li><li>Power efficiency</li><li>Cost</li><li>Maintainability</li></ul>
   <p class="small">Interoperability means devices from different makers can work together. The slides use these eight as the checklist for the hospital scenario below.</p>
   <div class="tbl-wrap"><table><thead><tr><th>Scenario on the slide</th><th>Discussion questions on the slide</th></tr></thead><tbody>
   <tr><td>MediCare Hospital tracks 5000 medical assets (wheelchairs, IV pumps, monitors) in a 10-storey building. Assets move between floors; battery replacement about once a year; location within 5 metres; usage history kept; budget $200,000; HIPAA compliance needed.</td><td>Which sensors and why? How to trade location accuracy against battery life? Edge or cloud processing? Main security concerns and fixes?</td></tr></tbody></table></div>
   <p class="small"><b>The slides give no model answers.</b> Use the eight considerations, the gateway (below) and Topic 2 to argue your own.</p>
 
-  <h3>Embedded system, gateway and wireless choice</h3>
+  <h4>Embedded system, gateway and wireless choice</h4>
   <div class="two"><div><h4>Embedded versus general-purpose</h4><p>An embedded system does one dedicated job inside a larger system, with tightly matched software (firmware), a microcontroller, low power, a minimal interface and a small size. A general-purpose computer runs many tasks, has a full operating system, and uses more power.</p></div>
   <div><h4>IoT gateway</h4><p>A device that connects IoT devices to the cloud. It <b>aggregates</b> data, <b>translates</b> protocols, gives a <b>secure</b> channel and does some <b>local processing</b>. Benefits: lower delay, less bandwidth (filter and combine before sending), better security by local encryption.</p></div></div>
+  <p class="small"><b>My link:</b> the &ldquo;IoT hub&rdquo; in this year&rsquo;s ecosystem figure sits in the same place as the older deck&rsquo;s gateway, between the devices and the internet. The slides do not say they are the same thing.</p>
   <p class="small"><b>Choosing a wireless technology</b> (slide criteria): range, power use, data rate, delay, topology (point-to-point, star, mesh), cost, scalability, and the environment (indoor or outdoor, interference).</p>
 
-  <h3>Protocol stack and trade-offs</h3>
+  <h4>Protocol stack and challenges</h4>
   <div class="tbl-wrap"><table><thead><tr><th>Layer</th><th>Conventional web</th><th>IoT</th></tr></thead><tbody>
   <tr><th>Application and payload</th><td>HTML, XML, JSON over HTTP</td><td>Binary or JSON over CoAP or MQTT</td></tr>
   <tr><th>Transport</th><td>TCP or UDP</td><td>UDP</td></tr>
   <tr><th>Internet</th><td>IPv4, IPv6</td><td>IPv6 and IP routing, with 6LoWPAN</td></tr>
   <tr><th>Network and link</th><td>Ethernet MAC and PHY</td><td>802.X MAC and PHY</td></tr></tbody></table></div>
-  <div class="two"><div><h4>Advantages of IoT (slide)</h4><p>Less human effort and time; more automation and optimisation; less waste and better use of natural resources.</p></div>
-  <div><h4>Disadvantages (slide)</h4><p>Security of confidential data; network attacks; keeping privacy.</p></div></div>
+  <p class="small">The older deck&rsquo;s own advantage and disadvantage lists are shorter than this year&rsquo;s: less human effort and time, more automation, less waste; against security of confidential data, network attacks and privacy. For the exam, learn this year&rsquo;s four and five above.</p>
   <p class="small"><b>Four challenges:</b> security and privacy (encryption, authentication and access control, privacy rules such as PDPA); interoperability (many standards, need common frameworks); data analytics and AI (big data, predictive machine learning, AI-driven decisions); scalability and management (huge device counts, over-the-air updates, device lifecycle).</p>
 '''
 w1_terms = terms([
- ('IoT', 'Network of physical devices with electronics, software, sensors and connectivity that collect and exchange data.'),
- ('Four-step flow', 'Sensor, connectivity, data processing, user interface.'),
+ ('IoT', 'Internetworking of physical devices, vehicles, buildings and other items with electronics, software, sensors, actuators and connectivity, so they collect and exchange data.'),
+ ('IoT-GSI', 'Global Standards Initiative on Internet of Things. In 2013 it defined IoT as the infrastructure of the information society.'),
+ ('RFID', 'The technology Kevin Ashton was presenting when he used the term IoT in 1999. The slide does not expand it; Topic 4 covers RFID.'),
+ ('Industry 4.0', 'The label on the impact chart for the group of technologies it compares (IoT, AI, cloud and others). The slide does not define it.'),
+ ('Five key features', 'AI, connectivity, sensors, active engagement, small devices.'),
+ ('Active engagement', 'IoT lets people and products interact actively, instead of the passive engagement of most connected technology today.'),
+ ('Sensor', 'Measures physical parameters; maps a physical quantity into an electrical signal.'),
+ ('Actuator', 'Modifies physical parameters; maps an electrical signal into a physical quantity.'),
+ ('IoT enablers', 'Sensors and actuators, plus smartphone, connectivity, smart devices, embedded systems and computing.'),
+ ('IoT hub', 'The box in the ecosystem figure that all IoT devices connect to; it relays commands to them and data from them.'),
+ ('IoT remote', 'The control point in the ecosystem figure that receives analytics and sends commands and requests for information.'),
+ ('Teleoperation and telepresence', 'Monitoring and controlling distant objects; the fourth roadmap step.'),
+ ('Four-step flow (older deck)', 'Sensor, connectivity, data processing, user interface.'),
  ('Embedded system', 'A computer built into a larger machine to do one dedicated task, with software tuned to its hardware.'),
- ('Microcontroller / SoC', 'A small computer on one chip; the slides prefer a System on Chip (SoC) for size and power limits.'),
- ('IoT gateway', 'Device between IoT devices and the cloud: aggregates, translates protocols, secures and pre-processes data.'),
- ('Edge versus cloud processing', 'Processing near the device versus in the cloud. The slides ask you to choose and justify; they give no rule.'),
+ ('IoT gateway (older deck)', 'Device between IoT devices and the cloud: aggregates, translates protocols, secures and pre-processes data.'),
+ ('Edge versus cloud processing', 'Processing near the device versus in the cloud. The older slides ask you to choose and justify; they give no rule.'),
  ('CoAP', 'Constrained Application Protocol, a light, HTTP-like protocol for small devices.'),
  ('MQTT', 'Message Queuing Telemetry Transport, a light publish/subscribe messaging protocol.'),
  ('6LoWPAN', 'A way to run IPv6 over low-power wireless links (named in the IoT stack).'),
  ('Interoperability', 'Devices and systems from different makers working together.'),
- ('PDPA', 'The privacy law named on the challenges slide. The slide gives no detail on it.'),
+ ('PDPA', 'The privacy law named on the older challenges slide. The slide gives no detail on it.'),
 ])
 w1_boss = ''.join([
- qa('What is IoT, and what are the four steps of how it works on the slides?',
-  '''<p>IoT is a network of physical devices that contain electronics, software, sensors and connectivity, so they can collect and exchange data. The four steps are sensor (detect), connectivity (send), data processing (analyse) and user interface (show or act).</p>''', 1),
- qa('List the eight design considerations.',
-  '''<p>Scalability, reliability and availability, security and privacy, performance, interoperability, power efficiency, cost, maintainability.</p>''', 2),
- qa('What are the four jobs of an IoT gateway, and two benefits?',
-  '''<p>Data aggregation, protocol translation, security, local processing. Benefits (any two): lower delay because data is processed locally; less bandwidth because data is filtered and combined before going to the cloud; better security through local encryption and data management.</p>''', 3),
- qa('Compare an embedded system with a general-purpose computer on four points.',
-  '''<p>Purpose: dedicated task versus many tasks. Hardware: microcontroller with limited resources versus powerful CPU, GPU and memory. Software: firmware versus a full operating system. Power: energy-efficient versus high consumption. (Also: minimal interface and compact size versus full interface and larger form.)</p>''', 4),
- qa('How does the IoT protocol stack differ from the conventional web stack?',
-  '''<p>Application layer: CoAP or MQTT with binary or JSON payload instead of HTTP with HTML, XML or JSON. Transport: UDP. Internet layer: IPv6 with 6LoWPAN. Link: 802.X MAC and PHY instead of Ethernet. Each choice suits low-power, small devices (the reason is spelled out in Topic 4).</p>''', 5),
- qa('For the MediCare scenario, name two design considerations that matter most and say why. (The slides give no answer; this is my own reasoning.)',
-  '''<p><b>My reasoning:</b> power efficiency, because the target is one battery change per year across 5000 assets; and security and privacy, because the hospital needs HIPAA compliance. Cost also matters because of the $200,000 budget. The slides leave the actual answers open.</p>''', 6),
+ qa('Define the Internet of Things and say what it allows.',
+  '''<p>IoT is the internetworking of physical devices, vehicles, buildings and other items embedded with electronics, software, sensors, actuators and network connectivity, which lets these objects collect and exchange data. It allows objects to be sensed and/or controlled remotely across existing network infrastructure, so the physical world is integrated more directly into computer-based systems, giving improved efficiency, accuracy and economic benefit.</p>''', 1),
+ qa('Who used the term &ldquo;Internet of Things&rdquo; first on the slides, when, and in what setting? Give two later milestones.',
+  '''<p>Kevin Ashton (MIT) in 1999, in a presentation about RFID technology made to Procter &amp; Gamble. Later milestones (any two): 2000, LG announces its first Internet refrigerator plans; 2004, active mobile connected devices pass the number of people in the world; 2017, Amazon&rsquo;s Alexa at CES; 2022, 5G expanding.</p>''', 2),
+ qa('List the five key features of IoT and explain two of them.',
+  '''<p>AI, connectivity, sensors, active engagement, small devices. AI: data collection, AI algorithms and networks make almost anything smart (the refrigerator that reorders milk). Sensors: without them IoT loses its distinction; they turn a passive network of devices into an active system integrated with the real world. (Connectivity: small, cheap networks no longer tied to major providers. Active engagement: replaces passive engagement. Small devices: smaller, cheaper, more powerful, purpose-built.)</p>''', 3),
+ qa('Give the four advantages and five disadvantages of IoT.',
+  '''<p>Advantages: improved customer engagement, technology optimisation, reduced waste, enhanced data collection. Disadvantages: security, privacy, complexity, flexibility, compliance.</p>''', 4),
+ qa('State what a sensor and an actuator do, in the words of the enablers slide, and name the other five enablers.',
+  '''<p>A sensor measures physical parameters (temperature, sound, light) and maps a physical quantity into an electrical signal. An actuator modifies physical parameters and maps an electrical signal into a physical quantity. The other enablers are smartphone, connectivity, smart devices, embedded systems and computing.</p>''', 5),
+ qa('Describe how commands and data move in the IoT ecosystem figure. (The slide has no text; this is my reading of the figure.)',
+  '''<p><b>My reading:</b> IoT devices connect to an IoT hub. The hub sends commands and requests for information to the devices, and the devices send data back. The hub exchanges the same with the internet network, which passes data to the IoT company or platform. The platform&rsquo;s analytics reach the IoT remote, and the remote sends commands and requests for information back through the network to the hub and devices.</p>''', 6),
+ qa('Name the four steps of the IoT technology roadmap in order.',
+  '''<p>Supply-chain helpers (RFID tags for routing, inventorying and loss prevention); vertical-market applications (surveillance, security, healthcare, transport, food safety, document management); ubiquitous positioning (locating people and everyday objects); physical-world web (teleoperation and telepresence: monitoring and controlling distant objects). After that the figure points to software agents and advanced sensor fusion.</p>''', 7),
+ qa('On the impact and market slides, which technology ranks first, and which market setting is largest and smallest?',
+  '''<p>Internet of things ranks first at 72%, ahead of artificial intelligence (68%) and cloud infrastructure (64%). In the market forecast for 2025 (total $3.9 trillion to $11.1 trillion per year across nine settings), Factories is the largest ($1.2T to $3.7T) and Offices the smallest ($70B to $150B).</p>''', 8),
+ qa('Older deck: what are the four jobs of an IoT gateway, and two benefits?',
+  '''<p>Data aggregation, protocol translation, security, local processing. Benefits (any two): lower delay because data is processed locally; less bandwidth because data is filtered and combined before going to the cloud; better security through local encryption and data management.</p>''', 9),
+ qa('Older deck: list the eight design considerations.',
+  '''<p>Scalability, reliability and availability, security and privacy, performance, interoperability, power efficiency, cost, maintainability.</p>''', 10),
+ qa('Older deck: how does the IoT protocol stack differ from the conventional web stack?',
+  '''<p>Application layer: CoAP or MQTT with binary or JSON payload instead of HTTP with HTML, XML or JSON. Transport: UDP. Internet layer: IPv6 with 6LoWPAN. Link: 802.X MAC and PHY instead of Ethernet. Each choice suits low-power, small devices (the reason is spelled out in Topic 4).</p>''', 11),
+ qa('Older deck: for the MediCare scenario, name two design considerations that matter most and say why. (The slides give no answer; this is my own reasoning.)',
+  '''<p><b>My reasoning:</b> power efficiency, because the target is one battery change per year across 5000 assets; and security and privacy, because the hospital needs HIPAA compliance. Cost also matters because of the $200,000 budget. The slides leave the actual answers open.</p>''', 12),
 ])
 
 # ====================================================================== topic 2
@@ -573,9 +723,9 @@ w_pj = f'''
 
 # ====================================================================== story, cheat sheet, flashcards
 story = [
- (1, 'What is an IoT system?', 'Ordinary objects can sense but cannot share, so nothing is automated or learned from them.',
-  'Add sensors, software and connectivity: sensor, link, processing, interface, with a gateway and the cloud behind it.',
-  'The system is only as good as what it senses and does. How do sensors and actuators work?'),
+ (1, 'What is an IoT system?', 'Physical objects sit outside computer systems: nobody can sense or control them from a distance.',
+  'Build in sensors, actuators, software and connectivity so objects collect and exchange data, through a hub and network to a platform.',
+  'The first enablers are sensors and actuators. How do they work?'),
  (2, 'Sensors and actuators', 'The world is physical, but computers only understand electrical signals.',
   'Sensors turn a measurand into a usable signal; actuators turn the controller&rsquo;s signal into action.',
   'Both need power and a brain. What circuit and computer sit in the middle?'),
@@ -593,7 +743,11 @@ story_html = '<ol class="story">' + ''.join(
     f'<li class="w{n}"><a href="#week-{n}"><span class="wk">Topic {n}</span><h3>{t}</h3>'
     f'<p><b>Problem</b>{p}</p><p><b>Fix</b>{s}</p><p class="but"><b>But then</b>{b}</p></a></li>' for n, t, p, s, b in story) + '</ol>'
 
-numbers = [('V = I x R', 'Ohm&rsquo;s law'), ('4 A, 9 ohm, 14 V', 'the three Ohm examples (12 V/3, 36 V/4 A, 2 A x 7)'),
+numbers = [('1999', 'Kevin Ashton uses the term &ldquo;Internet of Things&rdquo;'), ('2013', 'IoT-GSI definition: infrastructure of the information society'),
+           ('5 / 4 / 5', 'IoT key features / advantages / disadvantages'), ('72%', 'IoT tops the Industry 4.0 impact chart (AI 68%, cloud 64%)'),
+           ('$3.9T to $11.1T', 'forecast IoT impact per year in 2025, across 9 settings'), ('50.1 billion', 'connected devices forecast for 2020 on the growth chart'),
+           ('4 B, $4 T, 25+ M, 25+ B, 50 T GB', 'the &ldquo;2020&rdquo; slide: people, revenue, apps, embedded systems, data'),
+           ('V = I x R', 'Ohm&rsquo;s law'), ('4 A, 9 ohm, 14 V', 'the three Ohm examples (12 V/3, 36 V/4 A, 2 A x 7)'),
            ('18 kohm', 'series example 3 + 10 + 5'), ('625 ohm', 'parallel example 10 k, 2 k, 1 k'),
            ('198.70 ohm, 120.78 mA', 'series-parallel example at 24 V'), ('0 to 1023', 'analogRead range for 0 to 5 V (2.5 V gives about 512)'),
            ('0 to 255', 'analogWrite range in the motor example'), ('0 to 180', 'servo angle after map()'),
@@ -619,13 +773,26 @@ traps = [
  'IaaS gives the most control, SaaS the least. Hybrid keeps sensitive data on-premises.',
  'ACID goes with relational databases, BASE with NoSQL. Relational scales up, NoSQL scales out.',
  'Project links must be in the PDF report, not by email. The Assignment 1 brief in the folder carries 2022 and 2023/24 dates.',
- 'Topics 1, 4 (protocols) and 5 come from older decks (2024/25), not this year&rsquo;s folder; confirm they match your lectures.',
+ 'This year&rsquo;s Lecture 1 lists <b>four</b> advantages and <b>five</b> disadvantages; the older deck&rsquo;s shorter lists are different. Use this year&rsquo;s.',
+ 'Sensor: physical quantity <b>to</b> electrical signal. Actuator: electrical signal <b>to</b> physical quantity. Do not swap them.',
+ 'The Lecture 1 market and growth figures are old forecasts for 2020 and 2025 from different sources, so they do not agree with each other (50.1 billion devices vs 25+ billion systems).',
+ 'The gateway, eight design considerations and four-step flow in Topic 1 are from the older deck, not this year&rsquo;s Lecture 1.',
+ 'Topic 5, the protocol part of Topic 4 and the last part of Topic 1 come from older decks (2024/25), not this year&rsquo;s folder; confirm they match your lectures.',
 ]
 traps_html = '<ul class="traps">' + ''.join(f'<li>{t}</li>' for t in traps) + '</ul>'
 cards = [
- ('IoT four-step flow', 'Sensor, connectivity, data processing, user interface.'),
- ('Eight IoT design considerations', 'Scalability, reliability, security and privacy, performance, interoperability, power efficiency, cost, maintainability.'),
- ('Gateway functions', 'Aggregate data, translate protocols, secure the channel, process locally.'),
+ ('IoT definition', 'Physical devices, vehicles, buildings and other items with electronics, software, sensors, actuators and connectivity that collect and exchange data.'),
+ ('Who coined &ldquo;Internet of Things&rdquo;?', 'Kevin Ashton (MIT), 1999, in a presentation about RFID to Procter &amp; Gamble.'),
+ ('Five key features of IoT', 'AI, connectivity, sensors, active engagement, small devices.'),
+ ('Four advantages of IoT', 'Improved customer engagement, technology optimisation, reduced waste, enhanced data collection.'),
+ ('Five disadvantages of IoT', 'Security, privacy, complexity, flexibility, compliance.'),
+ ('IoT enablers', 'Sensors and actuators; smartphone, connectivity, smart devices, embedded systems, computing.'),
+ ('Sensor vs actuator (Lecture 1)', 'Sensor: physical quantity to electrical signal. Actuator: electrical signal to physical quantity.'),
+ ('IoT ecosystem parts', 'IoT devices, IoT hub, internet network, IoT company or platform, analytics, IoT remote.'),
+ ('Roadmap: four steps', 'Supply-chain helpers, vertical-market applications, ubiquitous positioning, physical-world web.'),
+ ('IoT four-step flow (older deck)', 'Sensor, connectivity, data processing, user interface.'),
+ ('Eight IoT design considerations (older deck)', 'Scalability, reliability, security and privacy, performance, interoperability, power efficiency, cost, maintainability.'),
+ ('Gateway functions (older deck)', 'Aggregate data, translate protocols, secure the channel, process locally.'),
  ('Sensor (ANSI)', 'A device that gives a usable output in response to a specified measurand.'),
  ('Sensor choice: three factor groups', 'Environmental, economic, sensor characteristics.'),
  ('Ultrasonic sensor', 'Trig sends 40 kHz sound; echo receives it; distance from time-of-flight (sound goes out and back).'),
@@ -660,10 +827,10 @@ cards_html = '<div class="cards" id="cards">' + ''.join(
 N_CARDS = len(cards)
 
 weeks_html = ''.join([
- week(1, '', 'The IoT system', 'What IoT is, its parts, the stack and the challenges.',
-      psn('Ordinary objects can sense but cannot share, so nothing is automated or learned from them.',
-          'Add sensors, software and connectivity; route data through a gateway and the cloud to a user interface.',
-          'The system depends on what it senses and does. How do sensors and actuators work?'), MAPS[1], w1_vis, w1_terms, w1_boss),
+ week(1, '', 'The IoT system', 'What IoT is, why it matters, its features, ecosystem and enablers.',
+      psn('Physical objects sit outside computer systems: nobody can sense or control them from a distance.',
+          'Build in sensors, actuators, software and connectivity so objects collect and exchange data; devices reach a platform through a hub and the network.',
+          'The first enablers are sensors and actuators. How do they work?'), MAPS[1], w1_vis, w1_terms, w1_boss),
  week(2, '', 'Sensors and actuators', 'Turning the physical world into signals and signals into action.',
       psn('The world is physical but computers only understand electrical signals.',
           'Sensors give a usable signal for a measurand; actuators turn the controller&rsquo;s signal into motion.',
@@ -719,10 +886,10 @@ PAGE = f'''<!DOCTYPE html>
 <section id="big-picture" class="bigp wx">
   <h2 class="sec">Big picture: read this first</h2>
   <p class="headsup"><b>One question runs through all five topics:</b> how does a physical thing sense the world, act on it, talk to others, and put its data to safe use? Topic 1 is the system map. Topic 2 gives it senses and muscles. Topic 3 gives it power and a brain. Topic 4 lets it talk. Topic 5 gives the data somewhere to go and a way to stay safe.</p>
-  <p class="small"><b>Where the material comes from:</b> this year&rsquo;s folder has Lectures 2 to 5 (sensors and actuators, circuit, embedded system, networks). Lecture 1 is missing and the later lectures (protocols, cloud, data, security) are not in it yet, so Topics 1 and 5 and the protocol part of Topic 4 come from the older decks in your Learning Materials folder (2024/25). Each topic says which decks it uses.</p>
+  <p class="small"><b>Where the material comes from:</b> this year&rsquo;s folder has Lectures 1 to 5 (introduction, sensors and actuators, circuit, embedded system, networks). The later lectures (protocols, cloud, data, security) are not in it yet, so Topic 5 and the protocol part of Topic 4 come from the older decks in your Learning Materials folder (2024/25). Topic 1 is this year&rsquo;s Lecture 1, with the older deck&rsquo;s architecture detail kept at the end and labelled. Each topic says which decks it uses.</p>
   <h3>The chain: each topic fixes a gap the last one left</h3>
   <ol class="chain">
-    <li class="w1"><span class="tn">Topic 1</span><b>The IoT system</b><span class="kw">Parts, stack, gateway, challenges</span><span class="bridge">But what does it sense and do? &hellip;</span></li>
+    <li class="w1"><span class="tn">Topic 1</span><b>The IoT system</b><span class="kw">Features, ecosystem, enablers</span><span class="bridge">But what does it sense and do? &hellip;</span></li>
     <li class="w2"><span class="tn">Topic 2</span><b>Sensors and actuators</b><span class="kw">Measurand, signal chain, motion</span><span class="bridge">But they need power and a brain &hellip;</span></li>
     <li class="w3"><span class="tn">Topic 3</span><b>Circuit and embedded</b><span class="kw">Ohm&rsquo;s law, microcontroller, Arduino</span><span class="bridge">But it is alone &hellip;</span></li>
     <li class="w4"><span class="tn">Topic 4</span><b>Networks and protocols</b><span class="kw">Wireless, TCP/IP, CoAP, MQTT</span><span class="bridge">But where does the data go? &hellip;</span></li>
@@ -730,25 +897,25 @@ PAGE = f'''<!DOCTYPE html>
   </ol>
 
   <h3>How Topic 1 connects to Topic 5</h3>
-  <p class="small">Topic 1 draws the whole pipeline once: sensor, connectivity, data processing, user interface. Topics 2 to 5 open each box in turn: the sensing and acting box (2), the device box (3), the connectivity box (4) and the processing and storage box with its protection (5). The project asks you to build all five boxes and show them working.</p>
+  <p class="small">Topic 1 draws the whole system once: devices with sensors and actuators, a hub, the network, a platform with analytics, and the user&rsquo;s remote. Its enablers list is the table of contents for the rest: Topics 2 to 5 open each box in turn, the sensing and acting box (2), the embedded device box (3), the connectivity box (4) and the computing, storage and protection box (5). The project asks you to build all five boxes and show them working.</p>
   <div class="promise tbl-wrap"><table><thead><tr><th>Topic 1 raised &hellip;</th><th>Answered in &hellip;</th></tr></thead><tbody>
-    <tr><td>Sensors and actuators in the architecture</td><td><b>Topic 2</b>.</td></tr>
-    <tr><td>Embedded system and microcontroller</td><td><b>Topic 3</b> (and the circuit that powers it).</td></tr>
-    <tr><td>Wireless technology choice, protocol stack, CoAP and MQTT</td><td><b>Topic 4</b>.</td></tr>
-    <tr><td>Cloud, data analytics and AI, challenges</td><td><b>Topic 5</b>.</td></tr>
-    <tr><td>Security and privacy challenge</td><td><b>Topic 5</b> (and the secure framework in Topic 4).</td></tr></tbody></table></div>
+    <tr><td>Enablers: sensors and actuators</td><td><b>Topic 2</b>.</td></tr>
+    <tr><td>Enabler: embedded systems (Arduino, Raspberry Pi, Maker Feather)</td><td><b>Topic 3</b> (and the circuit that powers it).</td></tr>
+    <tr><td>Enabler: connectivity; the Networks standards figure; REST and MQTT</td><td><b>Topic 4</b>.</td></tr>
+    <tr><td>Enabler: computing; the insights layers (big data, analytics)</td><td><b>Topic 5</b>.</td></tr>
+    <tr><td>Disadvantages: security, privacy, compliance</td><td><b>Topic 5</b> (and the secure framework in Topic 4).</td></tr></tbody></table></div>
 
   <h3>Four threads that run through all five topics</h3>
   <p class="small">These links are my own summary of the slides, to show how the topics connect. They are not slide text.</p>
   <div class="tbl-wrap"><table><thead><tr><th>Thread</th><th class="t1">Topic 1</th><th class="t2">Topic 2</th><th class="t3">Topic 3</th><th class="t4">Topic 4</th><th class="t5">Topic 5</th></tr></thead><tbody>
-    <tr><th>Small and power-limited</th><td>Power efficiency</td><td>Low-power signals</td><td>Microcontroller, circuit</td><td>BLE, LPWAN, UDP</td><td>Edge computing</td></tr>
-    <tr><th>Signal to data</th><td>Four-step flow</td><td>ADC</td><td>analogRead</td><td>Payload, topics</td><td>Data quality</td></tr>
-    <tr><th>Trade-offs</th><td>Design considerations</td><td>Choosing a sensor</td><td>Series vs parallel</td><td>Wireless trade-offs</td><td>SQL vs NoSQL</td></tr>
-    <tr><th>Protection</th><td>Security challenge</td><td>Isolation, error control</td><td>Real-time limits</td><td>Secure framework, TLS</td><td>CIA, authentication</td></tr></tbody></table></div>
+    <tr><th>Small and power-limited</th><td>Small devices feature</td><td>Low-power signals</td><td>Microcontroller, circuit</td><td>BLE, LPWAN, UDP</td><td>Edge computing</td></tr>
+    <tr><th>Signal to data</th><td>Sensor maps to a signal</td><td>ADC</td><td>analogRead</td><td>Payload, topics</td><td>Data quality</td></tr>
+    <tr><th>Trade-offs</th><td>Advantages vs disadvantages</td><td>Choosing a sensor</td><td>Series vs parallel</td><td>Wireless trade-offs</td><td>SQL vs NoSQL</td></tr>
+    <tr><th>Protection</th><td>Security, privacy risks</td><td>Isolation, error control</td><td>Real-time limits</td><td>Secure framework, TLS</td><td>CIA, authentication</td></tr></tbody></table></div>
 
   <h3>If you remember only five sentences</h3>
   <ol class="five">
-    <li><b>Topic 1:</b> an IoT system moves data from sensors through connectivity and processing to a user interface, with a gateway and cloud between, under eight design considerations.</li>
+    <li><b>Topic 1:</b> IoT builds sensors, actuators, software and connectivity into physical things so they collect and exchange data and can be sensed and controlled remotely; it has five key features, four advantages and five disadvantages, and its enablers are the rest of the course.</li>
     <li><b>Topic 2:</b> sensors turn a measurand into a usable signal through a conditioning and ADC chain, and actuators (hydraulic, pneumatic, electric) turn the controller&rsquo;s decision into motion.</li>
     <li><b>Topic 3:</b> Ohm&rsquo;s law (V = I x R) with series and parallel rules powers the circuit, and a microcontroller running setup() and loop() is the brain.</li>
     <li><b>Topic 4:</b> pick a wireless technology by range, power and rate trade-offs, then use light protocols on UDP: CoAP (REST-like) or MQTT (publish/subscribe with a broker).</li>

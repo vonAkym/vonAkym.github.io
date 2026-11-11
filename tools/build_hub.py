@@ -63,7 +63,7 @@ topics6 = [('01', 'Course overview', 'Coursework and the map'), ('02', 'The Augm
            ('05', 'Marketing on the web', 'Get found and get trusted')]
 rows6 = ''.join(f'<li><a href="cat402/#week-{int(n)}"><span class="wn">Topic {n}</span><span class="wt">{t}</span><span class="wd">{d}</span>'
                 f'<span class="wa">{svg(ARROW, 20, 2)}</span></a></li>' for n, t, d in topics6)
-topics7 = [('01', 'The IoT system', 'Parts, stack and gateway'), ('02', 'Sensors and actuators', 'Sense and act'),
+topics7 = [('01', 'The IoT system', 'Features, ecosystem, enablers'), ('02', 'Sensors and actuators', 'Sense and act'),
            ('03', 'Circuit and embedded systems', 'Power and a brain'), ('04', 'Networks and protocols', 'Talk with CoAP and MQTT'),
            ('05', 'Cloud, data and security', 'Store, clean and protect')]
 topics8 = [('01', 'The idea and the plan', 'Modules, phases, way of working'), ('02', 'The data', 'OSM, sample places, database, road graph'),
@@ -417,7 +417,7 @@ PAGE = f'''<!DOCTYPE html>
   <div class="halo" data-loop><span class="orb big" aria-hidden="true"></span><span class="orbit" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span><span class="orbit two" aria-hidden="true"><span class="sx"><span class="sy"><i class="dot"></i></span></span></span></div>
 </div>
 <div class="wrap"><div class="stats">
-  <div><b>07</b><span>Subjects</span></div><div><b>07</b><span>Ready now</span></div><div><b>183</b><span>Flashcards</span></div>
+  <div><b>07</b><span>Subjects</span></div><div><b>07</b><span>Ready now</span></div><div><b>192</b><span>Flashcards</span></div>
 </div></div></section>
 
 <section class="s" id="method"><div class="wrap">
